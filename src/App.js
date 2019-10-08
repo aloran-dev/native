@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {NativeRouter, Switch, Route} from 'react-router-native';
 
-import Login from './src/screens/Login';
-import Companies from './src/screens/Companies';
-import Contractors from './src/screens/Contractors';
-import Qr from './src/screens/Qr';
-import Resume from './src/screens/Resume';
-import Certificates from './src/screens/Certificates';
+import Login from './screens/Login';
+import Companies from './screens/Companies';
+import Contractors from './screens/Contractors';
+import Qr from './screens/Qr';
+import Resume from './screens/Resume';
+import Certificates from './screens/Certificates';
 
 export default class App extends Component {
   render() {
