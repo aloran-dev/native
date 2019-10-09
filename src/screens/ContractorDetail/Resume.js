@@ -11,11 +11,11 @@ import {
   Drawer,
 } from 'native-base';
 
-import Header from '../components/Header';
-import Sidebar from '../components/Sidebar';
-import Footer from '../components/Footer';
-import ContractorHeader from '../components/ContractorHeader';
-import ResumeCard from '../components/ResumeCard';
+import Header from '../../components/Header';
+import Sidebar from '../../components/Sidebar';
+import Footer from '../../components/Footer';
+import ContractorHeader from '../../components/ContractorHeader';
+import ResumeCard from '../../components/ResumeCard';
 
 export default ({history}) => (
   // <Drawer

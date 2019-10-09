@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import {StyleSheet} from 'react-native';
 
+
 import {
   Container,
   Content,
@@ -12,11 +13,8 @@ import {
   Text,
 } from 'native-base';
 
-import {Route,Link} from 'react-router-native'
-
 import AsyncStorage from '@react-native-community/async-storage';
-import server from '../libraries/server';
-
+import server from '../../libraries/server';
 
 
 export default class Login extends Component{
@@ -33,6 +31,7 @@ export default class Login extends Component{
     this.login = this.login.bind(this);
 
   }
+
 
   login = async function(){
    console.log("Entre al login action");
@@ -81,6 +80,7 @@ export default class Login extends Component{
        await AsyncStorage.setItem('ACCOUNT_ID', this.state.email);
        await AsyncStorage.setItem('ACCOUNT', JSON.stringify(profile));
        this.props.navigation.navigate('App',{profile:profile});
+
      }
 
      // .then((data)=>{
@@ -116,7 +116,8 @@ export default class Login extends Component{
 
 
   render(){
-    console.log(this.props)
+    //console.log(this.props);
+
     return (
       <Container style={styles.main}>
         <Container style={styles.roundbackground}>
