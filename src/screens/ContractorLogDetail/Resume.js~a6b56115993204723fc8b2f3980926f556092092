@@ -1,13 +1,21 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Container, Content, Card, Drawer} from 'native-base';
+import {
+  Container,
+  Content,
+  Icon,
+  Card,
+  Text,
+  H1,
+  Thumbnail,
+  Drawer,
+} from 'native-base';
 
 import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
 import Footer from '../../components/Footer';
 import ContractorHeader from '../../components/ContractorHeader';
 import ResumeCard from '../../components/ResumeCard';
-import CertificateRow from '../../components/CertificateRow';
 
 export default ({history}) => (
   <Drawer
@@ -21,10 +29,10 @@ export default ({history}) => (
       <Content style={styles.main}>
         <ContractorHeader />
         <View style={styles.cardscontainer}>
-          <Card style={styles.card}>
-            <CertificateRow />
-            <CertificateRow />
-          </Card>
+          <ResumeCard />
+          <ResumeCard />
+          <ResumeCard />
+          <ResumeCard />
         </View>
       </Content>
       <Footer />
@@ -35,19 +43,11 @@ export default ({history}) => (
 const styles = StyleSheet.create({
   main: {
     backgroundColor: '#FCFCFC',
+    position: 'relative',
   },
   cardscontainer: {
     padding: 15,
+    flex: 1,
     marginTop: -100,
-  },
-  card: {
-    borderRadius: 10,
-    shadowOffset: {
-      height: 3,
-      width: 0,
-    },
-    shadowColor: 'rgba(0,0,0,1)',
-    shadowOpacity: 0.06,
-    overflow: 'hidden',
   },
 });
