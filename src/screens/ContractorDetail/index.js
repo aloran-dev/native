@@ -31,12 +31,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 const ListaEventos = (props)=> {
   console.log("EVENT CARDS",props.eventCards)
   const lista = props.eventCards;
-  const componentes = lista.map((item,index)=>(
+  const entryList = lista.map((item,index)=>(
     <ResumeCard entryDay={item} />
     )
   )
 
-  return componentes
+  return entryList
 }
 
 export default class ContractorDetail extends Component {
@@ -110,7 +110,12 @@ export default class ContractorDetail extends Component {
             <ListaEventos eventCards={this.state.eventCards}/>
           </View>
         </Content>
-        <FooterToolbar />
+        <FooterToolbar
+          navegacion={this.props.navigation}
+          currentKey={this.props.navigation.state.params.keyValue}
+          profile={this.state.profile}
+
+        />
       </Container>
     )
   }
@@ -128,67 +133,3 @@ const styles = StyleSheet.create({
     marginTop: -100,
   },
 });
-
-
-const oldComponent = ()=>{
-  (
-    <Container style={styles.root}>
-      <Header />
-
-      <Content/>
-
-      <ContractorProfile companyName="empresa1" contractorName="Jhon" style={styles.contractorProfile2} />
-
-      <FlatList
-         data={this.state.eventCards}
-         renderItem={this.renderItem}
-         ListEmptyComponent={this.listEmptyComponent}
-         keyExtractor={(item, index) => item.key}
-         emailContratista={this.state.profile}
-       />
-
-      <Footer  >
-      <FooterTab  >
-        <Button vertical
-        onPress={() => {
-          /* 1. Navigate to the Details route with params */
-          this.props.navigation.navigate('ContractorDetail', {
-
-            emailContractor:this.state.profile
-          });
-        }}
-        >
-          <Icon name="fingerprint" style={{fontSize:26,color:'red'}}/>
-          <Text>Summary</Text>
-        </Button>
-
-        <Button vertical
-        onPress={() => {
-          /* 1. Navigate to the Details route with params */
-          this.props.navigation.navigate('ContractorCertificates', {
-
-            emailContractor:this.state.profile
-          });
-        }}
-        >
-          <Icon name="documents" style={{fontSize:26}} />
-          <Text>Certificates</Text>
-        </Button>
-
-        <Button vertical
-        onPress={() => {
-          /* 1. Navigate to the Details route with params */
-          this.props.navigation.navigate('Home', {
-
-            emailContractor:this.state.profile
-          });
-        }}
-        >
-          <Icon name="tools" style={{fontSize:26}} />
-          <Text>Options</Text>
-        </Button>
-      </FooterTab>
-      </Footer>
-    </Container>
-  );
-}

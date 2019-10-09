@@ -94,9 +94,6 @@ export default class Contractors extends Component{
     const navegacion = this.props.navigation
     return (
       <Drawer
-        ref={ref => {
-          this.drawer = ref;
-        }}
         content={<Sidebar />}
       >
         <Container style={styles.main}>

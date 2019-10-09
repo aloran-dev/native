@@ -51,7 +51,7 @@ export default () => (
           <Link to="/qr">
             <Left>
               <Icon type="Feather" active name="clock" style={styles.icon} />
-              <Text>Scan Contractor QR</Text>
+              <Text>Contractor entry and exit</Text>
             </Left>
           </Link>
         </ListItem>

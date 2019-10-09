@@ -35,8 +35,8 @@ export default props => (
           />
         </Left>
         <Body>
-          <Text note>{props.item.documento_type}</Text>
-          <Text>{props.item.area_tematica}</Text>
+          <Text note>Examen AntiDopping</Text>
+          <Text>Fecha</Text>
           <Text note>99 Days remaining</Text>
         </Body>
       </ListItem>
