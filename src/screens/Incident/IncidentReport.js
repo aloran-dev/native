@@ -13,7 +13,7 @@ import {
   Picker,
 } from 'native-base';
 
-import Header from '../components/Header';
+import Header from '../../components/Header';
 
 export default () => (
   <Container style={styles.main}>

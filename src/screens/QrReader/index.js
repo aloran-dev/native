@@ -1,5 +1,5 @@
 /* QR Component */
-import React from 'react';
+import React,{Component} from 'react';
 import {StyleSheet, Image} from 'react-native';
 import {
   Container,
@@ -14,40 +14,39 @@ import {
 import Sidebar from '../../components/Sidebar';
 import Header from '../../components/Header';
 
-export default ({history}) => (
-  <Drawer
-    ref={ref => {
-      this.drawer = ref;
-    }}
-    content={<Sidebar />}
-    onClose={() => this.drawer._root.close()}>
-    <Container style={styles.main}>
-      <Header title="CetiFast" />
-      <Content button style={styles.maincontent}>
-        <Text note>Companie contractors</Text>
-        <Container style={styles.qr}>
-          <Image
-            source={{
-              uri: 'https://image.flaticon.com/icons/png/512/107/107072.png',
-            }}
-            style={styles.qr__image}
-          />
+export default class QrReader extends Component{
+  render(){
+    return (
+      <Drawer>
+        <Container style={styles.main}>
+          <Header title="CertiFast" />
+          <Content button style={styles.maincontent}>
+            <Text note>Companie contractors</Text>
+            <Container style={styles.qr}>
+              <Image
+                source={{
+                  uri: 'https://image.flaticon.com/icons/png/512/107/107072.png',
+                }}
+                style={styles.qr__image}
+              />
+            </Container>
+            <Text note>Companie contractors</Text>
+            <Item style={styles.input}>
+              <Input />
+            </Item>
+            <Button
+              rounded
+              block
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate('AddIncident')}>
+              <Text>Send</Text>
+            </Button>
+          </Content>
         </Container>
-        <Text note>Companie contractors</Text>
-        <Item style={styles.input}>
-          <Input />
-        </Item>
-        <Button
-          rounded
-          block
-          style={styles.button}
-          onPress={() => history.push('/resume')}>
-          <Text>Send</Text>
-        </Button>
-      </Content>
-    </Container>
-  </Drawer>
-);
+      </Drawer>
+    )
+  }
+}
 
 const styles = StyleSheet.create({
   main: {

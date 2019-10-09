@@ -6,7 +6,7 @@ import {Container, Footer, FooterTab, Button, Icon, Text} from 'native-base';
 
 
 export default (props) => {
-  
+
   return (
 
         <Footer>
@@ -42,7 +42,12 @@ export default (props) => {
 
             </Button>
             <Button
-            vertical>
+            vertical
+            onPress={() => {
+              /* 1. Navigate to the Details route with params */
+              props.navegacion.navigate('Incident');
+            }}
+            >
               <Container style={styles.link}>
                 <Icon type="Feather" name="settings" style={styles.black} />
                 <Text style={styles.blackText}>Options</Text>
