@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#707070',
+    fontSize: 22,
   },
   footer: {
     paddingHorizontal: 30,
@@ -73,5 +74,6 @@ const styles = StyleSheet.create({
   },
   footer__text: {
     color: '#B4B3B3',
+    fontSize: 12,
   },
 });

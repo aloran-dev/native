@@ -18,26 +18,26 @@ import ContractorHeader from '../components/ContractorHeader';
 import ResumeCard from '../components/ResumeCard';
 
 export default ({history}) => (
-  // <Drawer
-  //   ref={ref => {
-  //     this.drawer = ref;
-  //   }}
-  //   content={<Sidebar />}
-  //   onClose={() => this.drawer._root.close()}>
-  <Container>
-    <Header title="CeriFast" />
-    <Content style={styles.main}>
-      <ContractorHeader />
-      <View style={styles.cardscontainer}>
-        <ResumeCard />
-        <ResumeCard />
-        <ResumeCard />
-        <ResumeCard />
-      </View>
-    </Content>
-    <Footer />
-  </Container>
-  // </Drawer>
+  <Drawer
+    ref={ref => {
+      this.drawer = ref;
+    }}
+    content={<Sidebar />}
+    onClose={() => this.drawer._root.close()}>
+    <Container>
+      <Header title="CeriFast" />
+      <Content style={styles.main}>
+        <ContractorHeader />
+        <View style={styles.cardscontainer}>
+          <ResumeCard />
+          <ResumeCard />
+          <ResumeCard />
+          <ResumeCard />
+        </View>
+      </Content>
+      <Footer />
+    </Container>
+  </Drawer>
 );
 
 const styles = StyleSheet.create({
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   cardscontainer: {
-    padding: 30,
+    padding: 15,
     flex: 1,
     marginTop: -100,
   },
