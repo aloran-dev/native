@@ -88,16 +88,22 @@ export default class Contractors extends Component{
       email_seguridad:email_seguridad
     })
   }
-
+  closeDrawer = () => {
+    this.drawer.close()
+  };
+  openDrawer = () => {
+    this.refs.drawer.open()
+  };
 
   render(){
     const navegacion = this.props.navigation
     return (
       <Drawer
-        ref={ref => {
-          this.drawer = ref;
-        }}
-        content={<Sidebar />}
+      ref={ref => {
+        this.drawer = ref;
+      }}
+      content={<Sidebar />}
+      onClose={() => this.drawer._root.close()}
       >
         <Container style={styles.main}>
           <Header title="CertiFast" />
