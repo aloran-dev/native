@@ -19,7 +19,7 @@ import {
 
 import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
-import Footer from '../../components/Footer';
+import FooterToolbar from '../../components/Footer';
 import ContractorHeader from '../../components/ContractorHeader';
 import ResumeCard from '../../components/ResumeCard';
 
@@ -28,6 +28,16 @@ import server from '../../libraries/server';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
+const ListaEventos = (props)=> {
+  console.log("EVENT CARDS",props.eventCards)
+  const lista = props.eventCards;
+  const componentes = lista.map((item,index)=>(
+    <ResumeCard entryDay={item} />
+    )
+  )
+
+  return componentes
+}
 
 export default class ContractorDetail extends Component {
 
@@ -36,7 +46,20 @@ export default class ContractorDetail extends Component {
       this.state={
         eventCards:[],
         profile:null,
-        token:null
+        token:null,
+        api_url:null,
+        profileContractor:{
+          apellido_materno: "Uno",
+          apellido_paterno: "Uno",
+          celular: "4431236875",
+          email: "contratista_1@sample.com",
+          empresa_contratista: "EMPRESA1",
+          image_avatar: "image_avatar_6bNT_m.jpg",
+          image_profile: "image_profile_6bNT_m.jpg",
+          nombre: "Contratista",
+          ocupacion_cno: "Procesos industriales",
+          puesto: "Soldador"
+        }
       }
   }
 
@@ -53,80 +76,41 @@ export default class ContractorDetail extends Component {
 
 
   async componentDidMount(){
-    console.log(this.props.navigation.state.params);
+    // console.log(this.props.navigation.state.params);
     //var TokenJWT = await server.login();
     //console.log("Descargardo Datos",this.props.codeQr)
     var TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
     const api_url = await AsyncStorage.getItem('API_URL')
     const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID')
-    console.log("Descargardo Datos",TokenJWT,"API",api_url)
-
+    // console.log("Descargardo Datos",TokenJWT,"API",api_url)
+    const itemContractor = this.props.navigation.state.params.keyValue
     var certificateContractorData = await server.getPlantaTimeline(TokenJWT,email_seguridad);
-    console.log("Detalles del Contractor",certificateContractorData);
+    // console.log("Detalles del Contractor",certificateContractorData);
+    // console.log("PERFIL",certificateContractorData[itemContractor].contratista)
+    const constructorEventCards = certificateContractorData[itemContractor].date_events
     this.setState({
-      eventCards:this.addKeys(this.props.navigation.state.params.date_events),
+      api_url:api_url,
+      eventCards:this.addKeys(constructorEventCards),
       profile:this.props.navigation.state.params.emailContractor,
+      profileContractor:certificateContractorData[itemContractor].contratista,
       token:TokenJWT,
       empleado_seguridad:email_seguridad
     })
   }
 
 
-  renderItem = ({item,index}) =>{
-    console.log("CardsList",item);
-    return(
-      <View style={{backgroundColor:"transparent",width:400,height:100}} >
-          <TouchableOpacity
-          style ={{backgroundColor:"trasparent",height:100}}
-          onPress={
-              ()=>
-                {
-                this.props.navigation.navigate('ContractorLogDetail',{
-                emailContractor:this.props.emailContratista,
-                empleado_seguridad: this.state.empleado_seguridad,
-                eventCards:item.events_in_date,
-                time_in_plant:item.time_in_plant,
-                day_of_week:item.day_of_week,
-                date:item.date,
-                token:this.state.token,
-                keyValue:item.key
-              })
-              }
-            }>
-            <Text></Text>
-            <CardEntryDay2
-            style={styles.cardEntryDay2}
-            dayName={item.day_of_week}
-            hours={item.time_in_plant.hours}
-            minutes={item.time_in_plant.minutes}
-            color={item.events_in_date > 0 ? "green" : "orange" }/>
-          </TouchableOpacity>
-      </View>
-    );
-  }
-
-  listEmptyComponent = () => {
-    return (
-        <View>
-            <ActivityIndicator size="large" color="#0000ff" />
-        </View>
-    );
-  }
 
   render() {
     return (
       <Container>
         <Header title="CertiFast" />
         <Content style={styles.main}>
-          <ContractorHeader />
+          <ContractorHeader profile={this.state.profileContractor} api_url={this.state.api_url}/>
           <View style={styles.cardscontainer}>
-            <ResumeCard />
-            <ResumeCard />
-            <ResumeCard />
-            <ResumeCard />
+            <ListaEventos eventCards={this.state.eventCards}/>
           </View>
         </Content>
-        <Footer />
+        <FooterToolbar />
       </Container>
     )
   }
