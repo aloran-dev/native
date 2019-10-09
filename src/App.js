@@ -178,7 +178,7 @@ const DrawerApp = createDrawerNavigator({
   navigationOptions:{
     title:'Certifast'
   },
- contentComponent:props => <SideBar {...props} />
+ // contentComponent:props => <SideBar {...props} />
   }
 );
 
