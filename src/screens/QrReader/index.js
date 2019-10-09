@@ -1,3 +1,4 @@
+/* QR Component */
 import React from 'react';
 import {StyleSheet, Image} from 'react-native';
 import {
@@ -10,8 +11,8 @@ import {
   Drawer,
 } from 'native-base';
 
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
+import Sidebar from '../../components/Sidebar';
+import Header from '../../components/Header';
 
 export default ({history}) => (
   <Drawer
