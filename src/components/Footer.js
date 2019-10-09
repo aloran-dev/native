@@ -1,38 +1,60 @@
-import React from 'react';
+import React,{Component} from 'react';
 import {StyleSheet} from 'react-native';
 import {Container, Footer, FooterTab, Button, Icon, Text} from 'native-base';
 
-import {Link} from 'react-router-native';
+//import {Link} from 'react-router-native';
 
-export default () => (
-  <Footer>
-    <FooterTab style={styles.footer}>
-      <Button vertical>
-        <Link to="/resume">
-          <Container style={styles.link}>
-            <Icon type="Feather" name="calendar" style={styles.black} />
-            <Text style={styles.blackText}>Summary</Text>
-          </Container>
-        </Link>
-      </Button>
-      <Button vertical>
-        <Link to="/certificates">
-          <Container style={styles.link}>
-            <Icon type="Feather" name="award" style={styles.black} />
-            <Text style={styles.blackText}>Certificates</Text>
-          </Container>
-        </Link>
-      </Button>
-      <Button vertical>
-        <Container style={styles.link}>
-          <Icon type="Feather" name="settings" style={styles.black} />
-          <Text style={styles.blackText}>Options</Text>
-        </Container>
-      </Button>
-    </FooterTab>
-  </Footer>
-);
 
+export default class FooterToolbar extends Component{
+  render(){
+    return (
+
+      <Footer>
+        <FooterTab style={styles.footer}>
+          <Button vertical
+          onPress={() => {
+            /* 1. Navigate to the Details route with params */
+            this.props.navigation.navigate('ContractorDetail', {
+
+              emailContractor:this.state.profile
+            });
+          }}>
+
+              <Container style={styles.link}>
+                <Icon type="Feather" name="calendar" style={styles.black} />
+                <Text style={styles.blackText}>Summary</Text>
+              </Container>
+
+          </Button>
+          <Button
+          vertical
+          onPress={() => {
+            /* 1. Navigate to the Details route with params */
+            this.props.navigation.navigate('ContractorDetail', {
+
+              emailContractor:this.state.profile
+            });
+          }}
+          >
+
+              <Container style={styles.link}>
+                <Icon type="Feather" name="award" style={styles.black} />
+                <Text style={styles.blackText}>Certificates</Text>
+              </Container>
+
+          </Button>
+          <Button
+          vertical>
+            <Container style={styles.link}>
+              <Icon type="Feather" name="settings" style={styles.black} />
+              <Text style={styles.blackText}>Options</Text>
+            </Container>
+          </Button>
+        </FooterTab>
+      </Footer>
+    )
+  }
+}
 const styles = StyleSheet.create({
   footer: {
     paddingHorizontal: 18,
