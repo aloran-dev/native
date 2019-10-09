@@ -2,12 +2,12 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Container, Content, Card, Drawer} from 'native-base';
 
-import Header from '../components/Header';
-import Sidebar from '../components/Sidebar';
-import Footer from '../components/Footer';
-import ContractorHeader from '../components/ContractorHeader';
-import ResumeCard from '../components/ResumeCard';
-import CertificateRow from '../components/CertificateRow';
+import Header from '../../components/Header';
+import Sidebar from '../../components/Sidebar';
+import Footer from '../../components/Footer';
+import ContractorHeader from '../../components/ContractorHeader';
+import ResumeCard from '../../components/ResumeCard';
+import CertificateRow from '../../components/CertificateRow';
 
 export default ({history}) => (
   <Drawer
