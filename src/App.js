@@ -19,8 +19,8 @@ import ContractorList from './screens/ContractorList/Contractors';
 import QRCodeScreen from './screens/QrReader';
 import ContractorCertificates from './screens/ContractorCertificates';
 
-//import Incident from './screens/Incident';
-// import QRCodeScreen from './screens/QRCodeScreen';
+
+import IncidentReport from './screens/Incident/IncidentReport';
 import ContractorDetail from './screens/ContractorDetail';
 import ContractorLogDetail from './screens/ContractorLogDetail/Resume';
 // import ContractorCertificates from './screens/ContractorCertificates';
@@ -96,28 +96,28 @@ const DrawerApp = createDrawerNavigator({
         }
       },
 
-      // Incident: {
-      //   screen: QRCodeScreen,
-      //   navigationOptions:{
-      //     title:"Report an Incident",
-      //     headerBackTitle:'Atras',
-      //   },
-      //   initialRouteParams:{
-      //     nombre:"Edhgard",
-      //     email:"emoron@gmail.com"
-      //   }
-      // },
-      // AddIncident: {
-      //   screen: Incident,
-      //   navigationOptions:{
-      //     title:"Report an Incident",
-      //     headerBackTitle:'Atras',
-      //   },
-      //   initialRouteParams:{
-      //     nombre:"Edhgard",
-      //     email:"emoron@gmail.com"
-      //   }
-      // },
+       Incident: {
+        screen: QRCodeScreen,
+        navigationOptions:{
+          title:"Report an Incident",
+          headerBackTitle:'Atras',
+        },
+        initialRouteParams:{
+          nombre:"Edhgard",
+          email:"emoron@gmail.com"
+        }
+      },
+       AddIncident: {
+        screen: IncidentReport,
+        navigationOptions:{
+          title:"Report an Incident",
+          headerBackTitle:'Atras',
+        },
+        initialRouteParams:{
+          nombre:"Edhgard",
+          email:"emoron@gmail.com"
+        }
+      },
       Check: {
         screen: QRCodeScreen,
         navigationOptions:{
