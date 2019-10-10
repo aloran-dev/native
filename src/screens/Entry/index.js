@@ -5,10 +5,15 @@ import {
   Container,
   Content,
   Text,
+ Icon,
   Item,
   Input,
-  Button,
-  Drawer,
+  Body,
+   Title,
+   Button,
+   Header,
+   Left
+
 } from 'native-base';
 
 
@@ -17,7 +22,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 
 import Sidebar from '../../components/Sidebar';
-import Header from '../../components/Header';
+//import Header from '../../components/Header';
 
 export default class Entry extends Component{
 
@@ -176,9 +181,19 @@ export default class Entry extends Component{
 
     if(this.state.invalidCode){
       return (
-        <Drawer>
           <Container style={styles.main}>
-            <Header title="CertiFast" />
+          <Header style={styles.header}>
+            <Left>
+              <Button
+                transparent
+                onPress={() => this.props.navigation.openDrawer()}>
+                <Icon style={styles.header__text} name="menu" />
+              </Button>
+            </Left>
+            <Body>
+              <Title style={styles.header__text}>CertiFast</Title>
+            </Body>
+          </Header>
             <Content button style={styles.maincontent}>
               <Text note>Invalid QR Code</Text>
               <Button
@@ -191,13 +206,23 @@ export default class Entry extends Component{
               </Button>
             </Content>
           </Container>
-        </Drawer>
+
       )
     }else{
       return (
-      <Drawer>
         <Container style={styles.main}>
-          <Header title="CertiFast" />
+        <Header style={styles.header}>
+           <Left>
+             <Button
+               transparent
+               onPress={() => this.props.navigation.openDrawer()}>
+               <Icon style={styles.header__text} name="menu" />
+             </Button>
+           </Left>
+           <Body>
+             <Title style={styles.header__text}>CertiFast</Title>
+           </Body>
+         </Header>
           <Content button style={styles.maincontent}>
             <Text note>Companies contractors</Text>
             <Container style={styles.qr}>
@@ -224,7 +249,7 @@ export default class Entry extends Component{
             </Button>
           </Content>
         </Container>
-      </Drawer>
+
     )
     }
   }
@@ -266,4 +291,12 @@ const styles = StyleSheet.create({
     marginTop: 30,
     backgroundColor: '#D10000',
   },
+  header: {
+   height: 70,
+   backgroundColor: '#000',
+ },
+ header__text: {
+   color: '#fff',
+ }
+
 });
