@@ -80,9 +80,12 @@ export default class ContractorDetail extends Component {
     const api_url = await AsyncStorage.getItem('API_URL');
     const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID');
     // console.log("Descargardo Datos",TokenJWT,"API",api_url)
-    const itemContractor = this.props.navigation.state.params.keyValue
-    var certificateContractorData = await server.getPlantaTimeline(TokenJWT,email_seguridad);
-     console.log("Detalles del Contractor",certificateContractorData);
+    const itemContractor = this.props.navigation.state.params.keyValue;;
+    var certificateContractorData = await server.getPlantaTimeline(
+      TokenJWT,
+      email_seguridad,
+    );
+    console.log('Detalles del Contractor', certificateContractorData);
     // console.log("PERFIL",certificateContractorData[itemContractor].contratista)
     const constructorEventCards =
       certificateContractorData[itemContractor].date_events;
@@ -97,7 +100,7 @@ export default class ContractorDetail extends Component {
   }
 
   render() {
-    console.log("ENTRE  A LIST", this.props.navigation.state.params)
+    console.log('ENTRE  A LIST', this.props.navigation.state.params);
     return (
       <Container>
         <Header style={styles.header}>
@@ -121,11 +124,11 @@ export default class ContractorDetail extends Component {
             <ListaEventos eventCards={this.state.eventCards} />
           </View>
         </Content>
-        {/* <FooterToolbar
+        <FooterToolbar
           navegacion={this.props.navigation}
           currentKey={this.props.navigation.state.params.keyValue}
           profile={this.state.profile}
-        /> */}
+        />
       </Container>
     );
   }

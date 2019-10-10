@@ -81,7 +81,7 @@ export default class Login extends Component {
         await AsyncStorage.setItem('AUTH_TOKEN', TokenJWT);
         await AsyncStorage.setItem('ACCOUNT_ID', this.state.email);
         await AsyncStorage.setItem('ACCOUNT', JSON.stringify(profile));
-        this.props.navigation.navigate('Companies');
+        this.props.navigation.navigate('Contractors');
       }
 
       // .then((data)=>{
