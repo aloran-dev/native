@@ -1,5 +1,5 @@
 /* QR Component */
-import React,{Component} from 'react';
+import React, {Component} from 'react';
 import {StyleSheet, Image} from 'react-native';
 import {
   Container,
@@ -8,43 +8,54 @@ import {
   Item,
   Input,
   Button,
-  Drawer,
+  Header,
+  Left,
+  Icon,
+  Body,
+  Title,
 } from 'native-base';
 
-import Sidebar from '../../components/Sidebar';
-import Header from '../../components/Header';
-
-export default class QrReader extends Component{
-  render(){
+export default class QrReader extends Component {
+  render() {
     return (
-      <Drawer>
-        <Container style={styles.main}>
-          <Header title="CertiFast" />
-          <Content button style={styles.maincontent}>
-            <Text note>Companie contractors</Text>
-            <Container style={styles.qr}>
-              <Image
-                source={{
-                  uri: 'https://image.flaticon.com/icons/png/512/107/107072.png',
-                }}
-                style={styles.qr__image}
-              />
-            </Container>
-            <Text note>Companie contractors</Text>
-            <Item style={styles.input}>
-              <Input />
-            </Item>
+      <Container style={styles.main}>
+        <Header style={styles.header}>
+          <Left>
             <Button
-              rounded
-              block
-              style={styles.button}
-              onPress={() => this.props.navigation.navigate('AddIncident')}>
-              <Text>Send</Text>
+              transparent
+              onPress={() => this.props.navigation.openDrawer()}>
+              <Icon style={styles.header__text} name="menu" />
             </Button>
-          </Content>
-        </Container>
-      </Drawer>
-    )
+          </Left>
+          <Body>
+            <Title style={styles.header__text}>CertiFast</Title>
+          </Body>
+        </Header>
+        <Content button style={styles.maincontent}>
+          <Text note>Companie contractors</Text>
+          <Container style={styles.qr}>
+            <Image
+              source={{
+                uri: 'https://image.flaticon.com/icons/png/512/107/107072.png',
+              }}
+              style={styles.qr__image}
+            />
+          </Container>
+          <Text note>Companie contractors</Text>
+          <Item style={styles.input}>
+            <Input />
+          </Item>
+          <Button
+            rounded
+            block
+            style={styles.button}
+            //onPress={() => this.props.navigation.navigate('AddIncident')}>
+            onPress={() => this.props.navigation.navigate('ContractorDetail')}>
+            <Text>Send</Text>
+          </Button>
+        </Content>
+      </Container>
+    );
   }
 }
 
@@ -82,5 +93,12 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 30,
     backgroundColor: '#D10000',
+  },
+  header: {
+    height: 70,
+    backgroundColor: '#000',
+  },
+  header__text: {
+    color: '#fff',
   },
 });
