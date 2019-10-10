@@ -30,10 +30,10 @@ const ListaItem = props => {
       key={index}
       onPress={() => {
         navegation.navigate('ContractorDetail', {
-          emailContractor: item.contratista.email,
+          profile: item.contratista.email,
           //empleado_seguridad:this.state.email_seguridad,
-          date_events: item.date_events,
-          keyValue: index,
+          //date_events: item.date_events,
+          currentKey: index,
         });
       }}>
       <ListItem thumbnail key={index}>

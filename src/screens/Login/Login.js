@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet,ToastAndroid} from 'react-native';
 
 import {
   Container,
@@ -15,6 +15,20 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import server from '../../libraries/server';
 
+const Toast = (props) => {
+  if (props.visible) {
+    ToastAndroid.showWithGravityAndOffset(
+      props.message,
+      ToastAndroid.LONG,
+      ToastAndroid.CENTER,
+      25,
+      50,
+    );
+    return null;
+  }
+  return null;
+};
+
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -23,10 +37,18 @@ export default class Login extends Component {
       emailError: false,
       password: '',
       passwordError: false,
-      response: '',
+      netWorkError: false,
+      response:''
     };
     this.login = this.login.bind(this);
   }
+
+  hideToast = () => {
+    this.setState({
+      netWorkError: false,
+    });
+  };
+
 
   login = async function() {
     console.log('Entre al login action');
@@ -82,17 +104,12 @@ export default class Login extends Component {
         await AsyncStorage.setItem('ACCOUNT_ID', this.state.email);
         await AsyncStorage.setItem('ACCOUNT', JSON.stringify(profile));
         this.props.navigation.navigate('Contractors');
+      }else{
+        throw new Error('NetWorkError')
       }
-
-      // .then((data)=>{
-      //   console.log(data)
-      // })
-      // .catch(error=>{
-      //   console.log(error)
-      // })
     } catch (error) {
       console.log(error);
-      this.setState({response: error.toString()});
+      this.setState({netWorkError: true,response:error});
     }
   };
 
@@ -118,6 +135,7 @@ export default class Login extends Component {
           <Text style={styles.roundbackground__text}>CertiFast</Text>
         </Container>
         <Content style={styles.maincontent}>
+          <Toast visible={this.state.netWorkError} message={this.state.response} />
           <Card style={styles.card}>
             <Item style={styles.card__item}>
               <Icon active type="Feather" name="user" />

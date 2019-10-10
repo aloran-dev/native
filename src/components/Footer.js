@@ -33,7 +33,7 @@ export default (props) => {
             onPress={() => {
               /* 1. Navigate to the Details route with params */
               props.navegacion.navigate('ContractorCertificates', {
-                  emailContractor:props.profile,
+                  profile:props.profile,
                   currentKey:props.currentKey
               });
             }}

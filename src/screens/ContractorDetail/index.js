@@ -34,7 +34,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 const ListaEventos = props => {
   console.log('EVENT CARDS', props.eventCards);
   const lista = props.eventCards;
-  const entryList = lista.map((item, index) => <ResumeCard entryDay={item} />);
+  const entryList = lista.map((item, index) => <ResumeCard key={index} entryDay={item} />);
 
   return entryList;
 };
@@ -73,29 +73,29 @@ export default class ContractorDetail extends Component {
   };
 
   async componentDidMount() {
-    // console.log(this.props.navigation.state.params);
-    //var TokenJWT = await server.login();
-    //console.log("Descargardo Datos",this.props.codeQr)
+
     var TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
     const api_url = await AsyncStorage.getItem('API_URL');
     const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID');
-    // console.log("Descargardo Datos",TokenJWT,"API",api_url)
-    const itemContractor = this.props.navigation.state.params.keyValue;;
+    this.setState({
+      api_url: api_url,
+      token: TokenJWT,
+      empleado_seguridad: email_seguridad,
+    });
+
+    const itemContractor = this.props.navigation.state.params.currentKey;
     var certificateContractorData = await server.getPlantaTimeline(
       TokenJWT,
       email_seguridad,
     );
     console.log('Detalles del Contractor', certificateContractorData);
-    // console.log("PERFIL",certificateContractorData[itemContractor].contratista)
+    this.setState({profileContractor: certificateContractorData[itemContractor].contratista});
+
     const constructorEventCards =
       certificateContractorData[itemContractor].date_events;
     this.setState({
-      api_url: api_url,
+
       eventCards: this.addKeys(constructorEventCards),
-      // profile: this.props.navigation.state.params.emailContractor,
-      profileContractor: certificateContractorData[itemContractor].contratista,
-      token: TokenJWT,
-      empleado_seguridad: email_seguridad,
     });
   }
 
@@ -126,8 +126,8 @@ export default class ContractorDetail extends Component {
         </Content>
         <FooterToolbar
           navegacion={this.props.navigation}
-          currentKey={this.props.navigation.state.params.keyValue}
-          profile={this.state.profile}
+          currentKey={this.props.navigation.state.params.currentKey}
+          profile={this.state.profileContractor}
         />
       </Container>
     );

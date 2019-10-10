@@ -89,8 +89,8 @@ export default class ContractorCertificates extends Component {
     this.setState({email_seguridad:email_seguridad})
     console.log("Descargardo Datos",TokenJWT,"API",api_url)
     const itemContractor = this.props.navigation.state.params.keyValue
-
-    const certificateContractorData = await server.getContratistaTimeline(TokenJWT,this.props.navigation.state.params.emailContractor);
+    const emailContractor = this.props.navigation.state.params.profile.email
+    const certificateContractorData = await server.getContratistaTimeline(TokenJWT,emailContractor);
 
     console.log(certificateContractorData);
 
@@ -135,8 +135,8 @@ export default class ContractorCertificates extends Component {
               </Content>
               <FooterToolbar
                 navegacion={this.props.navigation}
-                currentKey={this.props.navigation.state.params.keyValue}
-                profile={this.state.profile}
+                currentKey={this.props.navigation.state.params.currentKey}
+                profile={this.state.profileContractor}
               />
             </Container>
           </Drawer>
