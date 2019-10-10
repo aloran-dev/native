@@ -169,12 +169,12 @@ export default  {
         console.log("REQUEST",api,request);
 
         let response = await fetch(api,request)
-          console.log(response);
-          let responseJson = await response.json();
 
-          console.log(responseJson);
+        let responseJson = await response.json();
 
-          return responseJson.data
+          console.log("DATA Response INCIDENT",responseJson);
+
+          return responseJson
 
       }
       catch(error){
@@ -192,18 +192,14 @@ export default  {
         //  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
           myHeaders.append("accept","application/json");
           myHeaders.append("authorization", `JWT ${token}`);
+          myHeaders.append("Content-Type", "application/json");
 
-          // const formData = new FormData();
-          //
-          // Object.keys(body).forEach(key => {
-          //     formData.append(key, body[key]);
-          //   });
 
       try{
 
           var request = {
               headers:myHeaders,
-              body: body,
+              body: JSON.stringify(body),
               method:'POST'
           }
           //const api = "http://127.0.0.1:3001/api/upload";
@@ -213,10 +209,10 @@ export default  {
 
         let response = await fetch(api,request)
         console.log(response.status);
-          let responseJson = await response.json()
           if(response.status === 400){
-              throw new Error(responseJson);
+              throw new Error(response);
           }else{
+            let responseJson = await response.json()
             return responseJson
           }
 
@@ -230,17 +226,15 @@ export default  {
     },
     add_checkout: async function(token,body){
 
-
         var myHeaders= new Headers();
-
           myHeaders.append("accept","application/json");
           myHeaders.append("authorization", `JWT ${token}`);
-
+          myHeaders.append("Content-Type", "application/json");
       try{
 
           var request = {
               headers:myHeaders,
-              body: body,
+              body: JSON.stringify(body),
               method:'POST'
           }
         const api = `${api_url}/api/v0/add_checkout`;
@@ -249,13 +243,12 @@ export default  {
 
         let response = await fetch(api,request)
           console.log(response.status);
-          let responseJson = await response.json()
-          if(response.status === 400){
-
-              throw new Error(responseJson);
+          if(response.status !== 200){
+              throw new Error(response);
           }else{
-              console.log(response);
-            return responseJson.data
+
+            let responseJson = await response.json()
+            return responseJson
           }
 
       }
