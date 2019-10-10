@@ -11,6 +11,8 @@ import {
   Thumbnail,
   Body,
 } from 'native-base';
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 export default class Sidebar extends Component {
   constructor(props) {
@@ -57,7 +59,7 @@ export default class Sidebar extends Component {
               button
               noBorder
               style={styles.listitem}
-              onPress={() => this.props.navigation.navigate('Qr')}>
+              onPress={() => this.props.navigation.navigate('Qr',{action:"CHECKIN"})}>
               <Left>
                 <Icon type="Feather" active name="clock" style={styles.icon} />
                 <Text>Contractor entry and exit</Text>
@@ -67,7 +69,7 @@ export default class Sidebar extends Component {
               button
               noBorder
               style={styles.listitem}
-              onPress={() => this.props.navigation.navigate('Qr')}>
+              onPress={() => this.props.navigation.navigate('Qr',{action:"INCIDENT"})}>
               <Left>
                 <Icon
                   type="Feather"
@@ -76,6 +78,25 @@ export default class Sidebar extends Component {
                   style={styles.icon}
                 />
                 <Text>Report an incident</Text>
+              </Left>
+            </ListItem>
+            <ListItem
+              button
+              noBorder
+              style={styles.listitem}
+              onPress={() =>{
+                      AsyncStorage.clear();
+                      this.props.navigation.navigate('Login')
+                  }
+                }>
+              <Left>
+                <Icon
+                  type="Feather"
+                  active
+                  name="alert-triangle"
+                  style={styles.icon}
+                />
+                <Text>Logout</Text>
               </Left>
             </ListItem>
           </List>

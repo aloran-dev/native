@@ -10,7 +10,9 @@ import Contractors from '../screens/ContractorList/Contractors';
 import Qr from '../screens/QrReader';
 import ContractorDetail from '../screens/ContractorDetail';
 import ContractorCertificates from '../screens/ContractorCertificates';
-
+import IncidentReport from '../screens/Incident/IncidentReport';
+import Entry from '../screens/Entry'
+  
 const DrawerNavigator = createDrawerNavigator(
   {
     Login: {
@@ -25,6 +27,12 @@ const DrawerNavigator = createDrawerNavigator(
     Qr: {
       screen: Qr,
     },
+    AddIncident: {
+      screen: IncidentReport,
+    },
+    Entry: {
+      screen: Entry,
+    },
     ContractorDetail: {
       screen: ContractorDetail,
     },
@@ -34,6 +42,7 @@ const DrawerNavigator = createDrawerNavigator(
   },
   {
     contentComponent: props => <Sidebar {...props} />,
+    unmountInactiveRoutes :true
   },
 );
 
