@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {StyleSheet,TouchableOpacity} from 'react-native';
+import {StyleSheet,TouchableOpacity,ActivityIndicator} from 'react-native';
 import {
   Container,
   Content,
@@ -36,7 +36,7 @@ const ListaItem = (props)=>{
             keyValue:index
           })
           }}>
-    <ListItem thumbnail >
+    <ListItem thumbnail key={index} >
       <Left>
         <Thumbnail
           source={{
@@ -67,7 +67,8 @@ export default class Contractors extends Component{
     contratista:null,
     Token:null,
     api_url:null,
-    email_seguridad:null
+    email_seguridad:null,
+    isLoading:true,
   }
 }
   async componentDidMount(){
@@ -85,7 +86,8 @@ export default class Contractors extends Component{
       contractorsData:contractorData,
       Token:TokenJWT,
       api_url:api_url,
-      email_seguridad:email_seguridad
+      email_seguridad:email_seguridad,
+      isLoading:false
     })
   }
   closeDrawer = () => {
@@ -109,6 +111,7 @@ export default class Contractors extends Component{
           <Header title="CertiFast" />
           <Content style={styles.maincontent}>
             <Text note>Contractor Companies</Text>
+            <ActivityIndicator animating={this.state.isLoading} />
             <List style={styles.list}>
               <ListaItem contractorsData={this.state.contractorsData} api_url={this.state.api_url} navegacion={navegacion}/>
             </List>
