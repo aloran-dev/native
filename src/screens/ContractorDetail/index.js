@@ -85,7 +85,7 @@ export default class ContractorDetail extends Component {
     // console.log("Descargardo Datos",TokenJWT,"API",api_url)
     const itemContractor = this.props.navigation.state.params.keyValue
     var certificateContractorData = await server.getPlantaTimeline(TokenJWT,email_seguridad);
-    // console.log("Detalles del Contractor",certificateContractorData);
+     console.log("Detalles del Contractor",certificateContractorData);
     // console.log("PERFIL",certificateContractorData[itemContractor].contratista)
     const constructorEventCards = certificateContractorData[itemContractor].date_events
     this.setState({
@@ -101,6 +101,7 @@ export default class ContractorDetail extends Component {
 
 
   render() {
+    console.log("ENTRE  A LIST", this.props.navigation.state.params)
     return (
       <Container>
         <Header title="CertiFast" />

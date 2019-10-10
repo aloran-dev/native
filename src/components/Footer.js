@@ -6,7 +6,7 @@ import {Container, Footer, FooterTab, Button, Icon, Text} from 'native-base';
 
 
 export default (props) => {
-
+  console.log("FOOTER PROPS",props)
   return (
 
         <Footer>
@@ -14,8 +14,11 @@ export default (props) => {
             <Button vertical
             onPress={() => {
               /* 1. Navigate to the Details route with params */
+              /*currentKey={this.props.navigation.state.params.keyValue}
+              profile={this.state.profile}*/
               props.navegacion.navigate('ContractorDetail', {
-                emailContractor:props.navegacion.state.params.emailContractor
+                emailContractor:props.profile,
+                currentKey:props.currentKey
               });
             }}>
 
@@ -30,7 +33,8 @@ export default (props) => {
             onPress={() => {
               /* 1. Navigate to the Details route with params */
               props.navegacion.navigate('ContractorCertificates', {
-                emailContractor:props.navegacion.state.params.emailContractor
+                  emailContractor:props.profile,
+                  currentKey:props.currentKey
               });
             }}
             >
@@ -47,7 +51,7 @@ export default (props) => {
               /* 1. Navigate to the Details route with params */
               props.navegacion.navigate('Incident',
                 {
-                  action:'INCIDENT',
+                  action:'CHECKIN',
                   code:"DEsde Botton"
               });
             }}

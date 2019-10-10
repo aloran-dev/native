@@ -79,7 +79,7 @@ export default class ContractorCertificates extends Component {
 
 
   async componentDidMount(){
-    console.log("Entre a CONTRACTOR",this.props.navigation.state.params);
+    console.log("Entre a CERTIFICATES",this.props.navigation.state.params);
     // var TokenJWT = await server.login();
     // console.log("Descargardo Datos",TokenJWT,this.props.codeQr)
     var TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
@@ -88,11 +88,26 @@ export default class ContractorCertificates extends Component {
     const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID')
     this.setState({email_seguridad:email_seguridad})
     console.log("Descargardo Datos",TokenJWT,"API",api_url)
+    const itemContractor = this.props.navigation.state.params.keyValue
 
     const certificateContractorData = await server.getContratistaTimeline(TokenJWT,this.props.navigation.state.params.emailContractor);
+
     console.log(certificateContractorData);
 
+    const certificateContractorProfile = {
+      apellido_materno: certificateContractorData.profile.apellido_materno,
+      apellido_paterno: certificateContractorData.profile.apellido_paterno,
+      celular: certificateContractorData.profile.celular,
+      email: certificateContractorData.email,
+      empresa_contratista: certificateContractorData.empresa_contratista,
+      image_avatar: certificateContractorData.profile.image_avatar,
+      image_profile: certificateContractorData.profile.image_profile,
+      nombre: certificateContractorData.profile.nombre,
+      ocupacion_cno: certificateContractorData.ocupacion_cno,
+      puesto: certificateContractorData.profile.puesto
+    }
     this.setState({
+      profileContractor:certificateContractorProfile,
       antidopings:certificateContractorData.antidopings,
       cursos_seguridad_interna:certificateContractorData.cursos_seguridad_interna,
       cursos_habilidades_laborales:certificateContractorData.cursos_habilidades_laborales,
