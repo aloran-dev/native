@@ -115,15 +115,15 @@ server.add_incidente( this.state.token,newIncident,this.state.pickedImage)
       'Incident Confirmation Entry',
       message,
       [
-        {text: 'Ok', onPress: () => this.props.navigation.navigate('ContractorList')}
+        {text: 'Ok', onPress: () => this.props.navigation.navigate('Contractors')}
       ],
       {cancelable: false},
     );
-    this.props.navigation.navigate('ContractorList')
+    this.props.navigation.navigate('Contractors')
   })
   .catch((error)=>{
     console.log(JSON.stringify(error));
-    this.props.navigation.navigate('ContractorList')
+    this.props.navigation.navigate('Contractors')
   })
 
 

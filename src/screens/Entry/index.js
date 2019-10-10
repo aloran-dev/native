@@ -120,7 +120,7 @@ export default class Entry extends Component{
           message,
           [
           //  {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-            {text: 'Yes', onPress: ()=>this.props.navigation.navigate('ContractorList')},
+            {text: 'Yes', onPress: ()=>this.props.navigation.navigate('Contractors')},
           ],
           { cancelable: false }
         )
@@ -160,7 +160,7 @@ export default class Entry extends Component{
             message,
             [
               //{text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-              {text: 'Ok', onPress: ()=>this.props.navigation.navigate('ContractorList')},
+              {text: 'Ok', onPress: ()=>this.props.navigation.navigate('Contractors')},
             ],
             { cancelable: false }
           )
@@ -168,7 +168,7 @@ export default class Entry extends Component{
         })
         .catch((error)=>{
           console.log(error);
-          this.props.navigation.navigate('ContractorList');
+          this.props.navigation.navigate('Contractors');
 
         })
 
@@ -200,7 +200,7 @@ export default class Entry extends Component{
                 rounded
                 block
                 style={styles.button}
-                onPress={()=>{this.props.navigation.navigate('ContractorList')}}
+                onPress={()=>{this.props.navigation.navigate('Contractors')}}
               >
               <Text>Back</Text>
               </Button>
