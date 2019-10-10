@@ -9,10 +9,14 @@ import {
   Text,
   H1,
   Thumbnail,
-  Drawer,
+  Body,
+  Title,
+  Button,
+  Header,
+  Left
 } from 'native-base';
 
-import Header from '../../components/Header';
+//import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
 import FooterToolbar from '../../components/Footer';
 import ContractorHeader from '../../components/ContractorHeader';
@@ -119,9 +123,19 @@ export default class ContractorCertificates extends Component {
 
   render(){
         return (
-          <Drawer content={<Sidebar />}>
             <Container>
-              <Header title="CertiFast" />
+            <Header style={styles.header}>
+              <Left>
+                <Button
+                  transparent
+                  onPress={() => this.props.navigation.openDrawer()}>
+                  <Icon style={styles.header__text} name="menu" />
+                </Button>
+              </Left>
+              <Body>
+                <Title style={styles.header__text}>CertiFast</Title>
+              </Body>
+            </Header>
               <Content style={styles.main}>
                 <ContractorHeader profile={this.state.profileContractor} api_url={this.state.api_url} />
                 <View style={styles.cardscontainer}>
@@ -139,7 +153,6 @@ export default class ContractorCertificates extends Component {
                 profile={this.state.profileContractor}
               />
             </Container>
-          </Drawer>
         );
   }
 
@@ -173,4 +186,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.06,
     overflow: 'hidden',
   },
+  header: {
+    height: 70,
+    backgroundColor: '#000',
+  },
+  header__text: {
+    color: '#fff',
+  }
 });
