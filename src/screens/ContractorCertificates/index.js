@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View,ActivityIndicator} from 'react-native';
 
 import {
   Container,
@@ -71,7 +71,8 @@ export default class ContractorCertificates extends Component {
       },
       cursos_habilidades_laborales:[],
       antidopings:[],
-      cursos_seguridad_interna:[]
+      cursos_seguridad_interna:[],
+      isLoading:true
     }
 
 }
@@ -94,7 +95,9 @@ export default class ContractorCertificates extends Component {
     this.setState({
       antidopings:certificateContractorData.antidopings,
       cursos_seguridad_interna:certificateContractorData.cursos_seguridad_interna,
-      cursos_habilidades_laborales:certificateContractorData.cursos_habilidades_laborales
+      cursos_habilidades_laborales:certificateContractorData.cursos_habilidades_laborales,
+      isLoading:false
+
     })
 }
 
@@ -107,7 +110,9 @@ export default class ContractorCertificates extends Component {
               <Content style={styles.main}>
                 <ContractorHeader profile={this.state.profileContractor} api_url={this.state.api_url} />
                 <View style={styles.cardscontainer}>
+
                   <Card style={styles.card}>
+                    <ActivityIndicator  animating={this.state.isLoading} />
                     <CertificateList certificateList={this.state.cursos_habilidades_laborales}/>
                     <AntiDoppingList certificateList={this.state.antidopings}/>
                   </Card>
