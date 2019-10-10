@@ -1,25 +1,40 @@
+/* QR Component */
 import React,{Component} from 'react';
-import { Button, View, Text,Alert,ActivityIndicator } from 'react-native';
-import { StackActions, DrawerActions } from 'react-navigation';
+import {StyleSheet, Image, Alert, ActivityIndicator} from 'react-native';
+import {
+  Container,
+  Content,
+  Text,
+  Item,
+  Input,
+  Button,
+  Drawer,
+} from 'native-base';
+
 
 import server from '../../libraries/server';
 import AsyncStorage from '@react-native-community/async-storage';
 
 
-export default class Entry extends Component {
+import Sidebar from '../../components/Sidebar';
+import Header from '../../components/Header';
+
+export default class Entry extends Component{
+
   constructor(props){
     super(props);
     this.state={
       email_contratista:null,
       email_empleado_seguridad:null,
-      //planta: "PLANTA1",
       planta_area: "Taller",
       invalidCode:false,
-      isLoading:false
+      isLoading:false,
+      image_contractor:{uri:'https://image.flaticon.com/icons/png/512/107/107072.png'}
     }
-    this.handleSend = this.handleSend.bind(this);
+
+    this.handleCheckIn = this.handleCheckIn.bind(this);
     this.handleCheckOut = this.handleCheckOut.bind(this);
-    this.navigationWithPush = this.navigationWithPush.bind(this);
+
   }
 
 
@@ -31,6 +46,13 @@ export default class Entry extends Component {
     var TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
     const api_url = await AsyncStorage.getItem('API_URL')
     const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID')
+
+    this.setState(
+      {
+        token:TokenJWT,
+        email_empleado_seguridad:this.props.navigation.state.params.email_empleado_seguridad
+      })
+
     console.log("Descargardo Datos",TokenJWT,"API",api_url)
     console.log(this.props.navigation.state.params.contratistaQR);
 
@@ -43,11 +65,13 @@ export default class Entry extends Component {
          server.getContratistaInfoByNanoId(TokenJWT,codeQr)
          .then((response=>{
            console.log("Validando QR",response);
-             this.setState(
+            const image_url =`${api_url}/api/v0/uploads/${response.image_profile}`
+            console.log(image_url);
+
+            this.setState(
                {
-                 token:TokenJWT,
                  email_contratista:response.email,
-                 email_empleado_seguridad:this.props.navigation.state.params.email_empleado_seguridad
+                 image_contractor:{uri:image_url}
                })
 
          }))
@@ -66,7 +90,7 @@ export default class Entry extends Component {
     }
 }
 
-  handleSend = async () =>{
+  handleCheckIn = async () =>{
       this.setState({isLoading:true})
       const newEntry = {
         email_contratista:this.state.email_contratista,
@@ -100,7 +124,7 @@ export default class Entry extends Component {
 
     }
 
-    handleCheckOut = async () =>{
+  handleCheckOut = async () =>{
           this.setState({isLoading:true})
         const newEntry = {
           email_contratista:this.state.email_contratista,
@@ -123,87 +147,110 @@ export default class Entry extends Component {
             { cancelable: false }
           )
 
-
-//          this.props.navigation.navigate('App');
-          //this.navigationWithPush('ContractorList');
         })
         .catch((error)=>{
           console.log(error);
-          //this.props.navigation.navigate('App');
-          this.navigationWithPush('ContractorList');
+          this.props.navigation.navigate('ContractorList');
+
         })
 
 
       }
 
 
-  render() {
+
+  render(){
 
     if(this.state.invalidCode){
       return (
-        <View>
-          <Text>Codigo invalido</Text>
-          <Button title="regresar"
-          onPress={()=>{this.props.navigation.navigate('ContractorList')}}
-          >
-
-          </Button>
-
-        </View>
+        <Drawer>
+          <Container style={styles.main}>
+            <Header title="CertiFast" />
+            <Content button style={styles.maincontent}>
+              <Text note>Invalid QR Code</Text>
+              <Button
+                rounded
+                block
+                style={styles.button}
+                onPress={()=>{this.props.navigation.navigate('ContractorList')}}
+              >
+              <Text>Back</Text>
+              </Button>
+            </Content>
+          </Container>
+        </Drawer>
       )
     }else{
       return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Drawer>
+        <Container style={styles.main}>
+          <Header title="CertiFast" />
+          <Content button style={styles.maincontent}>
+            <Text note>Companies contractors</Text>
+            <Container style={styles.qr}>
 
-          <Button
-            title="Add Check-In"
-            onPress={this.handleSend}
-          />
-          <View style={{heigth:50,top:40}} />
-          <Button
-            title="Add CheckOut"
-            onPress={this.handleCheckOut}
-          />
-          <ActivityIndicator animating={this.state.isLoading} />
-        </View>
-      )
-    }
+            <Image
+             source={this.state.image_contractor}
+             style={styles.qr__image}
+           />
+            </Container>
+            <Button
+              rounded
+              block
+              style={styles.button}
+              onPress={this.handleCheckIn}>
+              <Text>CheckIN</Text>
+            </Button>
 
-  }
-
-  getCurrentRouteName() {
-    let routes = this.props.navigation.state.routes;
-    let route = routes[routes.length - 1].routes;
-    if (route.length > 0) {
-      return route[route.length - 1].routeName;
-    }
-    return null;
-  }
-
-  navigationWithPush = (routeName, params) => {
-
-   let currentRoute;
-    /**
-    **  get route of current screen from the navigation props
-    **/
-   if (Object.keys(this.props.navigation.state).length > 0 &&
-       this.props.navigation.state.routes != undefined) {
-            currentRoute = this.getCurrentRouteName();
-   }
-
-  /**
-  ** if current route is the routeName itself then just close the drawer, else
-  ** push routeName to navigation state by dispatching the StackActions
-  **/
-
-   if (currentRoute === routeName) {
-          this.props.navigation.dispatch(DrawerActions.closeDrawer());
-     } else {
-          const pushAction = StackActions.push({
-            routeName: routeName,
-            params: params
-     });
-          this.props.navigation.dispatch(pushAction);
+            <Button
+              rounded
+              block
+              style={styles.button}
+              onPress={this.handleCheckOut}>
+              <Text>CheckOut</Text>
+            </Button>
+          </Content>
+        </Container>
+      </Drawer>
+    )
     }
   }
 }
+
+const styles = StyleSheet.create({
+  main: {
+    backgroundColor: '#FCFCFC',
+  },
+  maincontent: {
+    margin: 25,
+  },
+  qr: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 300,
+    marginTop: 16,
+    marginBottom: 16,
+    borderRadius: 10,
+    shadowOffset: {
+      height: 3,
+      width: 0,
+    },
+    shadowColor: 'rgba(0,0,0,1)',
+    shadowOpacity: 0.6,
+    overflow:'hidden'
+  },
+  qr__image: {
+    height: 100,
+    width: 100,
+    opacity: 0.2,
+  },
+  input: {
+    backgroundColor: '#fff',
+    padding: 5,
+  },
+  button: {
+    marginTop: 30,
+    backgroundColor: '#D10000',
+  },
+});

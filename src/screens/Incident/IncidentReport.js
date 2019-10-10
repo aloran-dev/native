@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View,Alert,ActivityIndicator} from 'react-native';
 import {
   Container,
   Content,
@@ -10,8 +10,7 @@ import {
   Input,
   Button,
   Textarea,
-  Picker,
-  Alert
+  Picker
 } from 'native-base';
 
 import Header from '../../components/Header';
@@ -36,7 +35,8 @@ export default class IncidentReport extends Component{
       email_empleado_seguridad:null,
       incident_type:"SECURITY",
       incident_severity:"LOW",
-      invalidCode:false
+      invalidCode:false,
+      isLoading:false
     };
 
   this.handleSend = this.handleSend.bind(this);
@@ -87,6 +87,8 @@ export default class IncidentReport extends Component{
     alert("Debes ingresar los datos requeridos");
     return;
   }
+  this.setState({isLoading:true})
+
   const newIncident = {
     description:this.state.description,
   //  incident_image:this.state.pickedImage,
@@ -101,17 +103,12 @@ console.log(newIncident,this.state.pickedImage);
 
 server.add_incidente( this.state.token,newIncident,this.state.pickedImage)
   .then((response)=>{
-    console.log("FUNCIONA")
+    console.log("FUNCIONA",response)
     Alert.alert(
-      'Confirmacion',
-      response,
+      'Incident Confirmation Entry',
+      "onSuccess",
       [
-        {text: 'Ok', onPress: () => this.props.navigation.navigate('ContractorList')},
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        }
+        {text: 'Ok', onPress: () => this.props.navigation.navigate('ContractorList')}
       ],
       {cancelable: false},
     );
@@ -130,6 +127,7 @@ server.add_incidente( this.state.token,newIncident,this.state.pickedImage)
       <Container style={styles.main}>
         <Header title="CertiFast" />
         <Content style={styles.maincontent}>
+
           <Text note>Create incident report</Text>
           <Card style={styles.card}>
             <Item style={styles.card__item}>
