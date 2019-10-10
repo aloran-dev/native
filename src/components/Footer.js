@@ -15,7 +15,7 @@ export default (props) => {
             onPress={() => {
               /* 1. Navigate to the Details route with params */
               props.navegacion.navigate('ContractorDetail', {
-              emailContractor:props.navegacion.state.params.emailContractor
+                emailContractor:props.navegacion.state.params.emailContractor
               });
             }}>
 
@@ -45,7 +45,11 @@ export default (props) => {
             vertical
             onPress={() => {
               /* 1. Navigate to the Details route with params */
-              props.navegacion.navigate('Incident');
+              props.navegacion.navigate('Incident',
+                {
+                  action:'INCIDENT',
+                  code:"DEsde Botton"
+              });
             }}
             >
               <Container style={styles.link}>
