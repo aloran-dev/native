@@ -104,9 +104,16 @@ console.log(newIncident,this.state.pickedImage);
 server.add_incidente( this.state.token,newIncident,this.state.pickedImage)
   .then((response)=>{
     console.log("FUNCIONA",response)
+    const message = JSON.stringify(response)
+    try{
+      const message = `OperationID:${response.transactionId}`
+    }
+    catch(error){
+      console.log(error)
+    }
     Alert.alert(
       'Incident Confirmation Entry',
-      "onSuccess",
+      message,
       [
         {text: 'Ok', onPress: () => this.props.navigation.navigate('ContractorList')}
       ],
@@ -116,7 +123,7 @@ server.add_incidente( this.state.token,newIncident,this.state.pickedImage)
   })
   .catch((error)=>{
     console.log(JSON.stringify(error));
-
+    this.props.navigation.navigate('ContractorList')
   })
 
 
@@ -127,7 +134,7 @@ server.add_incidente( this.state.token,newIncident,this.state.pickedImage)
       <Container style={styles.main}>
         <Header title="CertiFast" />
         <Content style={styles.maincontent}>
-
+        <ActivityIndicator animating={this.state.isLoading} />
           <Text note>Create incident report</Text>
           <Card style={styles.card}>
             <Item style={styles.card__item}>

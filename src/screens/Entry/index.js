@@ -103,10 +103,16 @@ export default class Entry extends Component{
 
     server.add_checkIn(this.state.token,newEntry)
       .then((response)=>{
-        console.log("CHECKIN",response)
+        const message = JSON.stringify(response)
+        try{
+          const message = `OperationID:${response.transactionId}`
+        }
+        catch(error){
+          console.log(error)
+        }
         Alert.alert(
           'CheckIn Confirmation',
-          JSON.stringify(response),
+          message,
           [
           //  {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
             {text: 'Yes', onPress: ()=>this.props.navigation.navigate('ContractorList')},
@@ -136,10 +142,17 @@ export default class Entry extends Component{
 
       server.add_checkout(this.state.token,newEntry)
         .then((response)=>{
+          const message = JSON.stringify(response)
+          try{
+            const message = `OperationID:${response.transactionId}`
+          }
+          catch(error){
+            console.log(error)
+          }
 
           Alert.alert(
             'CheckOut Confirmation',
-            JSON.stringify(response),
+            message,
             [
               //{text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
               {text: 'Ok', onPress: ()=>this.props.navigation.navigate('ContractorList')},
@@ -188,7 +201,7 @@ export default class Entry extends Component{
           <Content button style={styles.maincontent}>
             <Text note>Companies contractors</Text>
             <Container style={styles.qr}>
-
+            <ActivityIndicator animating={this.state.isLoading} />
             <Image
              source={this.state.image_contractor}
              style={styles.qr__image}
