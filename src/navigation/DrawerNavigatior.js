@@ -1,6 +1,12 @@
 import React from 'react';
-import {createAppContainer} from 'react-navigation';
+import {
+  createAppContainer,
+  createSwitchNavigator
+} from 'react-navigation';
+
+import {createStackNavigator} from 'react-navigation-stack'
 import {createDrawerNavigator} from 'react-navigation-drawer';
+
 
 import Sidebar from '../components/Sidebar';
 
@@ -46,4 +52,13 @@ const DrawerNavigator = createDrawerNavigator(
   },
 );
 
-export default createAppContainer(DrawerNavigator);
+const AuthStack = createStackNavigator({Login:Login})
+const AppSwitch = createSwitchNavigator(
+  {
+    Auth:AuthStack,
+    App:DrawerNavigator
+  },{
+    initialRouteName: 'Auth'
+  }
+)
+export default createAppContainer(AppSwitch);

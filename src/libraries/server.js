@@ -1,5 +1,5 @@
-//const api_url = 'http://127.0.0.1:5003'
-const api_url = 'https://certifast.linuxopensource.mx';
+const api_url = 'http://127.0.0.1:5003'
+//const api_url = 'https://certifast.linuxopensource.mx';
 const login = '/api/login';
 const contractorList = '/api/v0/contratistas';
 const constractorAdd = '/api/v0/contratistas';
@@ -48,14 +48,13 @@ export default {
       };
       //  console.log(config);
       let response = await fetch(`${api_url}${login}`, config);
-
-      //  console.log("Solicitando TOKEN",response)
       var JWT = response.headers.get('jwt-token');
+
       //console.log("TOKEN",JWT)
       return JWT;
     } catch (error) {
       console.log(`Error is ${error}`);
-      //reject(error)
+      return null
     }
   },
   createSession: async function(props) {

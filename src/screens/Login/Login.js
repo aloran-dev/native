@@ -91,7 +91,7 @@ export default class Login extends Component {
 
       console.log('JWT', TokenJWT);
 
-      if (TokenJWT) {
+      if(TokenJWT) {
         this.setState({response: TokenJWT});
 
         var profile = await server.getSecurityProfile(
@@ -104,11 +104,12 @@ export default class Login extends Component {
         await AsyncStorage.setItem('ACCOUNT', JSON.stringify(profile));
         this.props.navigation.navigate('Contractors');
       } else {
-        throw new Error('NetWorkError');
+        throw new Error("NetWorkError");
       }
-    } catch (error) {
+    } catch(error) {
       console.log(error);
-      this.setState({netWorkError: true, response: error});
+    //  this.setState({netWorkError: true, response: "User/Password Invalid"});
+      alert("User/Password Invalid")
     }
   };
 
