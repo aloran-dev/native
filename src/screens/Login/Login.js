@@ -98,7 +98,6 @@ export default class Login extends Component {
           TokenJWT,
           this.state.email,
         );
-        console.log(profile);
         await AsyncStorage.setItem('AUTH_TOKEN', TokenJWT);
         await AsyncStorage.setItem('ACCOUNT_ID', this.state.email);
         await AsyncStorage.setItem('ACCOUNT', JSON.stringify(profile));

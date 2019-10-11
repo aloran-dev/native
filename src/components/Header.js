@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
 import {Header, Title, Button, Icon, Left, Body} from 'native-base';
+import {withNavigation} from 'react-navigation';
 
-export default class Sidebar extends Component {
+class CertiHeader extends Component {
   constructor(props) {
     super(props);
   }
@@ -13,17 +14,19 @@ export default class Sidebar extends Component {
         <Left>
           <Button
             transparent
-            onPress={() => this.props.navigation.navigate('Contractors')}>
+            onPress={() => this.props.navigation.openDrawer()}>
             <Icon style={styles.header__text} name="menu" />
           </Button>
         </Left>
         <Body>
-          <Title style={styles.header__text}>{this.props.title}</Title>
+          <Title style={styles.header__text}>CertiFast</Title>
         </Body>
       </Header>
     );
   }
 }
+
+export default withNavigation(CertiHeader);
 
 const styles = StyleSheet.create({
   header: {

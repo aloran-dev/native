@@ -25,7 +25,8 @@ import {
 
 import FooterToolbar from '../../components/Footer';
 import ContractorHeader from '../../components/ContractorHeader';
-import ResumeCard from '../../components/ResumeCard';
+import CertiHeader from '../../components/Header';
+import EntryList from '../../components/EntryList';
 
 import server from '../../libraries/server';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -34,41 +35,46 @@ export default class ContractorDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      empleado_seguridad: [],
+      contratista: [],
+      head: {
+        nombre: '',
+        apellido_paterno: '',
+        imgUrl: '',
+      },
+      eventCards: '',
     };
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     var TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
-    const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID');
+    const email = this.props.navigation.getParam('email');
 
-    var contractor = await server.getSecurityProfile(TokenJWT, email_seguridad);
+    let contractor = await server.getContratistaTimeline(TokenJWT, email);
 
     this.setState({
-      empleado_seguridad: contractor,
+      contratista: contractor,
+      head: {
+        nombre: contractor.profile.nombre,
+        apellido_paterno: contractor.profile.apellido_paterno,
+        imgUrl: contractor.profile.image_profile,
+      },
+      eventCards: contractor.event_cards,
     });
   }
 
   render() {
     return (
       <Container>
-        <Header style={styles.header}>
-          <Left>
-            <Button
-              transparent
-              onPress={() => this.props.navigation.openDrawer()}>
-              <Icon style={styles.header__text} name="menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Title style={styles.header__text}>CertiFast</Title>
-          </Body>
-        </Header>
+        <CertiHeader />
 
         <Content style={styles.main}>
-          <ContractorHeader profile={this.state.empleado_seguridad} />
+          <ContractorHeader
+            nombre={this.state.head.nombre}
+            apellido={this.state.head.apellido_paterno}
+            imgUrl={this.state.head.imgUrl}
+          />
           <View style={styles.cardscontainer}>
-            {/* <ListaEventos eventCards={this.state.eventCards} /> */}
+            <EntryList eventCards={this.state.eventCards} />
           </View>
         </Content>
         {/* <FooterToolbar

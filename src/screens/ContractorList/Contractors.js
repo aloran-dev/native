@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
-import {StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {StyleSheet, ActivityIndicator} from 'react-native';
 import {
   Container,
   Content,
   List,
-  ListItem,
   Left,
   Body,
-  Thumbnail,
   Text,
   Title,
   Button,
@@ -17,35 +15,8 @@ import {
 
 import AsyncStorage from '@react-native-community/async-storage';
 import server from '../../libraries/server';
-
-const ListaItem = props => {
-  const lista = props.contractorsData;
-  const api_url = props.api_url;
-
-  const listaElementos = lista.map((item, index) => (
-    <TouchableOpacity key={index}>
-      <ListItem thumbnail key={index}>
-        <Left>
-          <Thumbnail
-            source={{
-              uri: `https://certifast.linuxopensource.mx/api/v0/uploads/${
-                item.contratista.image_avatar
-              }`,
-            }}
-          />
-        </Left>
-        <Body>
-          <Text note>{item.contratista.empresa_contratista}</Text>
-          <Text>
-            {item.contratista.nombre + ' ' + item.contratista.apellido_paterno}
-          </Text>
-        </Body>
-      </ListItem>
-    </TouchableOpacity>
-  ));
-
-  return listaElementos;
-};
+import ListaItem from '../../components/ContractorListItem';
+import CertiHeader from '../../components/Header';
 
 export default class Contractors extends Component {
   constructor(props) {
@@ -88,27 +59,11 @@ export default class Contractors extends Component {
     if (this.state.isLoading) {
       cont = <ActivityIndicator animating={this.state.isLoading} />;
     } else {
-      cont = (
-        <ListaItem
-          contractorsData={this.state.contractorsData}
-          api_url={this.state.api_url}
-        />
-      );
+      cont = <ListaItem contractorsData={this.state.contractorsData} />;
     }
     return (
       <Container style={styles.main}>
-        <Header style={styles.header}>
-          <Left>
-            <Button
-              transparent
-              onPress={() => this.props.navigation.openDrawer()}>
-              <Icon style={styles.header__text} name="menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Title style={styles.header__text}>CertiFast</Title>
-          </Body>
-        </Header>
+        <CertiHeader />
         <Content style={styles.maincontent}>
           <Text note>Contractor Companies</Text>
           <List style={styles.list}>{cont}</List>

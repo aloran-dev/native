@@ -1,25 +1,33 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
 import {Container, Thumbnail, H1, Text} from 'native-base';
 
-export default props => {
-  return (
-    <Container style={styles.blackbackground}>
-      <Thumbnail
-        style={styles.blackbackground__img}
-        source={{
-          uri: `https://certifast.linuxopensource.mx/api/v0/uploads/${
-            props.profile.image_profile
-          }`,
-        }}
-      />
-      <H1 style={styles.blackbackground__text}>{props.profile.nombre}</H1>
-      <Text note style={styles.blackbackground__text}>
-        {props.profile.apellido_paterno}
-      </Text>
-    </Container>
-  );
-};
+export default class ContractorHeader extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {}
+
+  render() {
+    return (
+      <Container style={styles.blackbackground}>
+        <Thumbnail
+          style={styles.blackbackground__img}
+          source={{
+            uri: `https://certifast.linuxopensource.mx/api/v0/uploads/${
+              this.props.imgUrl
+            }`,
+          }}
+        />
+        <H1 style={styles.blackbackground__text}>{this.props.nombre}</H1>
+        <Text note style={styles.blackbackground__text}>
+          {this.props.apellido}
+        </Text>
+      </Container>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   blackbackground: {
@@ -29,7 +37,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 100,
+    paddingBottom: 70,
   },
   blackbackground__img: {
     marginBottom: 16,
