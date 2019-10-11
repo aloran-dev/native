@@ -3,23 +3,23 @@ import {StyleSheet} from 'react-native';
 import {Container, Thumbnail, H1, Text} from 'native-base';
 
 export default props => {
-  console.log(props);
   return (
     <Container style={styles.blackbackground}>
       <Thumbnail
         style={styles.blackbackground__img}
         source={{
-          uri:`${props.api_url}/api/v0/uploads/${props.profile.image_profile}`
+          uri: `https://certifast.linuxopensource.mx/api/v0/uploads/${
+            props.profile.image_profile
+          }`,
         }}
       />
       <H1 style={styles.blackbackground__text}>{props.profile.nombre}</H1>
       <Text note style={styles.blackbackground__text}>
-        {props.profile.empresa_contratista}
+        {props.profile.apellido_paterno}
       </Text>
     </Container>
-  )
-}
-
+  );
+};
 
 const styles = StyleSheet.create({
   blackbackground: {
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 80,
+    paddingBottom: 100,
   },
   blackbackground__img: {
     marginBottom: 16,

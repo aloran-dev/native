@@ -116,8 +116,9 @@ export default class QrReader extends Component {
             <Title style={styles.header__text}>CertiFast</Title>
           </Body>
         </Header>
+
         <Content button style={styles.maincontent}>
-          <Text note>Companies contractors</Text>
+          <Text note>Scan Qr code</Text>
           <Container style={styles.qr}>
             <QRCodeScanner
               style={styles.qr__image}
@@ -131,40 +132,25 @@ export default class QrReader extends Component {
           <Item style={styles.input}>
             <Input />
           </Item>
+
           <Button
-            transparent
-            onPress={() => this.props.navigation.openDrawer()}>
-            <Icon style={styles.header__text} name="menu" />
+            rounded
+            block
+            style={styles.button}
+            //onPress={() => this.props.navigation.navigate('AddIncident')}>
+            onPress={() => this.props.navigation.navigate('ContractorDetail')}>
+            <Text>Send</Text>
           </Button>
-          <Body>
-            <Title style={styles.header__text}>CertiFast</Title>
-          </Body>
-          <Content button style={styles.maincontent}>
-            <Text note>Companie contractors</Text>
-            <Container style={styles.qr}>
-              <Image
-                source={{
-                  uri:
-                    'https://image.flaticon.com/icons/png/512/107/107072.png',
-                }}
-                style={styles.qr__image}
-              />
-            </Container>
-            <Text note>Companie contractors</Text>
-            <Item style={styles.input}>
-              <Input />
-            </Item>
-            <Button
-              rounded
-              block
-              style={styles.button}
-              //onPress={() => this.props.navigation.navigate('AddIncident')}>
-              onPress={() =>
-                this.props.navigation.navigate('ContractorDetail')
-              }>
-              <Text>Send</Text>
-            </Button>
-          </Content>
+
+          <Button
+            rounded
+            block
+            transparent
+            style={styles.button1}
+            //onPress={() => this.props.navigation.navigate('AddIncident')}>
+            onPress={() => this.props.navigation.navigate('Contractors')}>
+            <Text style={styles.button1__text}>Cancell</Text>
+          </Button>
         </Content>
       </Container>
     );
@@ -206,6 +192,12 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 30,
     backgroundColor: '#D10000',
+  },
+  button1: {
+    marginTop: 10,
+  },
+  button1__text: {
+    color: '#000',
   },
   header: {
     height: 70,
