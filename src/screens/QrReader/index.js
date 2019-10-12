@@ -130,7 +130,9 @@ export default class QrReader extends Component {
           </Container>
           <Text note>Enter code manually</Text>
           <Item style={styles.input}>
-            <Input />
+            <Input
+              onChangeText={(text)=> this.setState({codeContratista:text})}
+            />
           </Item>
 
           <Button
@@ -138,7 +140,7 @@ export default class QrReader extends Component {
             block
             style={styles.button}
             //onPress={() => this.props.navigation.navigate('AddIncident')}>
-            onPress={() => this.props.navigation.navigate('ContractorDetail')}>
+            onPress={this.handleSend}>
             <Text>Send</Text>
           </Button>
 

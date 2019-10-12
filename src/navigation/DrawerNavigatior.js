@@ -36,6 +36,11 @@ import Entry from '../screens/Entry';
 
 
 const AuthStack = createStackNavigator({Login:Login})
+
+AuthStack.navigationOptions = {
+  // Hide the header from AppNavigator stack
+  header: null,
+};
 const AppStackNavigator = createStackNavigator(
   {
     Companies: {
