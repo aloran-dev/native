@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
-import {StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {StyleSheet, ActivityIndicator} from 'react-native';
 import {
   Container,
   Content,
   List,
-  ListItem,
   Left,
   Body,
-  Thumbnail,
   Text,
   Title,
   Button,
@@ -17,10 +15,8 @@ import {
 
 import AsyncStorage from '@react-native-community/async-storage';
 import server from '../../libraries/server';
-
 import ListaItem from '../../components/ContractorListItem';
 import CertiHeader from '../../components/Header';
-import { NavigationActions } from 'react-navigation';
 
 export default class Contractors extends Component {
   static navigationOptions = {
@@ -75,13 +71,11 @@ export default class Contractors extends Component {
     if (this.state.isLoading) {
       cont = <ActivityIndicator animating={this.state.isLoading} />;
     } else {
-
-        cont = <ListaItem contractorsData={this.state.contractorsData} />;
-
+      cont = <ListaItem contractorsData={this.state.contractorsData} />;
     }
     return (
       <Container style={styles.main}>
-        <CertiHeader  />
+        <CertiHeader />
         <Content style={styles.maincontent}>
           <Text note>Contractor Companies</Text>
           <List style={styles.list}>{cont}</List>

@@ -1,70 +1,50 @@
-import React,{Component} from 'react';
+import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
-import {Container, Footer, FooterTab, Button, Icon, Text} from 'native-base';
+import {Footer, FooterTab, Button, Icon, Text} from 'native-base';
+import {withNavigation} from 'react-navigation';
 
-//import {Link} from 'react-router-native';
+class CertiHeader extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-
-export default (props) => {
-  console.log("FOOTER PROPS",props)
-  return (
-
-        <Footer>
-          <FooterTab style={styles.footer}>
-            <Button vertical
-            onPress={() => {
-              /* 1. Navigate to the Details route with params */
-              /*currentKey={this.props.navigation.state.params.keyValue}
-              profile={this.state.profile}*/
-              props.navegacion.navigate('ContractorDetail', {
-                emailContractor:props.profile,
-                currentKey:props.currentKey
-              });
-            }}>
-
-                <Container style={styles.link}>
-                  <Icon type="Feather" name="calendar" style={styles.black} />
-                  <Text style={styles.blackText}>Summary</Text>
-                </Container>
-
-            </Button>
-            <Button
+  render() {
+    return (
+      <Footer>
+        <FooterTab style={styles.footer}>
+          <Button
+            style={styles.link}
             vertical
-            onPress={() => {
-              /* 1. Navigate to the Details route with params */
-              props.navegacion.navigate('ContractorCertificates', {
-                  profile:props.profile,
-                  currentKey:props.currentKey
-              });
-            }}
-            >
-
-                <Container style={styles.link}>
-                  <Icon type="Feather" name="award" style={styles.black} />
-                  <Text style={styles.blackText}>Certificates</Text>
-                </Container>
-
-            </Button>
-            <Button
+            onPress={() =>
+              this.props.navigation.navigate('ContractorDetail', {
+                email: this.props.email,
+              })
+            }>
+            <Icon type="Feather" name="calendar" style={styles.black} />
+            <Text style={styles.blackText}>Summary</Text>
+          </Button>
+          <Button
             vertical
-            onPress={() => {
-              /* 1. Navigate to the Details route with params */
-              props.navegacion.navigate('Incident',
-                {
-                  action:'CHECKIN',
-                  code:"DEsde Botton"
-              });
-            }}
-            >
-              <Container style={styles.link}>
-                <Icon type="Feather" name="settings" style={styles.black} />
-                <Text style={styles.blackText}>Options</Text>
-              </Container>
-            </Button>
-          </FooterTab>
-        </Footer>
-    )
+            style={styles.link}
+            onPress={() =>
+              this.props.navigation.navigate('ContractorCertificates', {
+                email: this.props.email,
+              })
+            }>
+            <Icon type="Feather" name="award" style={styles.black} />
+            <Text style={styles.blackText}>Certificates</Text>
+          </Button>
+          <Button vertical style={styles.link}>
+            <Icon type="Feather" name="settings" style={styles.black} />
+            <Text style={styles.blackText}>Options</Text>
+          </Button>
+        </FooterTab>
+      </Footer>
+    );
+  }
 }
+
+export default withNavigation(CertiHeader);
 
 const styles = StyleSheet.create({
   footer: {

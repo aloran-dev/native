@@ -17,7 +17,6 @@ class ListaItem extends Component {
         onPress={() =>
           this.props.navigation.navigate('ContractorDetail', {
             email: item.contratista.email,
-            currentKey:index
           })
         }>
         <Left>

@@ -25,7 +25,6 @@ import {
 
 import FooterToolbar from '../../components/Footer';
 import ContractorHeader from '../../components/ContractorHeader';
-import ResumeCard from '../../components/ResumeCard';
 import CertiHeader from '../../components/Header';
 import EntryList from '../../components/EntryList';
 
@@ -49,61 +48,33 @@ export default class ContractorDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventCards: [],
-      profile: null,
-      token: null,
-      api_url: null,
+      contratista: [],
+      email: '',
       head: {
-        apellido_materno: 'Uno',
-        apellido_paterno: 'Uno',
-        email: 'contratista_1@sample.com',
-        empresa_contratista: 'EMPRESA1',
-        nombre: 'Contratista',
+        nombre: '',
+        apellido_paterno: '',
+        imgUrl: '',
       },
-      empleado_seguridad: [],
-      contratista:''
+      eventCards: '',
     };
   }
 
-    addKeys = lista => {
-     let newList = [];
-     lista.forEach(function(item, index) {
-       item.key = `${index}`;
-       newList.push(item);
-     });
-     console.log(newList);
-     return newList;
-   };
-
-
-  async componentDidMount() {
-    console.log("ContractorList",this.props.navigation.state.params)
-
+  async componentWillMount() {
     var TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
-    const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID');
-    const api_url = await AsyncStorage.getItem('API_URL');
+    const email = this.props.navigation.getParam('email');
+
+    let contractor = await server.getContratistaTimeline(TokenJWT, email);
+
     this.setState({
-      api_url: api_url,
-      token: TokenJWT,
-      empleado_seguridad: email_seguridad,
+      contratista: contractor,
+      email: email,
+      head: {
+        nombre: contractor.profile.nombre,
+        apellido_paterno: contractor.profile.apellido_paterno,
+        imgUrl: contractor.profile.image_profile,
+      },
+      eventCards: contractor.event_cards,
     });
-    const email = this.props.navigation.state.params.profile.email
-
-    var contractor = await server.server.getContratistaTimeline(
-      TokenJWT,
-      email
-    );
-
-     this.setState({
-       contratista: contractor,
-       head: {
-          nombre: contractor.profile.nombre,
-          apellido_paterno: contractor.profile.apellido_paterno,
-          imgUrl: contractor.profile.image_profile
-        },
-      eventCards: contractor.event_cards
-    })
-
   }
 
   render() {
@@ -112,16 +83,16 @@ export default class ContractorDetail extends Component {
         <CertiHeader />
 
         <Content style={styles.main}>
-          <ContractorHeader profile={this.state.profileContractor} />
+          <ContractorHeader
+            nombre={this.state.head.nombre}
+            apellido={this.state.head.apellido_paterno}
+            imgUrl={this.state.head.imgUrl}
+          />
           <View style={styles.cardscontainer}>
-             <ListaEventos eventCards={this.state.eventCards} />
+            <EntryList eventCards={this.state.eventCards} />
           </View>
         </Content>
-         <FooterToolbar
-          navegacion={this.props.navigation}
-          currentKey={this.props.navigation.state.params.currentKey}
-          profile={this.state.profileContractor}
-        />
+        <FooterToolbar email={this.state.email} />
       </Container>
     );
   }
