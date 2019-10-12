@@ -14,14 +14,10 @@ import {
   Left,
 } from 'native-base';
 
-import {
-  createAppContainer,
-  createSwitchNavigator
-} from 'react-navigation';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 
-import {createStackNavigator} from 'react-navigation-stack'
-import {createDrawerNavigator,DrawerActions} from 'react-navigation-drawer';
-
+import {createStackNavigator} from 'react-navigation-stack';
+import {createDrawerNavigator, DrawerActions} from 'react-navigation-drawer';
 
 import Sidebar from '../components/Sidebar';
 
@@ -34,8 +30,7 @@ import ContractorCertificates from '../screens/ContractorCertificates';
 import IncidentReport from '../screens/Incident/IncidentReport';
 import Entry from '../screens/Entry';
 
-
-const AuthStack = createStackNavigator({Login:Login})
+const AuthStack = createStackNavigator({Login: Login});
 
 AuthStack.navigationOptions = {
   // Hide the header from AppNavigator stack
@@ -54,21 +49,24 @@ const AppStackNavigator = createStackNavigator(
     },
     ContractorDetail: {
       screen: ContractorDetail,
-    }
+    },
   },
   {
-    initialRouteName:'Contractors',
-  }
-)
+    initialRouteName: 'Contractors',
+  },
+);
 
 AppStackNavigator.navigationOptions = {
   // Hide the header from AppNavigator stack
   header: null,
 };
 
+AuthStack.DrawerNavigator = {
+  // Hide the header from AppNavigator stack
+  header: null,
+};
 const DrawerNavigator = createDrawerNavigator(
   {
-
     Qr: {
       screen: Qr,
     },
@@ -79,39 +77,34 @@ const DrawerNavigator = createDrawerNavigator(
     Entry: {
       screen: Entry,
     },
-
   },
   {
     contentComponent: props => <Sidebar {...props} />,
-    unmountInactiveRoutes: true
+    unmountInactiveRoutes: true,
   },
 );
 
-
 const RootStack = createStackNavigator(
   {
-    EntryStack: { screen: AppStackNavigator },
-    MenuStack: { screen: DrawerNavigator },
+    EntryStack: {screen: AppStackNavigator},
+    MenuStack: {screen: DrawerNavigator},
   },
   {
     headerMode: 'none',
     initialRouteName: 'EntryStack',
-  }
-)
-
+  },
+);
 
 const AppSwitch = createDrawerNavigator(
   {
-    Auth:AuthStack,
-    App: RootStack
-
-  },{
+    Auth: AuthStack,
+    App: RootStack,
+  },
+  {
     initialRouteName: 'Auth',
     contentComponent: props => <Sidebar {...props} />,
-  }
-)
-
-
+  },
+);
 
 AppSwitch.navigationOptions = {
   // Hide the header from AppNavigator stack
