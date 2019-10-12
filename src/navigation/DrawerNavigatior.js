@@ -35,6 +35,26 @@ import IncidentReport from '../screens/Incident/IncidentReport';
 import Entry from '../screens/Entry';
 
 
+const AuthStack = createStackNavigator({Login:Login})
+const AppStackNavigator = createStackNavigator(
+  {
+    Companies: {
+      screen: Companies,
+    },
+    Contractors: {
+      screen: Contractors,
+    },
+    ContractorCertificates: {
+      screen: ContractorCertificates,
+    },
+    ContractorDetail: {
+      screen: ContractorDetail,
+    }
+  },
+  {
+    initialRouteName:'Contractors'
+  }
+)
 const DrawerNavigator = createDrawerNavigator(
   {
 
@@ -56,28 +76,6 @@ const DrawerNavigator = createDrawerNavigator(
   },
 );
 
-const AppStackNavigator = createStackNavigator(
-  {
-    Companies: {
-      screen: Companies,
-    },
-    Contractors: {
-      screen: Contractors,
-    },
-    ContractorCertificates: {
-      screen: ContractorCertificates,
-    },
-    ContractorDetail: {
-      screen: ContractorDetail,
-    }
-  },
-  {
-    initialRouteName:'Contractors'
-  }
-)
-
-
-const AuthStack = createStackNavigator({Login:Login})
 
 const RootStack = createStackNavigator(
   {
