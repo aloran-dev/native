@@ -103,10 +103,11 @@ console.log(newIncident,this.state.pickedImage);
 
 server.add_incidente( this.state.token,newIncident,this.state.pickedImage)
   .then((response)=>{
-    console.log("FUNCIONA",response)
-    const message = JSON.stringify(response)
+    console.log("FUNCIONA",Object.keys(response))
+    let message = JSON.stringify(response)
     try{
-      const message = `OperationID:${response.transactionId}`
+
+       message = `OperationID:${response['transactionId']}`
     }
     catch(error){
       console.log(error)
