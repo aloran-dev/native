@@ -12,10 +12,8 @@ export default props => (
       <View style={styles.card__text}>
         <H1 style={styles.text}>{Capitalize(props.entryDay.day_of_week)}</H1>
         <H1 style={styles.text}>|</H1>
-        <H1 style={styles.text}>
-          {props.entryDay.time_in_plant.hours}hr
-          {props.entryDay.time_in_plant.minutes}min
-        </H1>
+        <H1 style={styles.text}>{props.entryDay.time_in_plant.hours}hr</H1>
+        <H1 style={styles.text}>{props.entryDay.time_in_plant.minutes}min</H1>
       </View>
       <Icon
         style={{color: '#77F48A'}}
