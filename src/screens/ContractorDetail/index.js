@@ -36,6 +36,7 @@ export default class ContractorDetail extends Component {
     super(props);
     this.state = {
       contratista: [],
+      email: '',
       head: {
         nombre: '',
         apellido_paterno: '',
@@ -53,6 +54,7 @@ export default class ContractorDetail extends Component {
 
     this.setState({
       contratista: contractor,
+      email: email,
       head: {
         nombre: contractor.profile.nombre,
         apellido_paterno: contractor.profile.apellido_paterno,
@@ -77,11 +79,7 @@ export default class ContractorDetail extends Component {
             <EntryList eventCards={this.state.eventCards} />
           </View>
         </Content>
-        {/* <FooterToolbar
-          navegacion={this.props.navigation}
-          currentKey={this.props.navigation.state.params.currentKey}
-          profile={this.state.empleado_seguridad}
-        /> */}
+        <FooterToolbar email={this.state.email} />
       </Container>
     );
   }

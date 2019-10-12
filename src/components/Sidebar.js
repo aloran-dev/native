@@ -24,19 +24,23 @@ export default class Sidebar extends Component {
     };
   }
 
-  async componentWillMount() {
-    const value = await AsyncStorage.getItem('ACCOUNT');
-
-    let data = JSON.parse(value);
-
-    this.setState({
-      nombre: data.nombre,
-      apellido: data.apellido_paterno,
-      imgUrl: data.image_avatar,
-    });
-  }
-
   render() {
+    const displayContractor = async () => {
+      try {
+        let acount = await AsyncStorage.getItem('ACCOUNT');
+        return acount;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    displayContractor().then(data => {
+      this.state.nombre = data.nombre;
+      this.state.apellido = data.apellido_paterno;
+      this.state.imgUrl = data.image_avatar;
+      console.log('ASHADSH', this.state);
+    });
+
     return (
       <Container>
         <Content bounces={false} style={styles.content}>
