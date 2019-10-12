@@ -52,9 +52,15 @@ const AppStackNavigator = createStackNavigator(
     }
   },
   {
-    initialRouteName:'Contractors'
+    initialRouteName:'Contractors',
   }
 )
+
+AppStackNavigator.navigationOptions = {
+  // Hide the header from AppNavigator stack
+  header: null,
+};
+
 const DrawerNavigator = createDrawerNavigator(
   {
 
@@ -88,6 +94,7 @@ const RootStack = createStackNavigator(
   }
 )
 
+
 const AppSwitch = createDrawerNavigator(
   {
     Auth:AuthStack,
@@ -98,4 +105,12 @@ const AppSwitch = createDrawerNavigator(
     contentComponent: props => <Sidebar {...props} />,
   }
 )
+
+
+
+AppSwitch.navigationOptions = {
+  // Hide the header from AppNavigator stack
+  header: null,
+};
+
 export default createAppContainer(AppSwitch);

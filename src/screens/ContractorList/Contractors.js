@@ -23,6 +23,10 @@ import CertiHeader from '../../components/Header';
 import { NavigationActions } from 'react-navigation';
 
 export default class Contractors extends Component {
+  static navigationOptions = {
+    // headerTitle instead of title
+    header: null
+  };
   constructor(props) {
     super(props);
 

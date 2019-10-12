@@ -51,7 +51,9 @@ const AntiDoppingList = (props)=> {
 
 
 export default class ContractorCertificates extends Component {
-
+  static navigationOptions = ({ navigation }) => ({
+    header: null
+  })
   constructor(props){
     super(props);
 

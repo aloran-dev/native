@@ -42,6 +42,10 @@ const ListaEventos = props => {
 
 
 export default class ContractorDetail extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    header: null
+  })
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -89,7 +93,7 @@ export default class ContractorDetail extends Component {
       TokenJWT,
       email
     );
-  
+
      this.setState({
        contratista: contractor,
        head: {
