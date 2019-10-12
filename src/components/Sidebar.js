@@ -25,26 +25,26 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    const displayContractor = async () => {
-      try {
-        let acount = await AsyncStorage.getItem('ACCOUNT');
-        return acount;
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    // const displayContractor = async () => {
+    //   try {
+    //     let acount = await AsyncStorage.getItem('ACCOUNT');
+    //     return acount;
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
 
-    displayContractor().then(data => {
-      this.state.nombre = data.nombre;
-      this.state.apellido = data.apellido_paterno;
-      this.state.imgUrl = data.image_avatar;
-    });
+    // displayContractor().then(data => {
+    //   this.state.nombre = data.nombre;
+    //   this.state.apellido = data.apellido_paterno;
+    //   this.state.imgUrl = data.image_avatar;
+    // });
 
     return (
       <Container>
         <Content bounces={false} style={styles.content}>
           <List style={styles.list}>
-            <ListItem thumbnail style={styles.listavatar}>
+            {/* <ListItem thumbnail style={styles.listavatar}>
               <Left>
                 <Thumbnail
                   source={{
@@ -60,7 +60,7 @@ export default class Sidebar extends Component {
                   {this.state.apellido}
                 </Text>
               </Body>
-            </ListItem>
+            </ListItem> */}
             <ListItem
               button
               noBorder
