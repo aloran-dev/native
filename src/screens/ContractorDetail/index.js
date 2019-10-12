@@ -1,27 +1,7 @@
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  View,
-  Image,
-  FlatList,
-  ActivityIndicator,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
-import {
-  Container,
-  Content,
-  Icon,
-  Card,
-  Text,
-  H1,
-  Thumbnail,
-  Body,
-  Title,
-  Button,
-  Header,
-  Left,
-} from 'native-base';
+import {Container, Content} from 'native-base';
 
 import FooterToolbar from '../../components/Footer';
 import ContractorHeader from '../../components/ContractorHeader';
@@ -31,20 +11,11 @@ import EntryList from '../../components/EntryList';
 import server from '../../libraries/server';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const ListaEventos = props => {
-  console.log('EVENT CARDS', props.eventCards);
-  const lista = props.eventCards;
-  const entryList = lista.map((item, index) => <ResumeCard key={index} entryDay={item} />);
-
-  return entryList;
-};
-
-
 export default class ContractorDetail extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    header: null
-  })
-  
+  static navigationOptions = ({navigation}) => ({
+    header: null,
+  });
+
   constructor(props) {
     super(props);
     this.state = {
