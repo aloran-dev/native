@@ -30,12 +30,16 @@ import ContractorCertificates from '../screens/ContractorCertificates';
 import IncidentReport from '../screens/Incident/IncidentReport';
 import Entry from '../screens/Entry';
 
-const AuthStack = createStackNavigator({Login: Login});
+const AuthStack = createStackNavigator(
+  {Login: Login},
+  {
+    headerMode: 'none',
+    navigationOptions: {
+      headerVisible: false,
+    },
+  },
+);
 
-AuthStack.navigationOptions = {
-  // Hide the header from AppNavigator stack
-  header: null,
-};
 const AppStackNavigator = createStackNavigator(
   {
     Companies: {
@@ -53,18 +57,13 @@ const AppStackNavigator = createStackNavigator(
   },
   {
     initialRouteName: 'Contractors',
+    headerMode: 'none',
+    navigationOptions: {
+      headerVisible: false,
+    },
   },
 );
 
-AppStackNavigator.navigationOptions = {
-  // Hide the header from AppNavigator stack
-  header: null,
-};
-
-AuthStack.DrawerNavigator = {
-  // Hide the header from AppNavigator stack
-  header: null,
-};
 const DrawerNavigator = createDrawerNavigator(
   {
     Qr: {
@@ -103,7 +102,7 @@ const AppSwitch = createSwitchNavigator(
   },
   {
     initialRouteName: 'Auth',
-  //
+    //
   },
 );
 
