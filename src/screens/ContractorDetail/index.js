@@ -26,6 +26,8 @@ import {
 import FooterToolbar from '../../components/Footer';
 import ContractorHeader from '../../components/ContractorHeader';
 import ResumeCard from '../../components/ResumeCard';
+import CertiHeader from '../../components/Header';
+import EntryList from '../../components/EntryList';
 
 import server from '../../libraries/server';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -47,20 +49,15 @@ export default class ContractorDetail extends Component {
       profile: null,
       token: null,
       api_url: null,
-      profileContractor: {
+      head: {
         apellido_materno: 'Uno',
         apellido_paterno: 'Uno',
-        celular: '4431236875',
         email: 'contratista_1@sample.com',
         empresa_contratista: 'EMPRESA1',
-        image_avatar: 'image_avatar_6bNT_m.jpg',
-        image_profile: 'image_profile_6bNT_m.jpg',
         nombre: 'Contratista',
-        ocupacion_cno: 'Procesos industriales',
-        puesto: 'Soldador',
       },
       empleado_seguridad: [],
-
+      contratista:''
     };
   }
 
@@ -86,38 +83,29 @@ export default class ContractorDetail extends Component {
       token: TokenJWT,
       empleado_seguridad: email_seguridad,
     });
+    const email = this.props.navigation.state.params.profile.email
 
-    const itemContractor = this.props.navigation.state.params.currentKey;
-    var certificateContractorData = await server.getPlantaTimeline(
+    var contractor = await server.server.getContratistaTimeline(
       TokenJWT,
-      email_seguridad,
+      email
     );
-    console.log("AQUI",certificateContractorData)
-     this.setState({profileContractor: certificateContractorData[itemContractor].contratista});
-
-
-     const constructorEventCards =  certificateContractorData[itemContractor].date_events;
-      this.setState({
-            eventCards: this.addKeys(constructorEventCards)
-    });
+  
+     this.setState({
+       contratista: contractor,
+       head: {
+          nombre: contractor.profile.nombre,
+          apellido_paterno: contractor.profile.apellido_paterno,
+          imgUrl: contractor.profile.image_profile
+        },
+      eventCards: contractor.event_cards
+    })
 
   }
 
   render() {
     return (
       <Container>
-        <Header style={styles.header}>
-          <Left>
-            <Button
-              transparent
-              onPress={() => this.props.navigation.openDrawer()}>
-              <Icon style={styles.header__text} name="menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Title style={styles.header__text}>CertiFast</Title>
-          </Body>
-        </Header>
+        <CertiHeader />
 
         <Content style={styles.main}>
           <ContractorHeader profile={this.state.profileContractor} />

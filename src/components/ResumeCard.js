@@ -2,9 +2,9 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Icon, Card, H1, Text} from 'native-base';
 
-const Capitalize = (str) => {
-    return str.charAt(0).toUpperCase()+str.slice(1);
-  }
+const Capitalize = str => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
 
 export default props => (
   <Card style={styles.wrapper}>
@@ -13,8 +13,8 @@ export default props => (
         <H1 style={styles.text}>{Capitalize(props.entryDay.day_of_week)}</H1>
         <H1 style={styles.text}>|</H1>
         <H1 style={styles.text}>
-        {props.entryDay.time_in_plant.hours}hr
-        {props.entryDay.time_in_plant.minutes}min
+          {props.entryDay.time_in_plant.hours}hr
+          {props.entryDay.time_in_plant.minutes}min
         </H1>
       </View>
       <Icon

@@ -11,25 +11,28 @@ import {
   Thumbnail,
   Body,
 } from 'native-base';
-import server from '../libraries/server';
+
 import AsyncStorage from '@react-native-community/async-storage';
 
 export default class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profileData: [],
+      nombre: '',
+      apellido: '',
+      imgUrl: '',
     };
   }
 
-  async componentDidMount() {
-    var TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
-    const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID');
+  async componentWillMount() {
+    const value = await AsyncStorage.getItem('ACCOUNT');
 
-    var contractor = await server.getSecurityProfile(TokenJWT, email_seguridad);
+    let data = JSON.parse(value);
 
     this.setState({
-      profileData: contractor,
+      nombre: data.nombre,
+      apellido: data.apellido_paterno,
+      imgUrl: data.image_avatar,
     });
   }
 
@@ -43,17 +46,15 @@ export default class Sidebar extends Component {
                 <Thumbnail
                   source={{
                     uri: `https://certifast.linuxopensource.mx/api/v0/uploads/${
-                      this.state.profileData.image_avatar
+                      this.state.imgUrl
                     }`,
                   }}
                 />
               </Left>
               <Body>
-                <Text style={styles.white}>
-                  {this.state.profileData.nombre}
-                </Text>
+                <Text style={styles.white}>{this.state.nombre}</Text>
                 <Text note style={styles.white}>
-                  {this.state.profileData.apellido_paterno}
+                  {this.state.apellido}
                 </Text>
               </Body>
             </ListItem>

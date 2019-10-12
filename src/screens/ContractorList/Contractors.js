@@ -18,66 +18,17 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import server from '../../libraries/server';
 
-const ListaItem = props => {
-  console.log("AQUI",props);
-  const lista = props.contractorsData;
-  const api_url = props.api_url;
-  const navegation = props.mynavigation;
-  const listaElementos = lista.map((item, index) => (
-    <TouchableOpacity key={index}
-    onPress={() => {
-       props.mynavegation.navigate('ContractorDetail', {
-         profile: item.contratista.email,
-         //empleado_seguridad:this.state.email_seguridad,
-         //date_events: item.date_events,
-         currentKey: index,
-       });
-     }}
-    >
-      <ListItem thumbnail key={index}>
-        <Left>
-          <Thumbnail
-            source={{
-              uri: `https://certifast.linuxopensource.mx/api/v0/uploads/${
-                item.contratista.image_avatar
-              }`,
-            }}
-          />
-        </Left>
-        <Body>
-          <Text note>{item.contratista.empresa_contratista}</Text>
-          <Text>
-            {item.contratista.nombre + ' ' + item.contratista.apellido_paterno}
-          </Text>
-        </Body>
-      </ListItem>
-    </TouchableOpacity>
-  ));
-
-  return listaElementos;
-};
-
-class HeaderNavigationBar extends Component {
-    render() {
-       console.log("Mi Header",this.props)
-        return (<Header style={styles.header}>
-          <Left>
-            <Button
-              transparent
-              onPress={() => this.props.navigation.openDrawer()}>
-              <Icon style={styles.header__text} name="menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Title style={styles.header__text}>CertiFast</Title>
-          </Body>
-        </Header>);
-    }
-}
+import ListaItem from '../../components/ContractorListItem';
+import CertiHeader from '../../components/Header';
+import { NavigationActions } from 'react-navigation';
 
 export default class Contractors extends Component {
   constructor(props) {
     super(props);
+
+    console.log("NAV STATE",this.props.navigation.state);
+
+    console.log("NAV STATE",this.props.navigation.state);
     this.state = {
       contractorsData: [],
       contratista: null,
@@ -85,11 +36,15 @@ export default class Contractors extends Component {
       api_url: null,
       email_seguridad: null,
       isLoading: true,
+
     };
   }
 
+
   async componentDidMount() {
+    {() => this.props.navigation.setParams({ name: 'Lucy' })}
     console.log('NAVIGATION', this.props.navigation);
+
 
     var TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
     const api_url = await AsyncStorage.getItem('API_URL');
@@ -116,17 +71,13 @@ export default class Contractors extends Component {
     if (this.state.isLoading) {
       cont = <ActivityIndicator animating={this.state.isLoading} />;
     } else {
-      cont = (
-        <ListaItem
-          contractorsData={this.state.contractorsData}
-          api_url={this.state.api_url}
-          mynavegation = {this.props.navigation}
-        />
-      );
+
+        cont = <ListaItem contractorsData={this.state.contractorsData} />;
+
     }
     return (
       <Container style={styles.main}>
-        < HeaderNavigationBar {...this.props} />
+        <CertiHeader  />
         <Content style={styles.maincontent}>
           <Text note>Contractor Companies</Text>
           <List style={styles.list}>{cont}</List>
