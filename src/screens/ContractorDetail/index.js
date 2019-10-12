@@ -30,23 +30,77 @@ import ResumeCard from '../../components/ResumeCard';
 import server from '../../libraries/server';
 import AsyncStorage from '@react-native-community/async-storage';
 
+const ListaEventos = props => {
+  console.log('EVENT CARDS', props.eventCards);
+  const lista = props.eventCards;
+  const entryList = lista.map((item, index) => <ResumeCard key={index} entryDay={item} />);
+
+  return entryList;
+};
+
+
 export default class ContractorDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      eventCards: [],
+      profile: null,
+      token: null,
+      api_url: null,
+      profileContractor: {
+        apellido_materno: 'Uno',
+        apellido_paterno: 'Uno',
+        celular: '4431236875',
+        email: 'contratista_1@sample.com',
+        empresa_contratista: 'EMPRESA1',
+        image_avatar: 'image_avatar_6bNT_m.jpg',
+        image_profile: 'image_profile_6bNT_m.jpg',
+        nombre: 'Contratista',
+        ocupacion_cno: 'Procesos industriales',
+        puesto: 'Soldador',
+      },
       empleado_seguridad: [],
+
     };
   }
 
+    addKeys = lista => {
+     let newList = [];
+     lista.forEach(function(item, index) {
+       item.key = `${index}`;
+       newList.push(item);
+     });
+     console.log(newList);
+     return newList;
+   };
+
+
   async componentDidMount() {
+    console.log("ContractorList",this.props.navigation.state.params)
+
     var TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
     const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID');
-
-    var contractor = await server.getSecurityProfile(TokenJWT, email_seguridad);
-
+    const api_url = await AsyncStorage.getItem('API_URL');
     this.setState({
-      empleado_seguridad: contractor,
+      api_url: api_url,
+      token: TokenJWT,
+      empleado_seguridad: email_seguridad,
     });
+
+    const itemContractor = this.props.navigation.state.params.currentKey;
+    var certificateContractorData = await server.getPlantaTimeline(
+      TokenJWT,
+      email_seguridad,
+    );
+    console.log("AQUI",certificateContractorData)
+     this.setState({profileContractor: certificateContractorData[itemContractor].contratista});
+
+
+     const constructorEventCards =  certificateContractorData[itemContractor].date_events;
+      this.setState({
+            eventCards: this.addKeys(constructorEventCards)
+    });
+
   }
 
   render() {
@@ -66,16 +120,16 @@ export default class ContractorDetail extends Component {
         </Header>
 
         <Content style={styles.main}>
-          <ContractorHeader profile={this.state.empleado_seguridad} />
+          <ContractorHeader profile={this.state.profileContractor} />
           <View style={styles.cardscontainer}>
-            {/* <ListaEventos eventCards={this.state.eventCards} /> */}
+             <ListaEventos eventCards={this.state.eventCards} />
           </View>
         </Content>
-        {/* <FooterToolbar
+         <FooterToolbar
           navegacion={this.props.navigation}
           currentKey={this.props.navigation.state.params.currentKey}
-          profile={this.state.empleado_seguridad}
-        /> */}
+          profile={this.state.profileContractor}
+        />
       </Container>
     );
   }

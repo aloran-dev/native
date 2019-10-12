@@ -19,11 +19,21 @@ import AsyncStorage from '@react-native-community/async-storage';
 import server from '../../libraries/server';
 
 const ListaItem = props => {
+  console.log("AQUI",props);
   const lista = props.contractorsData;
   const api_url = props.api_url;
-
+  const navegation = props.mynavigation;
   const listaElementos = lista.map((item, index) => (
-    <TouchableOpacity key={index}>
+    <TouchableOpacity key={index}
+    onPress={() => {
+       props.mynavegation.navigate('ContractorDetail', {
+         profile: item.contratista.email,
+         //empleado_seguridad:this.state.email_seguridad,
+         //date_events: item.date_events,
+         currentKey: index,
+       });
+     }}
+    >
       <ListItem thumbnail key={index}>
         <Left>
           <Thumbnail
@@ -46,6 +56,24 @@ const ListaItem = props => {
 
   return listaElementos;
 };
+
+class HeaderNavigationBar extends Component {
+    render() {
+       console.log("Mi Header",this.props)
+        return (<Header style={styles.header}>
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.openDrawer()}>
+              <Icon style={styles.header__text} name="menu" />
+            </Button>
+          </Left>
+          <Body>
+            <Title style={styles.header__text}>CertiFast</Title>
+          </Body>
+        </Header>);
+    }
+}
 
 export default class Contractors extends Component {
   constructor(props) {
@@ -92,23 +120,13 @@ export default class Contractors extends Component {
         <ListaItem
           contractorsData={this.state.contractorsData}
           api_url={this.state.api_url}
+          mynavegation = {this.props.navigation}
         />
       );
     }
     return (
       <Container style={styles.main}>
-        <Header style={styles.header}>
-          <Left>
-            <Button
-              transparent
-              onPress={() => this.props.navigation.openDrawer()}>
-              <Icon style={styles.header__text} name="menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Title style={styles.header__text}>CertiFast</Title>
-          </Body>
-        </Header>
+        < HeaderNavigationBar {...this.props} />
         <Content style={styles.maincontent}>
           <Text note>Contractor Companies</Text>
           <List style={styles.list}>{cont}</List>

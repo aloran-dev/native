@@ -30,7 +30,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 
 const CertificateList = (props)=> {
-  console.log("CERTIFICATE",props.certificateList)
+  //console.log("CERTIFICATE",props.certificateList)
   const lista = props.certificateList;
   const certificateList = lista.map((item,index)=>(
     <CertificateRow item={item} key={index} />
@@ -40,7 +40,7 @@ const CertificateList = (props)=> {
 }
 
 const AntiDoppingList = (props)=> {
-  console.log("CERTIFICATE",props.certificateList)
+  //console.log("CERTIFICATE",props.certificateList)
   const lista = props.certificateList;
   const certificateList = lista.map((item,index)=>(
     <AntiDoppingRow item={item} key={index} />
@@ -60,6 +60,7 @@ export default class ContractorCertificates extends Component {
       token:null,
       modalVisible:false,
       email_seguridad:null,
+      email_contractor:this.props.navigation.state.params.email,
       profile:null,
       profileContractor:{
         apellido_materno: "Uno",
@@ -83,41 +84,49 @@ export default class ContractorCertificates extends Component {
 
 
   async componentDidMount(){
-    console.log("Entre a CERTIFICATES",this.props.navigation.state.params);
+    console.log("Entre a CERTIFICATES",this.props.navigation);
     // var TokenJWT = await server.login();
     // console.log("Descargardo Datos",TokenJWT,this.props.codeQr)
     var TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
     const api_url = await AsyncStorage.getItem('API_URL')
     this.setState({api_url:api_url,token:TokenJWT})
     const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID')
+
     this.setState({email_seguridad:email_seguridad})
+
     console.log("Descargardo Datos",TokenJWT,"API",api_url)
-    const itemContractor = this.props.navigation.state.params.keyValue
+    const itemContractor = this.props.navigation.state.params.currentKey
     const emailContractor = this.props.navigation.state.params.profile.email
+    console.log("CONTRATISTA",emailContractor)
     const certificateContractorData = await server.getContratistaTimeline(TokenJWT,emailContractor);
 
-    console.log(certificateContractorData);
+    console.log("",certificateContractorData);
+      try{
+        const certificateContractorProfile = {
+          apellido_materno: certificateContractorData.profile.apellido_materno,
+          apellido_paterno: certificateContractorData.profile.apellido_paterno,
+          celular: certificateContractorData.profile.celular,
+          email: certificateContractorData.email,
+          empresa_contratista: certificateContractorData.empresa_contratista,
+          image_avatar: certificateContractorData.profile.image_avatar,
+          image_profile: certificateContractorData.profile.image_profile,
+          nombre: certificateContractorData.profile.nombre,
+          ocupacion_cno: certificateContractorData.ocupacion_cno,
+          puesto: certificateContractorData.profile.puesto
+        }
 
-    const certificateContractorProfile = {
-      apellido_materno: certificateContractorData.profile.apellido_materno,
-      apellido_paterno: certificateContractorData.profile.apellido_paterno,
-      celular: certificateContractorData.profile.celular,
-      email: certificateContractorData.email,
-      empresa_contratista: certificateContractorData.empresa_contratista,
-      image_avatar: certificateContractorData.profile.image_avatar,
-      image_profile: certificateContractorData.profile.image_profile,
-      nombre: certificateContractorData.profile.nombre,
-      ocupacion_cno: certificateContractorData.ocupacion_cno,
-      puesto: certificateContractorData.profile.puesto
-    }
-    this.setState({
-      profileContractor:certificateContractorProfile,
-      antidopings:certificateContractorData.antidopings,
-      cursos_seguridad_interna:certificateContractorData.cursos_seguridad_interna,
-      cursos_habilidades_laborales:certificateContractorData.cursos_habilidades_laborales,
-      isLoading:false
+        this.setState({
+          profileContractor:certificateContractorProfile,
+          antidopings:certificateContractorData.antidopings,
+          cursos_seguridad_interna:certificateContractorData.cursos_seguridad_interna,
+          cursos_habilidades_laborales:certificateContractorData.cursos_habilidades_laborales,
+          isLoading:false
 
-    })
+        })
+      }catch(error){
+        console.log("Sin Datos")
+      }
+
 }
 
 

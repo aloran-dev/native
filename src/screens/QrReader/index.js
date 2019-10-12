@@ -149,7 +149,7 @@ export default class QrReader extends Component {
             style={styles.button1}
             //onPress={() => this.props.navigation.navigate('AddIncident')}>
             onPress={() => this.props.navigation.navigate('Contractors')}>
-            <Text style={styles.button1__text}>Cancell</Text>
+            <Text style={styles.button1__text}>Cancel</Text>
           </Button>
         </Content>
       </Container>
