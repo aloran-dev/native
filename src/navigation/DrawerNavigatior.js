@@ -84,7 +84,7 @@ const DrawerNavigator = createDrawerNavigator(
   },
 );
 
-const RootStack = createStackNavigator(
+const RootStack = createDrawerNavigator(
   {
     EntryStack: {screen: AppStackNavigator},
     MenuStack: {screen: DrawerNavigator},
@@ -92,17 +92,18 @@ const RootStack = createStackNavigator(
   {
     headerMode: 'none',
     initialRouteName: 'EntryStack',
+    contentComponent: props => <Sidebar {...props} />,
   },
 );
 
-const AppSwitch = createDrawerNavigator(
+const AppSwitch = createSwitchNavigator(
   {
     Auth: AuthStack,
     App: RootStack,
   },
   {
     initialRouteName: 'Auth',
-    contentComponent: props => <Sidebar {...props} />,
+  //
   },
 );
 
