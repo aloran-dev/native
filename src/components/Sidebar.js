@@ -65,7 +65,7 @@ export default class Sidebar extends Component {
               button
               noBorder
               style={styles.listitem}
-              onPress={() => this.props.navigation.navigate('Contractors')}>
+              onPress={() => this.props.navigation.navigate('Companies')}>
               <Left>
                 <Icon
                   type="Feather"
@@ -73,7 +73,7 @@ export default class Sidebar extends Component {
                   name="briefcase"
                   style={styles.icon}
                 />
-                <Text>Contractors in plant</Text>
+                <Text>All Companies</Text>
               </Left>
             </ListItem>
             <ListItem

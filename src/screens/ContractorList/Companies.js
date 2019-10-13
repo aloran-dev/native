@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet,ActivityIndicator} from 'react-native';
+import {StyleSheet, ActivityIndicator} from 'react-native';
 import {
   Container,
   Content,
@@ -17,8 +17,7 @@ import {
 
 import AsyncStorage from '@react-native-community/async-storage';
 import server from '../../libraries/server';
-import CompaniesListItem from '../../components/CompaniesListItem'
-
+import CompaniesListItem from '../../components/CompaniesListItem';
 
 export default class Companies extends Component {
   constructor(props) {
@@ -31,12 +30,9 @@ export default class Companies extends Component {
       api_url: null,
       email_seguridad: null,
       isLoading: true,
-
     };
-
   }
   async componentDidMount() {
-
     var TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
     const api_url = await AsyncStorage.getItem('API_URL');
     const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID');
@@ -47,41 +43,48 @@ export default class Companies extends Component {
       email_seguridad: email_seguridad,
       isLoading: false,
     });
-    console.log('Descargardo Datos', TokenJWT, 'API', api_url);
-
 
     let contractorData = await server.getPlantaTimeline(
       TokenJWT,
       email_seguridad,
     );
 
-    let contratistasEmpresas = contractorData.map((item)=>{
+    let contratistasEmpresas = contractorData.map(item => {
       let lista = {
-        empresa_contratista:item.contratista.empresa_contratista,
-        email:item.contratista.email
-      }
-      return lista
-    })
+        empresa_contratista: item.contratista.empresa_contratista,
+        email: item.contratista.email,
+      };
+      return lista;
+    });
 
-    console.log("AQUI-EMP",contratistasEmpresas)
+    let _ = require('../../../node_modules/lodash');
 
-    let _ = require('../../../node_modules/lodash')
+    let empresasRegistradas = _.groupBy(
+      contratistasEmpresas,
+      'empresa_contratista',
+    );
 
-    let empresasRegistradas = _.groupBy(contratistasEmpresas,'empresa_contratista')
-
-    console.log("EMPL",empresasRegistradas)
-    this.setState({ empresas: empresasRegistradas });
+    this.setState({empresas: empresasRegistradas});
   }
 
   render() {
+    var callback = res => {
+      this.props.navigation.navigate('Contractors', {
+        empresa_contratista: res.empresa_contratista,
+      });
+    };
 
-
-  let companies;
-  if(this.state.isLoading){
-    companies= <ActivityIndicator animating={this.state.isLoading} />;
-  }else{
-    companies = <CompaniesListItem contractorsData={this.state.empresas} />;
-  }
+    let companies;
+    if (this.state.isLoading) {
+      companies = <ActivityIndicator animating={this.state.isLoading} />;
+    } else {
+      companies = (
+        <CompaniesListItem
+          contractorsData={this.state.empresas}
+          callback={callback}
+        />
+      );
+    }
     return (
       <Container style={styles.main}>
         <Header style={styles.header}>
@@ -98,9 +101,7 @@ export default class Companies extends Component {
         </Header>
         <Content style={styles.maincontent}>
           <Text note>Companies in Plant</Text>
-          <List style={styles.list}>
-            {companies}
-          </List>
+          <List style={styles.list}>{companies}</List>
         </Content>
       </Container>
     );

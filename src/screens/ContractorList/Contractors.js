@@ -39,10 +39,15 @@ export default class Contractors extends Component {
       TokenJWT,
       email_seguridad,
     );
-    console.log(contractorData);
+
+    const empresa = this.props.navigation.getParam('empresa_contratista');
+
+    var filtrado = contractorData.filter(item => {
+      return item.contratista.empresa_contratista === empresa;
+    });
 
     this.setState({
-      contractorsData: contractorData,
+      contractorsData: filtrado,
       Token: TokenJWT,
       api_url: api_url,
       email_seguridad: email_seguridad,
