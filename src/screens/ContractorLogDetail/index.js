@@ -39,11 +39,11 @@ export default class ContractorLogDetail extends Component{
     super(props);
     this.state = {
       contratista: [],
-      email: 'emoron@gmail.com',
+      email: 'test',
       head: {
         nombre: 'Test',
         apellido_paterno: 'Test',
-        imgUrl: 'placeholder.png',
+        imgUrl: 'image_profile_placeholder.jpeg',
       },
       eventCards: '',
       isLoading:true,
