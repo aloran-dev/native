@@ -18,6 +18,7 @@ import {
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import AsyncStorage from '@react-native-community/async-storage';
 
+
 import Sidebar from '../../components/Sidebar';
 
 export default class QrReader extends Component {
@@ -25,7 +26,7 @@ export default class QrReader extends Component {
     super(props);
     this.state = {
       codeContratista: '',
-      action: null,
+      action: '',
       email_empleado_seguridad: '',
       token: null,
       api_url: null,
@@ -40,7 +41,7 @@ export default class QrReader extends Component {
   }
 
   async componentDidMount() {
-    console.log('QR READER', this.props.navigate);
+    console.log('QR READER', this.props.navigation);
     const TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
     const api_url = await AsyncStorage.getItem('API_URL');
     const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID');
@@ -50,10 +51,13 @@ export default class QrReader extends Component {
       email_seguridad: email_seguridad,
     });
     console.log(this.props.navigation);
-    this.setState({
-      action: this.props.navigation.state.params.action,
-      email_empleado_seguridad: this.state.email_seguridad,
-    });
+    try{
+
+      this.setState({
+        action: this.props.navigation.state.params.action,
+        email_empleado_seguridad: this.state.email_seguridad,
+      });
+    }
   }
 
   onSuccess = e => {
@@ -158,6 +162,7 @@ export default class QrReader extends Component {
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   main: {

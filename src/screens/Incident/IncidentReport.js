@@ -61,10 +61,17 @@ export default class IncidentReport extends Component{
     })
 
     server.getContratistaInfoByNanoId(TokenJWT,codeQr)
-        .then((response=>{
+        .then(response=>{
           console.log("Validando QR",response);
-            this.setState({email_contratista:response.email})
-          }))
+          try{
+            const email = response.email
+            this.setState({email_contratista:email})
+            }
+            catch(error){
+              throw new Error(error);
+            }
+
+          })
         .catch((error)=>{
           console.log("Error en el QR",error)
           this.setState(
@@ -185,6 +192,7 @@ server.add_incidente( this.state.token,newIncident,this.state.pickedImage)
               />
             </Item>
             <View style={styles.footerButtons}>
+          
               <Button
                 onPress={this.handleSend}
                 style={{backgroundColor: '#ff2d2d'}}
