@@ -16,7 +16,11 @@ class ResumeCard extends Component {
     return (
   <Card
     button
-    onPress={this.props.navigation.navigate('ContractorLogDetail',{entryDay:this.props.entryDay})}
+    onPress={this.props.navigation.navigate('ContractorLogDetail',{
+      entryDay:this.props.entryDay,
+      email:this.props.email
+    }
+  )}
     style={styles.wrapper}
     >
       <View style={styles.card}>

@@ -60,7 +60,10 @@ export default class ContractorDetail extends Component {
             imgUrl={this.state.head.imgUrl}
           />
           <View style={styles.cardscontainer}>
-            <EntryList eventCards={this.state.eventCards} />
+            <EntryList
+            eventCards={this.state.eventCards}
+            email={this.state.email}
+            />
           </View>
         </Content>
         <FooterToolbar email={this.state.email} />

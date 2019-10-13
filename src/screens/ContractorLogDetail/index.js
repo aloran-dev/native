@@ -26,6 +26,9 @@ import CertiHeader from '../../components/Header';
 import server from '../../libraries/server';
 import AsyncStorage from '@react-native-community/async-storage';
 
+import FooterToolbar from '../../components/Footer';
+
+
 const Capitalize = str => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
@@ -74,6 +77,7 @@ export default class ContractorLogDetail extends Component{
 
     render(){
       var entryData = this.props.navigation.state.params.entryDay
+      var email_contractor = this.props.navigation.state.params.email
 
       console.log("ESTADO",this.state);
       let cont =  <EntryDetailList contractorsData={entryData} />;
@@ -108,6 +112,7 @@ export default class ContractorLogDetail extends Component{
                     </List>
                 </Card>
                 </View>
+                <FooterToolbar email={email_contractor} />
               </Content>
             </Container>
           )

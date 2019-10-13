@@ -31,7 +31,7 @@ class EntryList extends Component {
       cont = <ActivityIndicator animating={this.state.isLoading} />;
     } else {
       let listaElementos = this.state.lista.map((item, index) => (
-        <ResumeCard key={index} entryDay={item} />
+        <ResumeCard key={index} email={this.props.email} entryDay={item} />
       ));
       cont = listaElementos;
     }
