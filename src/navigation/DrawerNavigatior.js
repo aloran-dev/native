@@ -59,7 +59,7 @@ const AppStackNavigator = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'Contractors',
+    initialRouteName: 'Companies',
     headerMode: 'none',
     navigationOptions: {
      headerVisible: false,
