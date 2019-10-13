@@ -18,7 +18,6 @@ import {
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import AsyncStorage from '@react-native-community/async-storage';
 
-
 import Sidebar from '../../components/Sidebar';
 
 export default class QrReader extends Component {
@@ -51,12 +50,13 @@ export default class QrReader extends Component {
       email_seguridad: email_seguridad,
     });
     console.log(this.props.navigation);
-    try{
-
+    try  {
       this.setState({
         action: this.props.navigation.state.params.action,
         email_empleado_seguridad: this.state.email_seguridad,
       });
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -135,7 +135,7 @@ export default class QrReader extends Component {
           <Text note>Enter code manually</Text>
           <Item style={styles.input}>
             <Input
-              onChangeText={(text)=> this.setState({codeContratista:text})}
+              onChangeText={text => this.setState({codeContratista: text})}
             />
           </Item>
 
@@ -162,7 +162,6 @@ export default class QrReader extends Component {
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   main: {
