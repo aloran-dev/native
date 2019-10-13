@@ -41,7 +41,10 @@ export default class Certificate extends Component {
           </Button>
         </View>
         <View style={styles.standaloneRowFront}>
-          <ListItem>
+          <ListItem
+            onPress={() =>
+              this.props.callback(['certificate', this.props.item])
+            }>
             <Body>
               <Text note>{this.props.item.documento_type}</Text>
               <Text>{this.props.item.curso_nombre}</Text>

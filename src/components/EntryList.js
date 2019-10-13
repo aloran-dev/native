@@ -21,7 +21,7 @@ class EntryList extends Component {
           lista: this.props.eventCards,
         });
       }
-    }, 1000);
+    }, 2000);
   }
 
   render() {

@@ -39,7 +39,10 @@ export default class AntiDoppingRow extends Component {
           </Button>
         </View>
         <View style={styles.standaloneRowFront}>
-          <ListItem>
+          <ListItem
+            onPress={() =>
+              this.props.callback(['antidopping', this.props.item])
+            }>
             <Body>
               <Text>Toxicologic Exam</Text>
               <Text note>{this.state.vigenceDate} Days remaining</Text>
