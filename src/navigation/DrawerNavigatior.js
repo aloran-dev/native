@@ -27,10 +27,18 @@ import Contractors from '../screens/ContractorList/Contractors';
 import Qr from '../screens/QrReader';
 import ContractorDetail from '../screens/ContractorDetail';
 import ContractorCertificates from '../screens/ContractorCertificates';
+import ContractorLogDetail from '../screens/ContractorLogDetail'
 import IncidentReport from '../screens/Incident/IncidentReport';
 import Entry from '../screens/Entry';
 
-const AuthStack = createStackNavigator({Login: Login});
+const AuthStack = createStackNavigator(
+    {Login: Login},{
+    headerMode: 'none',
+    navigationOptions: {
+      headerVisible: false,
+    },
+  },
+);
 
 AuthStack.navigationOptions = {
   // Hide the header from AppNavigator stack
@@ -50,21 +58,21 @@ const AppStackNavigator = createStackNavigator(
     ContractorDetail: {
       screen: ContractorDetail,
     },
+    ContractorLogDetail:{
+      screen: ContractorLogDetail
+    }
   },
   {
     initialRouteName: 'Contractors',
+    headerMode: 'none',
+    navigationOptions: {
+     headerVisible: false,
+   },
+
   },
 );
 
-AppStackNavigator.navigationOptions = {
-  // Hide the header from AppNavigator stack
-  header: null,
-};
 
-AuthStack.DrawerNavigator = {
-  // Hide the header from AppNavigator stack
-  header: null,
-};
 const DrawerNavigator = createDrawerNavigator(
   {
     Qr: {

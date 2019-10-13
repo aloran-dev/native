@@ -1,38 +1,51 @@
-import React from 'react';
+import React,{Component} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Icon, Card, H1, Text} from 'native-base';
+import {withNavigation} from 'react-navigation';
 
 const Capitalize = str => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-export default props => (
-  <Card style={styles.wrapper}>
-    <View style={styles.card}>
-      <View style={styles.card__text}>
-        <H1 style={styles.text}>{Capitalize(props.entryDay.day_of_week)}</H1>
-        <H1 style={styles.text}>|</H1>
-        <H1 style={styles.text}>{props.entryDay.time_in_plant.hours}hr</H1>
-        <H1 style={styles.text}>{props.entryDay.time_in_plant.minutes}min</H1>
+class ResumeCard extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render(){
+    console.log("ENTRE AL ResumeCard",this.props,this.props.navigation)
+    return (
+  <Card
+    button
+    onPress={this.props.navigation.navigate('ContractorLogDetail',{entryDay:this.props.entryDay})}
+    style={styles.wrapper}
+    >
+      <View style={styles.card}>
+        <View style={styles.card__text}>
+          <H1 style={styles.text}>{Capitalize(this.props.entryDay.day_of_week)}</H1>
+          <H1 style={styles.text}>|</H1>
+          <H1 style={styles.text}>{this.props.entryDay.time_in_plant.hours}hr</H1>
+          <H1 style={styles.text}>{this.props.entryDay.time_in_plant.minutes}min</H1>
+        </View>
+        <Icon
+          style={{color: '#77F48A'}}
+          active
+          type="Feather"
+          name="check-circle"
+        />
       </View>
-      <Icon
-        style={{color: '#77F48A'}}
-        active
-        type="Feather"
-        name="check-circle"
-      />
-    </View>
-    <View style={styles.footer}>
-      <Icon
-        style={styles.footer__icon}
-        type="Feather"
-        name="chevron-down"
-        active
-      />
-      <Text style={styles.footer__text}>Details of the day</Text>
-    </View>
-  </Card>
-);
+      <View style={styles.footer}>
+        <Icon
+          style={styles.footer__icon}
+          type="Feather"
+          name="chevron-down"
+          active
+        />
+        <Text style={styles.footer__text}>Details of the day</Text>
+      </View>
+    </Card>
+  );
+  }
+}
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -82,3 +95,5 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
 });
+
+export default withNavigation(ResumeCard);
