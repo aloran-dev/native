@@ -40,10 +40,6 @@ const AuthStack = createStackNavigator(
   },
 );
 
-AuthStack.navigationOptions = {
-  // Hide the header from AppNavigator stack
-  header: null,
-};
 const AppStackNavigator = createStackNavigator(
   {
     Companies: {
@@ -111,7 +107,7 @@ const AppSwitch = createSwitchNavigator(
   },
   {
     initialRouteName: 'Auth',
-  //
+    //
   },
 );
 
