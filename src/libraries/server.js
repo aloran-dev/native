@@ -251,13 +251,18 @@ export default {
         `${api_url}/api/v0/contratista_by_nano_id/${nanoId}`,
         request,
       );
-      //  console.log(response);
-      let responseJson = await response.json();
-      //console.log(responseJson)
-      return responseJson[0];
+      console.log(response);
+      if (response.status == 400) {
+        console.log("Lanzo Exception")
+        throw new Error(response);
+      } else {
+        let responseJson = await response.json();
+        return responseJson[0];
+      }
+
     } catch (error) {
       console.log(`Error is ${error}`);
-      return false;
+      return error;
     }
   },
   getContratistaTimeline: async function(Token, email_contratista) {
