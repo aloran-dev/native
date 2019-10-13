@@ -31,7 +31,7 @@ const EntryDetailList = (props) => {
                       {{
                         uri:`https://certifast.linuxopensource.mx/api/v0/uploads/${item.image_thumbnail_filename}`
                       }}
-                style={{width:50,heigth:50,backgroundColor:"pink"}}
+                style={{width:50,height:50,backgroundColor:"pink"}}
 
                 />
 

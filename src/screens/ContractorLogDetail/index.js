@@ -23,6 +23,9 @@ import ResumeCard from '../../components/ResumeCard';
 import EntryDetailList from '../../components/EntryDetailList';
 import CertiHeader from '../../components/Header';
 
+import server from '../../libraries/server';
+import AsyncStorage from '@react-native-community/async-storage';
+
 const Capitalize = str => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
@@ -44,8 +47,24 @@ export default class ContractorLogDetail extends Component{
       contractorsData:[]
     };
   }
-    componentDidMount(){
+    async componentDidMount(){
+      var TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
+      const email = this.props.navigation.getParam('email');
+
+      let contractor = await server.getContratistaTimeline(TokenJWT, email);
+      console.log("PROFILE",contractor);
+      this.setState({
+        contratista: contractor,
+        email: email,
+        head: {
+          nombre: contractor.profile.nombre,
+          apellido_paterno: contractor.profile.apellido_paterno,
+          imgUrl: contractor.profile.image_profile,
+        }
+      })
+
       console.log(this.props.navigation.state,);
+
       var entryData = this.props.navigation.state.params.entryDay
       this.setState({
         contractorsData:entryData,
@@ -58,7 +77,7 @@ export default class ContractorLogDetail extends Component{
 
       console.log("ESTADO",this.state);
       let cont =  <EntryDetailList contractorsData={entryData} />;
-  
+
       return (
             <Container>
               <CertiHeader />
