@@ -9,7 +9,10 @@ class ListaItem extends Component {
   }
 
   render() {
-    const lista = this.props.contractorsData;
+    let lista = [];
+    if(this.props.contractorsData !== null){
+      lista = this.props.contractorsData
+    };
     const listaElementos = lista.map((item, index) => (
       <ListItem
         thumbnail
