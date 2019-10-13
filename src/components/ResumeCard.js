@@ -1,7 +1,8 @@
-import React,{Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 import {Icon, Card, H1, Text} from 'native-base';
 import {withNavigation} from 'react-navigation';
+import StatusIcon from '../components/StatusIcon';
 
 const Capitalize = str => {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -11,43 +12,43 @@ class ResumeCard extends Component {
   constructor(props) {
     super(props);
   }
-  render(){
-    console.log("ENTRE AL ResumeCard",this.props,this.props.navigation)
+  render() {
     return (
-  <Card
-    button
-    onPress={this.props.navigation.navigate('ContractorLogDetail',{
-      entryDay:this.props.entryDay,
-      email:this.props.email
-    }
-  )}
-    style={styles.wrapper}
-    >
-      <View style={styles.card}>
-        <View style={styles.card__text}>
-          <H1 style={styles.text}>{Capitalize(this.props.entryDay.day_of_week)}</H1>
-          <H1 style={styles.text}>|</H1>
-          <H1 style={styles.text}>{this.props.entryDay.time_in_plant.hours}hr</H1>
-          <H1 style={styles.text}>{this.props.entryDay.time_in_plant.minutes}min</H1>
-        </View>
-        <Icon
-          style={{color: '#77F48A'}}
-          active
-          type="Feather"
-          name="check-circle"
-        />
-      </View>
-      <View style={styles.footer}>
-        <Icon
-          style={styles.footer__icon}
-          type="Feather"
-          name="chevron-down"
-          active
-        />
-        <Text style={styles.footer__text}>Details of the day</Text>
-      </View>
-    </Card>
-  );
+      <TouchableWithoutFeedback
+        onPress={() =>
+          this.props.callback({
+            entryDay: this.props.entryDay,
+            email: this.props.email,
+          })
+        }>
+        <Card style={styles.wrapper}>
+          <View style={styles.card}>
+            <View style={styles.card__text}>
+              <H1 style={styles.text}>
+                {Capitalize(this.props.entryDay.day_of_week)}
+              </H1>
+              <H1 style={styles.text}>|</H1>
+              <H1 style={styles.text}>
+                {this.props.entryDay.time_in_plant.hours}hr
+              </H1>
+              <H1 style={styles.text}>
+                {this.props.entryDay.time_in_plant.minutes}min
+              </H1>
+            </View>
+            <StatusIcon cant={this.props.entryDay.incidentes_count} />
+          </View>
+          <View style={styles.footer}>
+            <Icon
+              style={styles.footer__icon}
+              type="Feather"
+              name="chevron-down"
+              active
+            />
+            <Text style={styles.footer__text}>Details of the day</Text>
+          </View>
+        </Card>
+      </TouchableWithoutFeedback>
+    );
   }
 }
 

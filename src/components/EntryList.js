@@ -27,11 +27,20 @@ class EntryList extends Component {
   render() {
     let cont;
 
+    var callback = res => {
+      this.props.entrycallback(res);
+    };
+
     if (this.state.isLoading) {
       cont = <ActivityIndicator animating={this.state.isLoading} />;
     } else {
       let listaElementos = this.state.lista.map((item, index) => (
-        <ResumeCard key={index} email={this.props.email} entryDay={item} />
+        <ResumeCard
+          key={index}
+          email={this.props.email}
+          entryDay={item}
+          callback={callback}
+        />
       ));
       cont = listaElementos;
     }

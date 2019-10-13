@@ -12,10 +12,6 @@ import server from '../../libraries/server';
 import AsyncStorage from '@react-native-community/async-storage';
 
 export default class ContractorDetail extends Component {
-  static navigationOptions = ({navigation}) => ({
-    header: null,
-  });
-
   constructor(props) {
     super(props);
     this.state = {
@@ -49,6 +45,12 @@ export default class ContractorDetail extends Component {
   }
 
   render() {
+    var callback = res => {
+      this.props.navigation.navigate('ContractorLogDetail', {
+        entryDay: res.entryDay,
+        email: res.email,
+      });
+    };
     return (
       <Container>
         <CertiHeader />
@@ -61,8 +63,9 @@ export default class ContractorDetail extends Component {
           />
           <View style={styles.cardscontainer}>
             <EntryList
-            eventCards={this.state.eventCards}
-            email={this.state.email}
+              eventCards={this.state.eventCards}
+              email={this.state.email}
+              entrycallback={callback}
             />
           </View>
         </Content>

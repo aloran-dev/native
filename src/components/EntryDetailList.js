@@ -1,66 +1,69 @@
 import React, {Component} from 'react';
-import {ActivityIndicator,View,StyleSheet,Image} from 'react-native';
+import {ActivityIndicator, View, StyleSheet, Image} from 'react-native';
 import {withNavigation} from 'react-navigation';
-import {ListItem,Text,H1,Icon} from 'native-base';
+import {ListItem, Text, H1, Icon, Left, Body, Right} from 'native-base';
 import moment from 'moment';
 
 const Capitalize = str => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-const EntryDetailList = (props) => {
-    const lista = props.contractorsData.events
-    console.log("ESTOY in ENtryDetail",lista)
-    const listaElementos = lista.map((item, index) => {
-      console.log(item)
-      if(item.$class === "Incident"){
-        return (
-        <ListItem key={index}>
-            <View>
-                <Icon
-                  style={{color: '#77F48A'}}
-                  active
-                  type="Feather"
-                  name="check-circle"
-                />
-                <Text note>{item.incident_type}</Text>
-                <Text>{moment(item.timestamp).format('MM:SS')}</Text>
-                <Text>{item.description}</Text>
-                <Image
-                source=
-                      {{
-                        uri:`https://certifast.linuxopensource.mx/api/v0/uploads/${item.image_thumbnail_filename}`
-                      }}
-                style={{width:50,height:50,backgroundColor:"pink"}}
+const EntryDetailList = props => {
+  const lista = props.contractorsData.events;
+  const listaElementos = lista.map((item, index) => {
+    if (item.$class === 'Incident') {
+      return (
+        <ListItem key={index} avatar>
+          <Left>
+            <Icon
+              style={{
+                color: '#FFE165',
+                width: 20,
+                fontSize: 20,
+              }}
+              type="Feather"
+              name="info"
+            />
+          </Left>
+          <Body>
+            <Text note>{item.incident_type}</Text>
+            <Text>{item.description}</Text>
 
-                />
+            <Image
+              source={{
+                uri: `https://certifast.linuxopensource.mx/api/v0/uploads/${
+                  item.image_thumbnail_filename
+                }`,
+              }}
+              style={{width: 50, height: 50, backgroundColor: 'pink'}}
+            />
 
-                <Text>{item.empleado_seguridad}</Text>
-            </View>
+            <Text>{item.empleado_seguridad}</Text>
+          </Body>
+          <Right>
+            <Text>{moment(item.timestamp).format('MM:SS')}</Text>
+          </Right>
         </ListItem>
-        )
-      }else{
-        return (
-          <ListItem key={index}>
-          <View>
-              <Icon
-                style={{color: '#77F48A'}}
-                active
-                type="Feather"
-                name="check-circle"
-              />
-              <Text note>{item.$class}</Text>
-              <Text>{moment(item.timestamp).format('MM:SS')} </Text>
-
-          </View>
+      );
+    } else {
+      return (
+        <ListItem key={index} avatar>
+          <Left>
+            <Icon style={styles.check__icon} type="Feather" name="flag" />
+          </Left>
+          <Body>
+            <Text note>{item.$class}</Text>
+          </Body>
+          <Right>
+            <Text>{moment(item.timestamp).format('MM:SS')}</Text>
+          </Right>
         </ListItem>
-        )
-      }
+      );
+    }
+  });
 
-    })
-
-    return listaElementos;
-  }
+  return listaElementos;
+};
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -93,6 +96,11 @@ const styles = StyleSheet.create({
   text: {
     color: '#707070',
     fontSize: 22,
+  },
+  check__icon: {
+    color: '#7E7E7E',
+    width: 20,
+    fontSize: 20,
   },
 });
 export default withNavigation(EntryDetailList);

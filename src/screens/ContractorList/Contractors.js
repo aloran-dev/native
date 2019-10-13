@@ -19,16 +19,8 @@ import ListaItem from '../../components/ContractorListItem';
 import CertiHeader from '../../components/Header';
 
 export default class Contractors extends Component {
-  static navigationOptions = {
-    // headerTitle instead of title
-    header: null
-  };
   constructor(props) {
     super(props);
-
-    console.log("NAV STATE",this.props.navigation.state);
-
-    console.log("NAV STATE",this.props.navigation.state);
     this.state = {
       contractorsData: [],
       contratista: null,
@@ -36,21 +28,13 @@ export default class Contractors extends Component {
       api_url: null,
       email_seguridad: null,
       isLoading: true,
-
     };
   }
 
-
   async componentDidMount() {
-    {() => this.props.navigation.setParams({ name: 'Lucy' })}
-    console.log('NAVIGATION', this.props.navigation);
-
-
     var TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
     const api_url = await AsyncStorage.getItem('API_URL');
     const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID');
-    console.log('Descargardo Datos', TokenJWT, 'API', api_url);
-    //this.props.navigation.state.params.empleado_seguridad
     var contractorData = await server.getPlantaTimeline(
       TokenJWT,
       email_seguridad,
