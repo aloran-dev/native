@@ -48,13 +48,15 @@ export default {
       };
       //  console.log(config);
       let response = await fetch(`${api_url}${login}`, config);
+      console.log("respuesta",response)
       var JWT = response.headers.get('jwt-token');
 
-      //console.log("TOKEN",JWT)
+      console.log("TOKEN-->",JWT)
       return JWT;
     } catch (error) {
-      console.log(`Error is ${error}`);
-      return null
+      console.log("Exception")
+      //console.log(`Error is ${error}`);
+      return error
     }
   },
   createSession: async function(props) {
@@ -77,15 +79,21 @@ export default {
       };
       //  console.log(config);
       let response = await fetch(`${api_url}${login}`, config);
-
-      //  console.log("Solicitando TOKEN",response)
-      var JWT = response.headers.get('jwt-token');
-      //console.log("TOKEN",JWT)
-      return JWT;
+      if(response.status == 200){
+        console.log("Solicitando TOKEN",response)
+        var JWT = response.headers.get('jwt-token');
+        //console.log("TOKEN",JWT)
+        return {token:JWT}
+      }else{
+        throw new Error("User/Password Invalid")
+      }
     } catch (error) {
-      console.log(`Error is ${error}`);
-      return null;
-      //reject(error)
+      let message = `${error}`;
+      message = message.replace(/TypeError\:/g,"");
+      message = message.replace(/Error\:/g,"")
+      //if(JSON.stringify(error) === "Network request failed"){
+      return {token:null,error:message};
+
     }
   },
   getSecurityProfile: async function(Token, email_seguridad) {

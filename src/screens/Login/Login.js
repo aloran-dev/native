@@ -88,27 +88,24 @@ export default class Login extends Component {
           password: this.state.password,
         });
       }
-
-      console.log('JWT', TokenJWT);
-
-      if(TokenJWT) {
-        this.setState({response: TokenJWT});
+      
+    if(TokenJWT.token) {
+        this.setState({response: TokenJWT.token});
 
         var profile = await server.getSecurityProfile(
           TokenJWT,
           this.state.email,
         );
-        await AsyncStorage.setItem('AUTH_TOKEN', TokenJWT);
+        await AsyncStorage.setItem('AUTH_TOKEN', TokenJWT.token);
         await AsyncStorage.setItem('ACCOUNT_ID', this.state.email);
         await AsyncStorage.setItem('ACCOUNT', JSON.stringify(profile));
         this.props.navigation.navigate('Companies');
       } else {
-        throw new Error("NetWorkError");
+        throw new Error(TokenJWT.error);
       }
     } catch(error) {
-      console.log(error);
-    //  this.setState({netWorkError: true, response: "User/Password Invalid"});
-      alert("User/Password Invalid")
+        console.log("ERR",error)
+        alert(error)
     }
   };
 
