@@ -1,6 +1,6 @@
 /* QR Component */
 import React, {Component} from 'react';
-import {StyleSheet, Image} from 'react-native';
+import {StyleSheet, Image,View} from 'react-native';
 import {
   Container,
   Content,
@@ -44,10 +44,12 @@ export default class QrReader extends Component {
   async componentDidMount() {
     const { navigation } = this.props;
      navigation.addListener('willFocus', () =>
-       this.setState({ focusedScreen: false })
-     );
-     navigation.addListener('willBlur', () =>
        this.setState({ focusedScreen: true })
+     );
+
+     //Evento cuando haces  un Back
+     navigation.addListener('willBlur', () =>
+       this.setState({ focusedScreen: false })
      );
 
     console.log('QR READER', navigation);
@@ -77,6 +79,7 @@ export default class QrReader extends Component {
 
     //  this.setState({codeContratista:e.data});
     //this.handleSend(e.data)
+    this.scanner.reactivate();
     if (this.state.action == 'INCIDENT') {
       this.props.navigation.navigate('AddIncident', {
         contratistaQR: e.data,
@@ -120,9 +123,7 @@ export default class QrReader extends Component {
   render() {
     const { hasCameraPermission, focusedScreen } = this.state;
     console.log(this.state)
-    if (focusedScreen){
-     return (this.scanner.reactivate())
-   }else{
+
      return (
          <Container style={styles.main}>
            <Header style={styles.header}>
@@ -171,14 +172,16 @@ export default class QrReader extends Component {
                block
                transparent
                style={styles.button1}
-               //onPress={() => this.props.navigation.navigate('AddIncident')}>
-               onPress={() => this.props.navigation.navigate('Contractors')}>
+               onPress={() => {
+                 this.scanner.reactivate();
+                 return this.props.navigation.navigate('Home')
+               }}>
                <Text style={styles.button1__text}>Cancel</Text>
              </Button>
            </Content>
          </Container>
        );
-   }
+
 
 
   }

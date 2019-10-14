@@ -120,7 +120,7 @@ export default class Entry extends Component{
           message,
           [
           //  {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-            {text: 'Yes', onPress: ()=>this.props.navigation.navigate('Contractors')},
+            {text: 'Yes', onPress: ()=>this.props.navigation.navigate('Home')},
           ],
           { cancelable: false }
         )
@@ -161,7 +161,7 @@ export default class Entry extends Component{
             message,
             [
               //{text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-              {text: 'Ok', onPress: ()=>this.props.navigation.navigate('Contractors')},
+              {text: 'Ok', onPress: ()=>this.props.navigation.navigate('Home')},
             ],
             { cancelable: false }
           )
@@ -169,7 +169,7 @@ export default class Entry extends Component{
         })
         .catch((error)=>{
           console.log(error);
-          this.props.navigation.navigate('Contractors');
+          this.props.navigation.navigate('App');
 
         })
 

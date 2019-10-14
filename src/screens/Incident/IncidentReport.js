@@ -127,16 +127,16 @@ export default class IncidentReport extends Component {
           [
             {
               text: 'Ok',
-              onPress: () => this.props.navigation.navigate('Contractors'),
+              onPress: () => this.props.navigation.navigate('Companies'),
             },
           ],
           {cancelable: false},
         );
-        this.props.navigation.navigate('Contractors');
+        this.props.navigation.navigate('Companies');
       })
       .catch(error => {
         console.log(JSON.stringify(error));
-        this.props.navigation.navigate('Contractors');
+        this.props.navigation.navigate('Companies');
       });
   };
 

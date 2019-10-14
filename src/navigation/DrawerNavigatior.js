@@ -44,6 +44,9 @@ const AuthStack = createStackNavigator(
 
 const AppStackNavigator = createStackNavigator(
   {
+    Home: {
+      screen: Companies,
+    },
     Companies: {
       screen: Companies,
     },
