@@ -30,6 +30,8 @@ export default class QrReader extends Component {
       token: null,
       api_url: null,
       email_seguridad: null,
+      hasCameraPermission:true,
+      focusedScreen:null
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSend = this.handleSend.bind(this);
@@ -40,10 +42,20 @@ export default class QrReader extends Component {
   }
 
   async componentDidMount() {
-    console.log('QR READER', this.props.navigation);
+    const { navigation } = this.props;
+     navigation.addListener('willFocus', () =>
+       this.setState({ focusedScreen: false })
+     );
+     navigation.addListener('willBlur', () =>
+       this.setState({ focusedScreen: true })
+     );
+
+    console.log('QR READER', navigation);
+
     const TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
     const api_url = await AsyncStorage.getItem('API_URL');
     const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID');
+
     this.setState({
       token: TokenJWT,
       api_url: api_url,
@@ -106,60 +118,69 @@ export default class QrReader extends Component {
   //   }}
   // />
   render() {
-    return (
-      <Container style={styles.main}>
-        <Header style={styles.header}>
-          <Left>
-            <Button
-              transparent
-              onPress={() => this.props.navigation.openDrawer()}>
-              <Icon style={styles.header__text} name="menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Title style={styles.header__text}>CertiFast</Title>
-          </Body>
-        </Header>
+    const { hasCameraPermission, focusedScreen } = this.state;
+    console.log(this.state)
+    if (focusedScreen){
+     return (this.scanner.reactivate())
+   }else{
+     return (
+         <Container style={styles.main}>
+           <Header style={styles.header}>
+             <Left>
+               <Button
+                 transparent
+                 onPress={() => this.props.navigation.openDrawer()}>
+                 <Icon style={styles.header__text} name="menu" />
+               </Button>
+             </Left>
+             <Body>
+               <Title style={styles.header__text}>CertiFast</Title>
+             </Body>
+           </Header>
 
-        <Content button style={styles.maincontent}>
-          <Text note>Scan Qr code</Text>
-          <Container style={styles.qr}>
-            <QRCodeScanner
-              style={styles.qr__image}
-              onRead={this.onSuccess}
-              reactivateTimeOut={5000}
-              reactivate={true}
-              containerStyle={{flex: 1, height: 100}}
-            />
-          </Container>
-          <Text note>Enter code manually</Text>
-          <Item style={styles.input}>
-            <Input
-              onChangeText={text => this.setState({codeContratista: text})}
-            />
-          </Item>
+           <Content button style={styles.maincontent}>
+             <Text note>Scan Qr code</Text>
+             <Container style={styles.qr}>
+               <QRCodeScanner
+                 ref={(node) => { this.scanner = node }}
+                 style={styles.qr__image}
+                 onRead={this.onSuccess}
+                 reactivateTimeOut={5000}
+                 reactivate={false}
+                 containerStyle={{flex: 1, height: 100}}
+               />
+             </Container>
+             <Text note>Enter code manually</Text>
+             <Item style={styles.input}>
+               <Input
+                 onChangeText={text => this.setState({codeContratista: text})}
+               />
+             </Item>
 
-          <Button
-            rounded
-            block
-            style={styles.button}
-            //onPress={() => this.props.navigation.navigate('AddIncident')}>
-            onPress={this.handleSend}>
-            <Text>Send</Text>
-          </Button>
+             <Button
+               rounded
+               block
+               style={styles.button}
+               //onPress={() => this.props.navigation.navigate('AddIncident')}>
+               onPress={this.handleSend}>
+               <Text>Send</Text>
+             </Button>
 
-          <Button
-            rounded
-            block
-            transparent
-            style={styles.button1}
-            //onPress={() => this.props.navigation.navigate('AddIncident')}>
-            onPress={() => this.props.navigation.navigate('Contractors')}>
-            <Text style={styles.button1__text}>Cancel</Text>
-          </Button>
-        </Content>
-      </Container>
-    );
+             <Button
+               rounded
+               block
+               transparent
+               style={styles.button1}
+               //onPress={() => this.props.navigation.navigate('AddIncident')}>
+               onPress={() => this.props.navigation.navigate('Contractors')}>
+               <Text style={styles.button1__text}>Cancel</Text>
+             </Button>
+           </Content>
+         </Container>
+       );
+   }
+
+
   }
 }
 

@@ -108,9 +108,9 @@ export default class Entry extends Component{
 
     server.add_checkIn(this.state.token,newEntry)
       .then((response)=>{
-        const message = JSON.stringify(response)
+        let message = JSON.stringify(response)
         try{
-          const message = `OperationID:${response.transactionId}`
+           message = `OperationID:${response.transactionId}`
         }
         catch(error){
           console.log(error)
@@ -150,7 +150,6 @@ export default class Entry extends Component{
           console.log("FUNCIONA",Object.keys(response))
           let message = JSON.stringify(response)
           try{
-
              message = `OperationID:${response['transactionId']}`
           }
           catch(error){
