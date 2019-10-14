@@ -1,6 +1,6 @@
 /* QR Component */
 import React,{Component} from 'react';
-import {StyleSheet, Image, Alert, ActivityIndicator} from 'react-native';
+import {StyleSheet, Image, Alert, ActivityIndicator,View} from 'react-native';
 import {
   Container,
   Content,
@@ -12,8 +12,8 @@ import {
    Title,
    Button,
    Header,
-   Left
-
+   Left,
+   Card
 } from 'native-base';
 
 
@@ -199,11 +199,7 @@ export default class Entry extends Component{
         <Container style={styles.main}>
           <Header title="CertiFast" />
           <Content style={styles.maincontent}>
-            <ContractorHeader
-              nombre=""
-              apellido=""
-              imgUrl=""
-            />
+
             <View style={styles.cardscontainer}>
               <Card style={styles.card}>
 

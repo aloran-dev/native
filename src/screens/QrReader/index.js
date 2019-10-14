@@ -19,6 +19,7 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import Sidebar from '../../components/Sidebar';
+import { NavigationEvents } from 'react-navigation';
 
 export default class QrReader extends Component {
   constructor(props) {
@@ -31,7 +32,8 @@ export default class QrReader extends Component {
       api_url: null,
       email_seguridad: null,
       hasCameraPermission:true,
-      focusedScreen:null
+      focusedScreen:false,
+      scanner:undefined
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSend = this.handleSend.bind(this);
@@ -43,6 +45,9 @@ export default class QrReader extends Component {
 
   async componentDidMount() {
     const { navigation } = this.props;
+
+    console.log("ENTRE QR",navigation);
+
      navigation.addListener('willFocus', () =>
        this.setState({ focusedScreen: false })
      );
@@ -114,65 +119,71 @@ export default class QrReader extends Component {
 
   render() {
     const { hasCameraPermission, focusedScreen } = this.state;
-    console.log(this.state)
+    console.log(this.props.navigation)
+   return (
+           <Container style={styles.main}>
+             <Header style={styles.header}>
+               <Left>
+                 <Button
+                   transparent
+                   onPress={() => this.props.navigation.openDrawer()}>
+                   <Icon style={styles.header__text} name="menu" />
+                 </Button>
+               </Left>
+               <Body>
+                 <Title style={styles.header__text}>CertiFast</Title>
+               </Body>
+             </Header>
 
-     return (
-         <Container style={styles.main}>
-           <Header style={styles.header}>
-             <Left>
+             <Content button style={styles.maincontent}>
+             <NavigationEvents
+                onWillFocus={payload => console.log('will focus', payload)}
+                onDidFocus={payload => console.log('did focus', payload)}
+                onWillBlur={payload => console.log('will blur', payload)}
+                onDidBlur={payload => console.log('did blur', payload)}
+              />
+               <Text note>Scan Qr code</Text>
+               <Container style={styles.qr}>
+                 <QRCodeScanner
+                   ref={(node) => { this.scanner = node }}
+                   style={styles.qr__image}
+                   onRead={this.onSuccess}
+                   reactivateTimeOut={5000}
+                   reactivate={false}
+                   containerStyle={{flex: 1, height: 100}}
+                 />
+               </Container>
+               <Text note>Enter code manually</Text>
+               <Item style={styles.input}>
+                 <Input
+                   onChangeText={text => this.setState({codeContratista: text})}
+                 />
+               </Item>
+
                <Button
-                 transparent
-                 onPress={() => this.props.navigation.openDrawer()}>
-                 <Icon style={styles.header__text} name="menu" />
+                 rounded
+                 block
+                 style={styles.button}
+                 //onPress={() => this.props.navigation.navigate('AddIncident')}>
+                 onPress={this.handleSend}>
+                 <Text>Send</Text>
                </Button>
-             </Left>
-             <Body>
-               <Title style={styles.header__text}>CertiFast</Title>
-             </Body>
-           </Header>
 
-           <Content button style={styles.maincontent}>
-             <Text note>Scan Qr code</Text>
-             <Container style={styles.qr}>
-               <QRCodeScanner
-                 ref={(node) => { this.scanner = node }}
-                 style={styles.qr__image}
-                 onRead={this.onSuccess}
-                 reactivateTimeOut={5000}
-                 reactivate={false}
-                 containerStyle={{flex: 1, height: 100}}
-               />
-             </Container>
-             <Text note>Enter code manually</Text>
-             <Item style={styles.input}>
-               <Input
-                 onChangeText={text => this.setState({codeContratista: text})}
-               />
-             </Item>
+               <Button
+                 rounded
+                 block
+                 transparent
+                 style={styles.button1}
+                 onPress={() => {
+                   //this.setState({scanner:this.scanner});
+                   return this.props.navigation.navigate('Companies');
+                 }}>
+                 <Text style={styles.button1__text}>Cancel</Text>
+               </Button>
+             </Content>
+           </Container>
+         );
 
-             <Button
-               rounded
-               block
-               style={styles.button}
-               //onPress={() => this.props.navigation.navigate('AddIncident')}>
-               onPress={this.handleSend}>
-               <Text>Send</Text>
-             </Button>
-
-             <Button
-               rounded
-               block
-               transparent
-               style={styles.button1}
-               onPress={() => {
-                 this.scanner.reactivate();
-                 return this.props.navigation.navigate('Home')
-               }}>
-               <Text style={styles.button1__text}>Cancel</Text>
-             </Button>
-           </Content>
-         </Container>
-       );
 
 
 

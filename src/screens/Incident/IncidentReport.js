@@ -47,8 +47,6 @@ export default class IncidentReport extends Component {
     this.handleSend = this.handleSend.bind(this);
   }
 
-
-
   async componentDidMount() {
 
     console.log("INCI.SCREE",this.props.navigation);
@@ -138,7 +136,10 @@ export default class IncidentReport extends Component {
           [
             {
               text: 'Ok',
-              onPress: () => this.props.navigation.navigate('Companies'),
+              onPress: () => {
+                this.state.scanner.reactivate();
+                return this.props.navigation.navigate('Companies');
+              },
             },
           ],
           {cancelable: false},
