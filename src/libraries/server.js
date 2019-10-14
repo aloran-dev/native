@@ -261,16 +261,19 @@ export default {
       );
       console.log(response);
       if (response.status == 400) {
-        console.log("Lanzo Exception")
-        throw new Error(response);
+        console.log("Lanzo Exception",response)
+        throw new Error(response.json());
       } else {
         let responseJson = await response.json();
-        return responseJson[0];
+        return {data:responseJson[0],message:null};
       }
 
-    } catch (error) {
-      console.log(`Error is ${error}`);
-      return error;
+    } catch(error) {
+      let message = `${error}`;
+      message = message.replace(/TypeError\:/g,"");
+      message = message.replace(/Error\:/g,"")
+
+      return {data:null,message:message};
     }
   },
   getContratistaTimeline: async function(Token, email_contratista) {

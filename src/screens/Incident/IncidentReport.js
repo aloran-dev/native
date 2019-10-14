@@ -25,6 +25,7 @@ export default class IncidentReport extends Component {
     super(props);
 
     this.state = {
+      scanner:undefined,
       newItem: null,
       description: null,
       token: null,
@@ -46,11 +47,12 @@ export default class IncidentReport extends Component {
     this.handleSend = this.handleSend.bind(this);
   }
 
+
+
   async componentDidMount() {
-    const codeQr = this.props.navigation.state.params.contratistaQR;
-    if (codeQr === '') {
-      this.setState({invalidCode: true});
-    }
+
+    console.log("INCI.SCREE",this.props.navigation);
+
     var TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
     const api_url = await AsyncStorage.getItem('API_URL');
     const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID');
@@ -59,29 +61,38 @@ export default class IncidentReport extends Component {
       token: TokenJWT,
       email_empleado_seguridad: email_seguridad,
     });
+    const codeQr = this.props.navigation.getParam("contratistaQR", "No data read");
+    const scanner = this.props.navigation.getParam("scanner", () => false);
 
+   if (codeQr === 'No data read') {
+     this.setState({ invalidCode: true, scanner: scanner });
+    }
     server
       .getContratistaInfoByNanoId(TokenJWT, codeQr)
       .then(response => {
-        try {
-          const email = response.email;
-          this.setState({
-            email_contratista: email,
-            head: {
-              nombre: response.nombre,
-              apellido_paterno: response.apellido_paterno,
-              imgUrl: response.image_profile,
-            },
-          });
-        } catch (error) {
-          throw new Error(error);
+        console.log(response)
+        if(response.data){
+          try {
+            const email = response.email;
+            this.setState({
+              email_contratista: response.data.email,
+              head: {
+                nombre: response.data.nombre,
+                apellido_paterno: response.data.apellido_paterno,
+                imgUrl: response.data.image_profile,
+              },
+            });
+          } catch (error) {
+            throw new Error(error);
+          }
+        }else{
+          throw new Error(response.message);
         }
+
       })
       .catch(error => {
-        console.log('Error en el QR', error);
-        this.setState({
-          invalidCode: true,
-        });
+        console.log('Error en el QR', error.message);
+        this.setState({ invalidCode: true,scanner: scanner});
       });
   }
 
@@ -140,79 +151,114 @@ export default class IncidentReport extends Component {
       });
   };
 
+  scanQRCodeAgain(){
+    this.state.scanner.reactivate();
+    this.props.navigation.navigate('Companies');
+  }
+
   render() {
-    return (
-      <Container style={styles.main}>
-        <Header title="CertiFast" />
-        <Content style={styles.maincontent}>
-          <ContractorHeader
-            nombre={this.state.head.nombre}
-            apellido={this.state.head.apellido_paterno}
-            imgUrl={this.state.head.imgUrl}
-          />
-          <View style={styles.cardscontainer}>
-            <Card style={styles.card}>
-              <ActivityIndicator animating={this.state.isLoading} />
-              <Text>Create incident report</Text>
-              <Item style={styles.card__item}>
-                <Picker
-                  mode="dropdown"
-                  iosIcon={<Icon type="Feather" name="chevron-down" />}
-                  style={{width: '100%'}}
-                  placeholder="Incident Severity"
-                  selectedValue={this.state.incident_severity}
-                  onValueChange={(itemValue, itemIndex) =>
-                    this.setState({incident_severity: itemValue})
-                  }>
-                  <Picker.Item label="LOW" value="LOW" />
-                  <Picker.Item label="MEDIUM" value="MEDIUM" />
-                  <Picker.Item label="HIGH" value="HIGH" />
-                </Picker>
-              </Item>
+    if(this.state.invalidCode){
+      return (
+        <Container style={styles.main}>
+          <Header title="CertiFast" />
+          <Content style={styles.maincontent}>
+            <ContractorHeader
+              nombre=""
+              apellido=""
+              imgUrl=""
+            />
+            <View style={styles.cardscontainer}>
+              <Card style={styles.card}>
 
-              <Item style={styles.card__item}>
-                <Picker
-                  mode="dropdown"
-                  iosIcon={<Icon type="Feather" name="chevron-down" />}
-                  style={{width: '100%'}}
-                  placeholder="Incident Type"
-                  selectedValue={this.state.incident_type}
-                  onValueChange={(itemValue, itemIndex) =>
-                    this.setState({incident_type: itemValue})
-                  }>
-                  <Picker.Item label="OTHER" value="OTHER" />
-                  <Picker.Item label="SECURITY" value="SECURITY" />
-                </Picker>
-              </Item>
+                <Item style={styles.card__item}>
+                    <Text>QR Code Invalid</Text>
+                </Item>
 
-              <Item style={styles.card__item}>
-                <Button
-                  title="Attach photo"
-                  onPress={this.pickImageHandler}
-                  style={{backgroundColor: '#ff2d2d'}}>
-                  <Icon type="Feather" active name="camera" />
-                </Button>
-              </Item>
-              <Item style={styles.card__item}>
-                <Textarea
-                  style={styles.card__item__textarea}
-                  rowSpan={5}
-                  bordered
-                  placeholder="Incident description"
-                  value={this.state.description}
-                  onChangeText={text => this.setState({description: text})}
-                />
-              </Item>
-              <View style={styles.footerButtons}>
-                <Button onPress={this.handleSend} transparent>
-                  <Text style={{color: '#ff2d2d'}}>Create report</Text>
-                </Button>
-              </View>
-            </Card>
-          </View>
-        </Content>
-      </Container>
-    );
+                <View style={styles.footerButtons}>
+                  <Button onPress={this.scanQRCodeAgain()} transparent>
+                    <Text style={{color: '#ff2d2d'}}>Scan another code</Text>
+                  </Button>
+                </View>
+              </Card>
+            </View>
+          </Content>
+        </Container>
+      )
+
+    }else{
+      return (
+        <Container style={styles.main}>
+          <Header title="CertiFast" />
+          <Content style={styles.maincontent}>
+            <ContractorHeader
+              nombre={this.state.head.nombre}
+              apellido={this.state.head.apellido_paterno}
+              imgUrl={this.state.head.imgUrl}
+            />
+            <View style={styles.cardscontainer}>
+              <Card style={styles.card}>
+                <ActivityIndicator animating={this.state.isLoading} />
+                <Text>Create incident report</Text>
+                <Item style={styles.card__item}>
+                  <Picker
+                    mode="dropdown"
+                    iosIcon={<Icon type="Feather" name="chevron-down" />}
+                    style={{width: '100%'}}
+                    placeholder="Incident Severity"
+                    selectedValue={this.state.incident_severity}
+                    onValueChange={(itemValue, itemIndex) =>
+                      this.setState({incident_severity: itemValue})
+                    }>
+                    <Picker.Item label="LOW" value="LOW" />
+                    <Picker.Item label="MEDIUM" value="MEDIUM" />
+                    <Picker.Item label="HIGH" value="HIGH" />
+                  </Picker>
+                </Item>
+
+                <Item style={styles.card__item}>
+                  <Picker
+                    mode="dropdown"
+                    iosIcon={<Icon type="Feather" name="chevron-down" />}
+                    style={{width: '100%'}}
+                    placeholder="Incident Type"
+                    selectedValue={this.state.incident_type}
+                    onValueChange={(itemValue, itemIndex) =>
+                      this.setState({incident_type: itemValue})
+                    }>
+                    <Picker.Item label="OTHER" value="OTHER" />
+                    <Picker.Item label="SECURITY" value="SECURITY" />
+                  </Picker>
+                </Item>
+
+                <Item style={styles.card__item}>
+                  <Button
+                    title="Attach photo"
+                    onPress={this.pickImageHandler}
+                    style={{backgroundColor: '#ff2d2d'}}>
+                    <Icon type="Feather" active name="camera" />
+                  </Button>
+                </Item>
+                <Item style={styles.card__item}>
+                  <Textarea
+                    style={styles.card__item__textarea}
+                    rowSpan={5}
+                    bordered
+                    placeholder="Incident description"
+                    value={this.state.description}
+                    onChangeText={text => this.setState({description: text})}
+                  />
+                </Item>
+                <View style={styles.footerButtons}>
+                  <Button onPress={this.handleSend} transparent>
+                    <Text style={{color: '#ff2d2d'}}>Create report</Text>
+                  </Button>
+                </View>
+              </Card>
+            </View>
+          </Content>
+        </Container>
+      );
+    }
   }
 
   reset = () => {

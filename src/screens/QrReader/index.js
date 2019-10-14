@@ -44,12 +44,12 @@ export default class QrReader extends Component {
   async componentDidMount() {
     const { navigation } = this.props;
      navigation.addListener('willFocus', () =>
-       this.setState({ focusedScreen: true })
+       this.setState({ focusedScreen: false })
      );
 
      //Evento cuando haces  un Back
      navigation.addListener('willBlur', () =>
-       this.setState({ focusedScreen: false })
+       this.setState({ focusedScreen: true })
      );
 
     console.log('QR READER', navigation);
@@ -74,22 +74,18 @@ export default class QrReader extends Component {
     }
   }
 
-  onSuccess = e => {
+  onSuccess = async e => {
     console.log('CODIGO', e.data);
-
-    //  this.setState({codeContratista:e.data});
-    //this.handleSend(e.data)
-    this.scanner.reactivate();
+    const navigation = this.props.navigation;
     if (this.state.action == 'INCIDENT') {
-      this.props.navigation.navigate('AddIncident', {
+      await navigation.navigate('AddIncident', {
         contratistaQR: e.data,
-        name: 'Test',
-        email_empleado_seguridad: this.state.email_empleado_seguridad,
+        scanner:this.scanner,
       });
     } else {
-      this.props.navigation.navigate('Entry', {
+     await navigation.navigate('Entry', {
         contratistaQR: e.data,
-        email_empleado_seguridad: this.state.email_empleado_seguridad,
+        scanner:this.scanner,
       });
     }
   };
@@ -101,12 +97,12 @@ export default class QrReader extends Component {
       if (this.state.action == 'INCIDENT') {
         this.props.navigation.navigate('AddIncident', {
           contratistaQR: this.state.codeContratista,
-          email_empleado_seguridad: this.state.email_empleado_seguridad,
+          scanner:this.scanner,
         });
       } else {
         this.props.navigation.navigate('Entry', {
           contratistaQR: this.state.codeContratista,
-          email_empleado_seguridad: this.state.email_empleado_seguridad,
+          scanner:this.scanner
         });
       }
     } else {
@@ -115,11 +111,7 @@ export default class QrReader extends Component {
     }
   }
 
-  //  <Image
-  //   source={{
-  //     uri: 'https://image.flaticon.com/icons/png/512/107/107072.png',
-  //   }}
-  // />
+
   render() {
     const { hasCameraPermission, focusedScreen } = this.state;
     console.log(this.state)
