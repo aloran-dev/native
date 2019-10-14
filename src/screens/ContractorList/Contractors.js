@@ -23,7 +23,7 @@ export default class Contractors extends Component {
     super(props);
     this.state = {
       contractorsData: [],
-      contratista: null,
+      contratista: '',
       Token: null,
       api_url: null,
       email_seguridad: null,
@@ -32,6 +32,7 @@ export default class Contractors extends Component {
   }
 
   async componentDidMount() {
+
     var TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
     const api_url = await AsyncStorage.getItem('API_URL');
     const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID');
@@ -42,12 +43,9 @@ export default class Contractors extends Component {
 
     const empresa = this.props.navigation.getParam('empresa_contratista');
 
-    var filtrado = contractorData.filter(item => {
-      return item.contratista.empresa_contratista === empresa;
-    });
-
     this.setState({
-      contractorsData: filtrado,
+      contractorsData: contractorData[empresa],
+      contratista:contractorData[empresa].empresa_contratista.razon_social,
       Token: TokenJWT,
       api_url: api_url,
       email_seguridad: email_seguridad,
@@ -56,17 +54,18 @@ export default class Contractors extends Component {
   }
 
   render() {
+  
     let cont;
     if (this.state.isLoading) {
       cont = <ActivityIndicator animating={this.state.isLoading} />;
     } else {
-      cont = <ListaItem contractorsData={this.state.contractorsData} />;
+      cont = <ListaItem contractorsData={this.state.contractorsData.contratistas_timeline} />;
     }
     return (
       <Container style={styles.main}>
         <CertiHeader />
         <Content style={styles.maincontent}>
-          <Text note>Contractor Companies</Text>
+          <Text note>{this.state.contratista}</Text>
           <List style={styles.list}>{cont}</List>
         </Content>
       </Container>

@@ -91,7 +91,7 @@ export default {
       let message = `${error}`;
       message = message.replace(/TypeError\:/g,"");
       message = message.replace(/Error\:/g,"")
-      //if(JSON.stringify(error) === "Network request failed"){
+
       return {token:null,error:message};
 
     }

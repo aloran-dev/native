@@ -49,22 +49,10 @@ export default class Companies extends Component {
       email_seguridad,
     );
 
-    let contratistasEmpresas = contractorData.map(item => {
-      let lista = {
-        empresa_contratista: item.contratista.empresa_contratista,
-        email: item.contratista.email,
-      };
-      return lista;
-    });
+    console.log("Timeline",contractorData)
 
-    let _ = require('../../../node_modules/lodash');
 
-    let empresasRegistradas = _.groupBy(
-      contratistasEmpresas,
-      'empresa_contratista',
-    );
-
-    this.setState({empresas: empresasRegistradas});
+    this.setState({empresas: contractorData});
   }
 
   render() {

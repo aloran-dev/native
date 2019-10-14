@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {withNavigation} from 'react-navigation';
 import {ListItem, Left, Body, Thumbnail, Text} from 'native-base';
 
+
 class ListaItem extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +33,7 @@ class ListaItem extends Component {
           />
         </Left>
         <Body>
-          <Text note>{item.contratista.empresa_contratista}</Text>
+
           <Text>
             {item.contratista.nombre + ' ' + item.contratista.apellido_paterno}
           </Text>
