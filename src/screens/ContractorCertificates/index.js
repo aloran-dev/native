@@ -31,6 +31,8 @@ import FooterToolbar from '../../components/Footer';
 import ContractorHeader from '../../components/ContractorHeader';
 import CertiHeader from '../../components/Header';
 import CertificateList from '../../components/CertificateList';
+import DocumentList from '../../components/DocumentList';
+import DocumentModal from '../../components/DocumentModal';
 import AntiDoppingList from '../../components/AntiDoppingList';
 import AntiDoppingModal from '../../components/AntiDoppingModal';
 import PreviewDocumentModal from '../../components/PreviewDocumentModal';
@@ -48,9 +50,11 @@ export default class ContractorCertificates extends Component {
         apellido_paterno: '',
         imgUrl: '',
       },
-      eventCards: '',
-      cursos_habilidades_laborales: [],
       antidopings: [],
+      cursos_habilidades_laborales: [],
+      cursos_seguridad_interna:[],
+      eventCards: '',
+      official_documents:[],
       isLoading: true,
       modalVisible: false,
       modal: '',
@@ -70,6 +74,7 @@ export default class ContractorCertificates extends Component {
 
     let contractor = await server.getContratistaTimeline(TokenJWT, email);
 
+    console.log(contractor);
     this.setState({
       contratista: contractor,
       head: {
@@ -77,9 +82,11 @@ export default class ContractorCertificates extends Component {
         apellido_paterno: contractor.profile.apellido_paterno,
         imgUrl: contractor.profile.image_profile,
       },
-      eventCards: contractor.event_cards,
-      cursos_habilidades_laborales: contractor.cursos_habilidades_laborales,
       antidopings: contractor.antidopings,
+      cursos_habilidades_laborales: contractor.cursos_habilidades_laborales,
+      cursos_seguridad_interna: contractor.cursos_seguridad_interna,
+      eventCards: contractor.event_cards,
+      official_documents:contractor.official_documents,
       isLoading: false,
     });
   }
@@ -107,7 +114,15 @@ export default class ContractorCertificates extends Component {
           AntiDoppingCallback={callbackModal}
         />
       );
-    } else {
+    }else if (this.state.type === 'documents') {
+      cont = (
+        <DocumentModal
+          modal={this.state.modal}
+          DocumentCallback={callbackModal}
+        />
+      );
+    }
+     else {
       cont = (
         <PreviewDocumentModal
           modal={this.state.modal}
@@ -135,6 +150,10 @@ export default class ContractorCertificates extends Component {
               />
               <AntiDoppingList
                 certificateList={this.state.antidopings}
+                modalcallback={callback}
+              />
+              <DocumentList
+                documentList={this.state.official_documents}
                 modalcallback={callback}
               />
             </Card>
