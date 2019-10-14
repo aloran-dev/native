@@ -53,7 +53,6 @@ export default class ContractorLogDetail extends Component {
     const email = this.props.navigation.getParam('email');
 
     let contractor = await server.getContratistaTimeline(TokenJWT, email);
-    console.log('PROFILE', contractor);
     this.setState({
       contratista: contractor,
       email: email,
@@ -77,7 +76,13 @@ export default class ContractorLogDetail extends Component {
     var entryData = this.props.navigation.state.params.entryDay;
     var email_contractor = this.props.navigation.state.params.email;
 
-    let cont = <EntryDetailList contractorsData={entryData} />;
+    var callback = res => {
+      this.props.navigation.navigate('ImagePreview', {uri: res.uri});
+    };
+
+    let cont = (
+      <EntryDetailList contractorsData={entryData} callback={callback} />
+    );
 
     return (
       <Container>

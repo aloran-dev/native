@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {Image, ScrollView} from 'react-native';
 import {
+  Image,
+  ScrollView,
   StyleSheet,
   View,
   FlatList,
@@ -31,7 +32,8 @@ import ContractorHeader from '../../components/ContractorHeader';
 import CertiHeader from '../../components/Header';
 import CertificateList from '../../components/CertificateList';
 import AntiDoppingList from '../../components/AntiDoppingList';
-import Substancias from '../../components/Substancias';
+import AntiDoppingModal from '../../components/AntiDoppingModal';
+import PreviewDocumentModal from '../../components/PreviewDocumentModal';
 
 import server from '../../libraries/server';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -91,155 +93,26 @@ export default class ContractorCertificates extends Component {
       });
     };
 
+    var callbackModal = res => {
+      this.props.navigation.navigate('ImagePreview', {uri: res.uri});
+      this.setModalVisible(!this.state.modalVisible);
+    };
+
     let cont;
 
     if (this.state.type === 'antidopping') {
       cont = (
-        <ScrollView style={styles.scroll}>
-          <Text note style={styles.text}>
-            Preview Antidoping
-          </Text>
-          <Image
-            style={styles.modalImg}
-            source={{
-              uri: `https://certifast.linuxopensource.mx/api/v0/uploads/${
-                this.state.modal.image_filename
-              }`,
-            }}
-          />
-
-          <Text note style={styles.text}>
-            Doctor Name:
-          </Text>
-          <Text>{this.state.modal.medico_nombre}</Text>
-
-          <Text note style={styles.text}>
-            Medical Id:
-          </Text>
-          <Text>{this.state.modal.medico_cedula}</Text>
-
-          <Text note style={styles.text}>
-            Laboratory:
-          </Text>
-          <Text>{this.state.modal.laboratorio_nombre}</Text>
-
-          <Text note style={styles.text}>
-            Address:
-          </Text>
-          <Text>{this.state.modal.laboratorio_direccion}</Text>
-
-          <Text note style={styles.text}>
-            Phone:
-          </Text>
-          <Text>{this.state.modal.laboratorio_telefono}</Text>
-
-          <Text note style={styles.text}>
-            Sample Date
-          </Text>
-          <Text>{this.state.modal.fecha_muestreo}</Text>
-
-          <Text note style={styles.text}>
-            Results Date
-          </Text>
-          <Text>{this.state.modal.fecha_resultados}</Text>
-
-          <Text note style={styles.text}>
-            All Negative
-          </Text>
-          <Text>{this.state.modal.todo_negativo.toString()}</Text>
-
-          <Substancias lista={this.state.modal.sustancias_evaluadas} />
-
-          <Text note style={styles.text}>
-            Observations:
-          </Text>
-          <Text>{this.state.modal.observaciones}</Text>
-
-          <Text note style={styles.text}>
-            Timestamp:
-          </Text>
-          <Text>{this.state.modal.timestamp}</Text>
-
-          <TouchableHighlight
-            onPress={() => {
-              this.setModalVisible(!this.state.modalVisible);
-            }}>
-            <Text style={styles.touch}>Close</Text>
-          </TouchableHighlight>
-        </ScrollView>
+        <AntiDoppingModal
+          modal={this.state.modal}
+          AntiDoppingCallback={callbackModal}
+        />
       );
     } else {
       cont = (
-        <ScrollView style={styles.scroll}>
-          <Text note style={styles.text}>
-            Preview Document
-          </Text>
-          <Image
-            style={styles.modalImg}
-            source={{
-              uri: `https://certifast.linuxopensource.mx/api/v0/uploads/${
-                this.state.modal.image_filename
-              }`,
-            }}
-          />
-
-          <Text note style={styles.text}>
-            Document Type:
-          </Text>
-          <Text>{this.state.modal.documento_type}</Text>
-
-          <Text note style={styles.text}>
-            Thematic Area:
-          </Text>
-          <Text>{this.state.modal.area_tematica}</Text>
-
-          <Text note style={styles.text}>
-            Trainer:
-          </Text>
-          <Text>{this.state.modal.capacitador}</Text>
-
-          <Text note style={styles.text}>
-            Course Name:
-          </Text>
-          <Text>{this.state.modal.curso_nombre}</Text>
-
-          <Text note style={styles.text}>
-            Length in hours:
-          </Text>
-          <Text>{this.state.modal.duracion_horas}</Text>
-
-          <Text note style={styles.text}>
-            Contractor Company:
-          </Text>
-          <Text>{this.state.modal.empresa_contratista}</Text>
-
-          <Text note style={styles.text}>
-            Start Date:
-          </Text>
-          <Text>{this.state.modal.fecha_inicio}</Text>
-
-          <Text note style={styles.text}>
-            End Date:
-          </Text>
-          <Text>{this.state.modal.fecha_fin}</Text>
-
-          <Text note style={styles.text}>
-            Valid Until:
-          </Text>
-          <Text>{this.state.modal.vigencia}</Text>
-
-          <Text note style={styles.text}>
-            Timestamp:
-          </Text>
-          <Text>{this.state.modal.timestamp}</Text>
-
-          <TouchableHighlight
-            onPress={() => {
-              this.setModalVisible(!this.state.modalVisible);
-            }}>
-            <Text style={styles.touch}>Close</Text>
-          </TouchableHighlight>
-        </ScrollView>
+        <PreviewDocumentModal
+          modal={this.state.modal}
+          PreviewDocumentCallback={callbackModal}
+        />
       );
     }
 

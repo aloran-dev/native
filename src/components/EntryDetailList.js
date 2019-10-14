@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, View, StyleSheet, Image} from 'react-native';
+import {
+  ActivityIndicator,
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {ListItem, Text, H1, Icon, Left, Body, Right} from 'native-base';
 import moment from 'moment';
@@ -29,19 +35,28 @@ const EntryDetailList = props => {
             <Text note>{item.incident_type}</Text>
             <Text>{item.description}</Text>
 
-            <Image
-              source={{
-                uri: `https://certifast.linuxopensource.mx/api/v0/uploads/${
-                  item.image_thumbnail_filename
-                }`,
-              }}
-              style={{width: 50, height: 50, backgroundColor: 'pink'}}
-            />
+            <TouchableOpacity
+              onPress={() => {
+                props.callback({
+                  uri: `https://certifast.linuxopensource.mx/api/v0/uploads/${
+                    item.image_thumbnail_filename
+                  }`,
+                });
+              }}>
+              <Image
+                source={{
+                  uri: `https://certifast.linuxopensource.mx/api/v0/uploads/${
+                    item.image_thumbnail_filename
+                  }`,
+                }}
+                style={{width: 50, height: 50, backgroundColor: 'pink'}}
+              />
+            </TouchableOpacity>
 
-            <Text>{item.empleado_seguridad}</Text>
+            <Text note>{item.empleado_seguridad}</Text>
           </Body>
           <Right>
-            <Text>{moment(item.timestamp).format('MM:SS')}</Text>
+            <Text note>{moment(item.timestamp).format('hh:mm:a')}</Text>
           </Right>
         </ListItem>
       );
@@ -55,7 +70,7 @@ const EntryDetailList = props => {
             <Text note>{item.$class}</Text>
           </Body>
           <Right>
-            <Text>{moment(item.timestamp).format('MM:SS')}</Text>
+            <Text note>{moment(item.timestamp).format('hh:mm:a')}</Text>
           </Right>
         </ListItem>
       );
