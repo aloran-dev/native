@@ -116,11 +116,17 @@ export default class QrReader extends Component {
     }
   }
 
+  handleCancel() {
+    console.log(this.props.navigation)
+    navigation.navigate('AddIncident', {
+      contratistaQR: null,
+      scanner:this.scanner,
+    });
+  }
+
 
   render() {
-    const { hasCameraPermission, focusedScreen } = this.state;
-    console.log(this.props.navigation)
-   return (
+      return (
            <Container style={styles.main}>
              <Header style={styles.header}>
                <Left>
@@ -174,10 +180,12 @@ export default class QrReader extends Component {
                  block
                  transparent
                  style={styles.button1}
-                 onPress={() => {
-                   //this.setState({scanner:this.scanner});
-                   return this.props.navigation.navigate('Companies');
-                 }}>
+                 onPress={()=>{
+                   this.props.navigation.navigate('AddIncident', {
+                   contratistaQR: null,
+                   scanner:this.scanner,
+                    });
+                  }}>
                  <Text style={styles.button1__text}>Cancel</Text>
                </Button>
              </Content>
