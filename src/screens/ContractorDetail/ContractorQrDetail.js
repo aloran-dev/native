@@ -60,7 +60,7 @@ export default class ContractorQrDetail extends Component {
               email_empleado_seguridad:email_seguridad,
               email_contratista: response.data.contratista.email,
               head: {
-                empresa:response.data.contratista.empresa_contratista,
+                empresa:response.data.empresa_contratista.razon_social,
                 nombre: response.data.contratista.nombre,
                 apellido_paterno: response.data.contratista.apellido_paterno,
                 imgUrl: response.data.contratista.image_profile,
@@ -84,7 +84,7 @@ export default class ContractorQrDetail extends Component {
 
   render() {
     var callback = res => {
-      this.props.navigation.navigate('ContractorLogDetail', {
+      this.props.navigation.navigate('Companies', {
         entryDay: res.entryDay,
         email: res.email,
       });
@@ -204,7 +204,7 @@ export default class ContractorQrDetail extends Component {
               {
                 text: 'Ok',
                 onPress:()=>{
-              
+
                 return this.props.navigation.navigate('Companies');
                 }
               },
