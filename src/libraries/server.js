@@ -276,6 +276,41 @@ export default {
       return {data:null,message:message};
     }
   },
+  getContratistaInPlantaTimeLineNanoId: async function(Token, nanoId) {
+    try {
+      //let token = await login()
+      var myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Authorization', `JWT ${Token}`);
+
+      var request = {
+        headers: myHeaders,
+        //body: formData,
+        method: 'GET',
+      };
+
+      //  console.log(request)
+      let response = await fetch(
+        `${api_url}/api/v0/contratista_in_planta_timeline/${nanoId}`,
+        request,
+      );
+      console.log(response);
+      if (response.status == 400) {
+        console.log("Lanzo Exception",response)
+        throw new Error(response.json());
+      } else {
+        let responseJson = await response.json();
+        return {data:responseJson,message:null};
+      }
+
+    } catch(error) {
+      let message = `${error}`;
+      message = message.replace(/TypeError\:/g,"");
+      message = message.replace(/Error\:/g,"")
+
+      return {data:null,message:message};
+    }
+  },
   getContratistaTimeline: async function(Token, email_contratista) {
     try {
       //let token = await login()

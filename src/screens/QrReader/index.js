@@ -1,6 +1,6 @@
 /* QR Component */
 import React, {Component} from 'react';
-import {StyleSheet, Image,View} from 'react-native';
+import {StyleSheet, Image,View,TouchableOpacity} from 'react-native';
 import {
   Container,
   Content,
@@ -35,98 +35,33 @@ export default class QrReader extends Component {
       focusedScreen:false,
       scanner:undefined
     };
-    this.handleChange = this.handleChange.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
     this.handleSend = this.handleSend.bind(this);
   }
-
-  handleChange(event) {
-    this.setState({contratista: event.target.value});
-  }
-
-  async componentDidMount() {
-    const { navigation } = this.props;
-
-    console.log("ENTRE QR",navigation);
-
-     navigation.addListener('willFocus', () =>
-       this.setState({ focusedScreen: false })
-     );
-
-     //Evento cuando haces  un Back
-     navigation.addListener('willBlur', () =>
-       this.setState({ focusedScreen: true })
-     );
-
-    console.log('QR READER', navigation);
-
-    const TokenJWT = await AsyncStorage.getItem('AUTH_TOKEN');
-    const api_url = await AsyncStorage.getItem('API_URL');
-    const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID');
-
-    this.setState({
-      token: TokenJWT,
-      api_url: api_url,
-      email_seguridad: email_seguridad,
-    });
-    console.log(this.props.navigation);
-    try  {
-      this.setState({
-        action: this.props.navigation.state.params.action,
-        email_empleado_seguridad: this.state.email_seguridad,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  onSuccess = async e => {
-    console.log('CODIGO', e.data);
-    const navigation = this.props.navigation;
-    if (this.state.action == 'INCIDENT') {
-      await navigation.navigate('AddIncident', {
-        contratistaQR: e.data,
-        scanner:this.scanner,
-      });
-    } else {
-     await navigation.navigate('Entry', {
-        contratistaQR: e.data,
-        scanner:this.scanner,
-      });
-    }
-  };
 
   handleSend(value) {
     //  console.log("ESTADO",this.state.codeContratist
     if (this.state.codeContratista.length !== 0) {
       console.log('Listo para cambiar de Ventaba');
-      if (this.state.action == 'INCIDENT') {
-        this.props.navigation.navigate('AddIncident', {
-          contratistaQR: this.state.codeContratista,
-          scanner:this.scanner,
-        });
-      } else {
-        this.props.navigation.navigate('Entry', {
+      // if (this.state.action == 'ContractorQrDetail') {
+      //   this.props.navigation.navigate('AddIncident', {
+      //     contratistaQR: this.state.codeContratista,
+      //     scanner:this.scanner,
+      //   });
+      // } else {
+        this.props.navigation.navigate('ContractorQrDetail', {
           contratistaQR: this.state.codeContratista,
           scanner:this.scanner
         });
-      }
+      // }
     } else {
       //  Toast.show({text:"No se ha seleccionado QR",buttonText:"Ok",type:"warning",duration:3000})
       alert('Campos requeridos');
     }
   }
 
-  handleCancel() {
-    console.log(this.props.navigation)
-    navigation.navigate('AddIncident', {
-      contratistaQR: null,
-      scanner:this.scanner,
-    });
-  }
-
-
   render() {
-      return (
+    return (
            <Container style={styles.main}>
              <Header style={styles.header}>
                <Left>
@@ -142,22 +77,18 @@ export default class QrReader extends Component {
              </Header>
 
              <Content button style={styles.maincontent}>
-             <NavigationEvents
-                onWillFocus={payload => console.log('will focus', payload)}
-                onDidFocus={payload => console.log('did focus', payload)}
-                onWillBlur={payload => console.log('will blur', payload)}
-                onDidBlur={payload => console.log('did blur', payload)}
-              />
+
                <Text note>Scan Qr code</Text>
                <Container style={styles.qr}>
-                 <QRCodeScanner
-                   ref={(node) => { this.scanner = node }}
-                   style={styles.qr__image}
-                   onRead={this.onSuccess}
-                   reactivateTimeOut={5000}
-                   reactivate={false}
-                   containerStyle={{flex: 1, height: 100}}
-                 />
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("QRCodeScannerScreen")}>
+               <Image
+                  source={{
+                    uri: 'https://image.flaticon.com/icons/png/512/107/107072.png',
+                  }}
+                  style={styles.qr__image}
+              />
+              </TouchableOpacity>
+
                </Container>
                <Text note>Enter code manually</Text>
                <Item style={styles.input}>
@@ -181,20 +112,12 @@ export default class QrReader extends Component {
                  transparent
                  style={styles.button1}
                  onPress={()=>{
-                   this.props.navigation.navigate('AddIncident', {
-                   contratistaQR: null,
-                   scanner:this.scanner,
-                    });
-                  }}>
+                   this.props.navigation.navigate('Companies')}}>
                  <Text style={styles.button1__text}>Cancel</Text>
                </Button>
              </Content>
            </Container>
          );
-
-
-
-
   }
 }
 

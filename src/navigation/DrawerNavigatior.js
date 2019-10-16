@@ -25,12 +25,14 @@ import Login from '../screens/Login/Login';
 import Companies from '../screens/ContractorList/Companies';
 import Contractors from '../screens/ContractorList/Contractors';
 import Qr from '../screens/QrReader';
+import QRCodeScannerScreen from '../screens/QrReader/QRCodeScannerScreen'
 import ContractorDetail from '../screens/ContractorDetail';
 import ContractorCertificates from '../screens/ContractorCertificates';
 import ContractorLogDetail from '../screens/ContractorLogDetail';
 import IncidentReport from '../screens/Incident/IncidentReport';
 import Entry from '../screens/Entry';
 import ImagePreview from '../screens/ImagePreview';
+import ContractorQrDetail from '../screens/ContractorDetail/ContractorQrDetail'
 
 const AuthStack = createStackNavigator(
   {Login: Login},
@@ -59,6 +61,9 @@ const AppStackNavigator = createStackNavigator(
     ContractorDetail: {
       screen: ContractorDetail,
     },
+    ContractorQrDetail: {
+      screen: ContractorQrDetail,
+    },
     ContractorLogDetail: {
       screen: ContractorLogDetail,
     },
@@ -79,6 +84,9 @@ const DrawerNavigator = createDrawerNavigator(
   {
     Qr: {
       screen: Qr,
+    },
+    QRCodeScannerScreen: {
+      screen: QRCodeScannerScreen,
     },
 
     AddIncident: {
