@@ -55,43 +55,19 @@ export default class IncidentReport extends Component {
     const api_url = await AsyncStorage.getItem('API_URL');
     const email_seguridad = await AsyncStorage.getItem('ACCOUNT_ID');
 
+    const email_contratista = this.props.navigation.getParam("email_empleado_seguridad", "");
+    const head  = this.props.navigation.getParam("head", "")
+    // if (email_contratista === 'No data read') {
+    //   this.setState({ invalidCode: true});
+    // }
+
     this.setState({
       token: TokenJWT,
       email_empleado_seguridad: email_seguridad,
+      email_contratista:email_contratista,
+      head:head
     });
-    const codeQr = this.props.navigation.getParam("contratistaQR", "No data read");
-    const scanner = this.props.navigation.getParam("scanner", () => false);
-
-   if (codeQr === 'No data read') {
-     this.setState({ invalidCode: true, scanner: scanner });
-    }
-    server
-      .getContratistaInfoByNanoId(TokenJWT, codeQr)
-      .then(response => {
-        console.log(response)
-        if(response.data){
-          try {
-            const email = response.email;
-            this.setState({
-              email_contratista: response.data.email,
-              head: {
-                nombre: response.data.nombre,
-                apellido_paterno: response.data.apellido_paterno,
-                imgUrl: response.data.image_profile,
-              },
-            });
-          } catch (error) {
-            throw new Error(error);
-          }
-        }else{
-          throw new Error(response.message);
-        }
-
-      })
-      .catch(error => {
-        console.log('Error en el QR', error.message);
-        this.setState({ invalidCode: true,scanner: scanner});
-      });
+    
   }
 
   handleSend = () => {
@@ -137,7 +113,7 @@ export default class IncidentReport extends Component {
             {
               text: 'Ok',
               onPress: () => {
-                this.state.scanner.reactivate();
+
                 return this.props.navigation.navigate('Companies');
               },
             },
@@ -153,7 +129,7 @@ export default class IncidentReport extends Component {
   };
 
   scanQRCodeAgain(){
-    this.state.scanner.reactivate();
+
     this.props.navigation.navigate('Companies');
   }
 
@@ -172,11 +148,11 @@ export default class IncidentReport extends Component {
               <Card style={styles.card}>
 
                 <Item style={styles.card__item}>
-                    <Text>QR Code Invalid</Text>
+                    <Text>Contractor Invalid</Text>
                 </Item>
 
                 <View style={styles.footerButtons}>
-                  <Button onPress={this.scanQRCodeAgain()} transparent>
+                  <Button onPress={this.scanQRCodeAgain} transparent>
                     <Text style={{color: '#ff2d2d'}}>Scan another code</Text>
                   </Button>
                 </View>

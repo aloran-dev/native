@@ -28,7 +28,7 @@ export default class QRCodeScannerScreen extends Component {
     //  console.log("ESTADO",this.state.codeContratist
     if (this.state.codeContratista.length !== 0) {
       console.log('Listo para cambiar de Ventaba');
-      if (this.state.action == 'INCIDENT') {
+      if (this.state.action == 'ContractorQrDetail') {
         this.props.navigation.navigate('AddIncident', {
           contratistaQR: this.state.codeContratista,
           scanner:this.scanner,

@@ -54,7 +54,7 @@ export default class ContractorQrDetail extends Component {
         console.log(response)
         if(response.data){
           try {
-            const email = response.email;
+
             this.setState({
               token:TokenJWT,
               email_empleado_seguridad:email_seguridad,
@@ -66,6 +66,7 @@ export default class ContractorQrDetail extends Component {
                 imgUrl: response.data.contratista.image_profile,
               },
               eventCards: response.data.date_events,
+              scanner: scanner,
             });
           } catch (error) {
             throw new Error(error);
@@ -89,48 +90,86 @@ export default class ContractorQrDetail extends Component {
         email: res.email,
       });
     };
-    return (
-      <Container>
-        <CertiHeader />
+    if(this.state.invalidCode){
+      return (
+        <Container>
+          <CertiHeader />
 
-        <Content style={styles.main}>
-          <ContractorHeader
-            nombre={this.state.head.empresa}
-            apellido={`${this.state.head.nombre} ${this.state.head.apellido_paterno}`}
-            imgUrl={this.state.head.imgUrl}
-          />
-          <View style={styles.cardscontainer}>
-            <EntryList
-              eventCards={this.state.eventCards}
-              email={this.state.email}
-              entrycallback={callback}
+          <Content style={styles.main}>
+            <ContractorHeader
+              nombre=""
+              apellido=""
+              imgUrl=""
             />
-            <Button
-              rounded
-              block
-              style={styles.button}
-              onPress={this.handleCheckIn}>
-              <Text>CheckIN</Text>
-            </Button>
+            <View style={styles.cardscontainer}>
+              <Text></Text>
+              <Text></Text>
+              <Text></Text>
+              <Text></Text>
+              <Text></Text>
+              <Text>QR Invalid</Text>
+              <Button
+                rounded
+                block
+                style={styles.button}
+                onPress={()=>{this.props.navigation.navigate('Companies')}}>
+                <Text>Back</Text>
+              </Button>
 
-            <Button
-              rounded
-              block
-              style={styles.button}
-              onPress={this.handleCheckOut}>
-              <Text>CheckOut</Text>
-            </Button>
-            <Button
-              rounded
-              block
-              style={styles.button}
-              onPress={this.handleCheckOut}>
-              <Text>Incidente</Text>
-            </Button>
-          </View>
-        </Content>
-      </Container>
-    );
+
+            </View>
+          </Content>
+        </Container>
+      );
+    }else{
+      return (
+        <Container>
+          <CertiHeader />
+
+          <Content style={styles.main}>
+            <ContractorHeader
+              nombre={this.state.head.empresa}
+              apellido={`${this.state.head.nombre} ${this.state.head.apellido_paterno}`}
+              imgUrl={this.state.head.imgUrl}
+            />
+            <View style={styles.cardscontainer}>
+              <EntryList
+                eventCards={this.state.eventCards}
+                email={this.state.email}
+                entrycallback={callback}
+              />
+              <Button
+                rounded
+                block
+                style={styles.button}
+                onPress={this.handleCheckIn}>
+                <Text>CheckIN</Text>
+              </Button>
+
+              <Button
+                rounded
+                block
+                style={styles.button}
+                onPress={this.handleCheckOut}>
+                <Text>CheckOut</Text>
+              </Button>
+              <Button
+                rounded
+                block
+                style={styles.button}
+                onPress={()=>{
+                  this.props.navigation.navigate('AddIncident', {
+                  email_empleado_seguridad: this.state.email_contratista,
+                  head:this.state.head
+                })}}>
+                <Text>Incidente</Text>
+              </Button>
+            </View>
+          </Content>
+        </Container>
+      );
+    }
+
   }
 
   handleCheckIn = async () =>{
