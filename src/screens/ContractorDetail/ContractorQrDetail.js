@@ -65,7 +65,7 @@ export default class ContractorQrDetail extends Component {
                 apellido_paterno: response.data.contratista.apellido_paterno,
                 imgUrl: response.data.contratista.image_profile,
               },
-              eventCards: response.data.date_events,
+              eventCards: response.data.date_events.length,
               scanner: scanner,
             });
           } catch (error) {
@@ -90,6 +90,18 @@ export default class ContractorQrDetail extends Component {
         email: res.email,
       });
     };
+    let listaEntry;
+    if(this.state.eventCards.length > 0){
+      listaEntry = (<EntryList
+        eventCards={this.state.eventCards}
+        email={this.state.email}
+        entrycallback={callback}
+      />);
+    }
+    else{
+      listaEntry = (<Text>No hay registros</Text>);
+    }
+
     if(this.state.invalidCode){
       return (
         <Container>
@@ -122,6 +134,7 @@ export default class ContractorQrDetail extends Component {
         </Container>
       );
     }else{
+
       return (
         <Container>
           <CertiHeader />
@@ -133,11 +146,7 @@ export default class ContractorQrDetail extends Component {
               imgUrl={this.state.head.imgUrl}
             />
             <View style={styles.cardscontainer}>
-              <EntryList
-                eventCards={this.state.eventCards}
-                email={this.state.email}
-                entrycallback={callback}
-              />
+              {listaEntry}
               <Button
                 rounded
                 block
