@@ -67,7 +67,7 @@ export default class IncidentReport extends Component {
       email_contratista:email_contratista,
       head:head
     });
-    
+
   }
 
   handleSend = () => {
@@ -102,7 +102,7 @@ export default class IncidentReport extends Component {
         console.log('FUNCIONA', Object.keys(response));
         let message = JSON.stringify(response);
         try {
-          message = `OperationID:${response.transactionId}`;
+          message = `Status:Success`;
         } catch (error) {
           console.log(error);
         }
@@ -124,6 +124,20 @@ export default class IncidentReport extends Component {
       })
       .catch(error => {
         console.log(JSON.stringify(error));
+        Alert.alert(
+          'Incident Confirmation Entry',
+          'Something goes wrong, retry again.',
+          [
+            {
+              text: 'Ok',
+              onPress: () => {
+
+                return this.props.navigation.navigate('Companies');
+              },
+            },
+          ],
+          {cancelable: false},
+        );
         this.props.navigation.navigate('Companies');
       });
   };

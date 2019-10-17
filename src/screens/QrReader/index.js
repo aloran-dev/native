@@ -81,12 +81,17 @@ export default class QrReader extends Component {
                <Text note>Scan Qr code</Text>
                <Container style={styles.qr}>
               <TouchableOpacity onPress={() => this.props.navigation.navigate("QRCodeScannerScreen")}>
+              <Text styles={{top:20,alignItems: 'center',
+              justifyContent: 'center'}}>Press Here for  </Text>
+              <Text styles={{alignItems: 'center',
+              justifyContent: 'center'}}>Scan QR Code</Text>
                <Image
                   source={{
                     uri: 'https://image.flaticon.com/icons/png/512/107/107072.png',
                   }}
                   style={styles.qr__image}
               />
+
               </TouchableOpacity>
 
                </Container>

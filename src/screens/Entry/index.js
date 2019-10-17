@@ -112,7 +112,7 @@ export default class Entry extends Component{
           let message = JSON.stringify(response)
           console.log(message)
           try{
-             message = `OperationID:${response.transactionId}`
+             message = `Status:Success`
           }
           catch(error){
             console.log(error)
@@ -134,6 +134,20 @@ export default class Entry extends Component{
       })
       .catch((error)=>{
         console.log(error);
+        Alert.alert(
+          'Incident Confirmation Entry',
+          message,
+          [
+            {
+              text: 'Ok',
+              onPress: () => {
+
+                return this.props.navigation.navigate('Companies');
+              },
+            },
+          ],
+          {cancelable: false},
+        );
         this.props.navigation.navigate('App');
       })
 
@@ -155,7 +169,7 @@ export default class Entry extends Component{
           console.log("FUNCIONA",Object.keys(response))
           let message = JSON.stringify(response)
           try{
-             message = `OperationID:${response['transactionId']}`
+             message = `Status:Success`
           }
           catch(error){
             console.log(error)
@@ -180,6 +194,20 @@ export default class Entry extends Component{
         })
         .catch((error)=>{
           console.log(error);
+          Alert.alert(
+            'Incident Confirmation Entry',
+            message,
+            [
+              {
+                text: 'Ok',
+                onPress: () => {
+
+                  return this.props.navigation.navigate('Companies');
+                },
+              },
+            ],
+            {cancelable: false},
+          );
           this.props.navigation.navigate('App');
 
         })

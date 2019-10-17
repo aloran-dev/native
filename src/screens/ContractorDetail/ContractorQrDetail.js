@@ -114,12 +114,13 @@ export default class ContractorQrDetail extends Component {
               imgUrl=""
             />
             <View style={styles.cardscontainer}>
-              <Text></Text>
+
               <Text></Text>
               <Text></Text>
               <Text></Text>
               <Text></Text>
               <Text>QR Invalid</Text>
+
               <Button
                 rounded
                 block
@@ -154,7 +155,7 @@ export default class ContractorQrDetail extends Component {
                 onPress={this.handleCheckIn}>
                 <Text>CheckIN</Text>
               </Button>
-
+              <Text styles={{top:20}}></Text>
               <Button
                 rounded
                 block
@@ -162,6 +163,7 @@ export default class ContractorQrDetail extends Component {
                 onPress={this.handleCheckOut}>
                 <Text>CheckOut</Text>
               </Button>
+              <Text styles={{top:20}}></Text>
               <Button
                 rounded
                 block
