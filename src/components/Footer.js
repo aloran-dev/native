@@ -32,9 +32,16 @@ class CertiHeader extends Component {
               })
             }>
             <Icon type="Feather" name="award" style={styles.black} />
-            <Text style={styles.blackText}>Certificates</Text>
+            <Text style={styles.blackText}>Documents</Text>
           </Button>
-          <Button vertical style={styles.link}>
+          <Button
+            vertical
+            style={styles.link}
+            onPress={() =>
+              this.props.navigation.navigate('Options', {
+                email: this.props.email,
+              })
+            }>
             <Icon type="Feather" name="settings" style={styles.black} />
             <Text style={styles.blackText}>Options</Text>
           </Button>

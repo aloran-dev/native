@@ -84,11 +84,11 @@ export default class Sidebar extends Component {
                 this.props.navigation.navigate('Qr', {action: 'CHECKIN'})
               }>
               <Left>
-                <Icon type="Feather" active name="clock" style={styles.icon} />
-                <Text>Contractor entry and exit</Text>
+                <Icon type="Feather" active name="camera" style={styles.icon} />
+                <Text>Scan QR</Text>
               </Left>
             </ListItem>
-            <ListItem
+            {/* <ListItem
               button
               noBorder
               style={styles.listitem}
@@ -104,7 +104,7 @@ export default class Sidebar extends Component {
                 />
                 <Text>Report an incident</Text>
               </Left>
-            </ListItem>
+            </ListItem> */}
             <ListItem
               button
               noBorder

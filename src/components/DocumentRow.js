@@ -28,8 +28,8 @@ export default class DocumentRow extends Component {
 
   render() {
     let labels = {
-      'SOCIAL_SECURITY_DOCUMENT': 'Social Security Payment',
-    }
+      SOCIAL_SECURITY_DOCUMENT: 'Social Security Payment',
+    };
     return (
       <SwipeRow leftOpenValue={0} rightOpenValue={-70}>
         <View style={styles.standaloneRowBack}>
@@ -44,11 +44,10 @@ export default class DocumentRow extends Component {
         </View>
         <View style={styles.standaloneRowFront}>
           <ListItem
-            onPress={() =>
-              this.props.callback(['documents', this.props.item])
-            }>
+            onPress={() => this.props.callback(['documents', this.props.item])}>
             <Body>
-              <Text >{labels[this.props.item.document_type]}</Text>
+              <Text note>Official Document</Text>
+              <Text>{labels[this.props.item.document_type]}</Text>
             </Body>
           </ListItem>
         </View>
@@ -59,7 +58,6 @@ export default class DocumentRow extends Component {
 const styles = StyleSheet.create({
   standaloneRowFront: {
     backgroundColor: '#fff',
-    height: 90,
   },
   standaloneRowBack: {
     alignItems: 'center',
@@ -70,7 +68,7 @@ const styles = StyleSheet.create({
   standaloneRowBackButton: {
     backgroundColor: '#FF2D2D',
     width: 70,
-    height: 90,
+    height: '100%',
     paddingLeft: 5,
   },
   backTextWhite: {

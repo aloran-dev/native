@@ -59,7 +59,6 @@ export default class Certificate extends Component {
 const styles = StyleSheet.create({
   standaloneRowFront: {
     backgroundColor: '#fff',
-    height: 90,
   },
   standaloneRowBack: {
     alignItems: 'center',
@@ -70,7 +69,7 @@ const styles = StyleSheet.create({
   standaloneRowBackButton: {
     backgroundColor: '#FF2D2D',
     width: 70,
-    height: 90,
+    height: '100%',
     paddingLeft: 5,
   },
   backTextWhite: {

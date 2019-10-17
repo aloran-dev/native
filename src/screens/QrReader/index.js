@@ -1,6 +1,6 @@
 /* QR Component */
 import React, {Component} from 'react';
-import {StyleSheet, Image,View,TouchableOpacity} from 'react-native';
+import {StyleSheet, Image, View, TouchableOpacity} from 'react-native';
 import {
   Container,
   Content,
@@ -19,7 +19,7 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import Sidebar from '../../components/Sidebar';
-import { NavigationEvents } from 'react-navigation';
+import {NavigationEvents} from 'react-navigation';
 
 export default class QrReader extends Component {
   constructor(props) {
@@ -31,9 +31,9 @@ export default class QrReader extends Component {
       token: null,
       api_url: null,
       email_seguridad: null,
-      hasCameraPermission:true,
-      focusedScreen:false,
-      scanner:undefined
+      hasCameraPermission: true,
+      focusedScreen: false,
+      scanner: undefined,
     };
     // this.handleChange = this.handleChange.bind(this);
     this.handleSend = this.handleSend.bind(this);
@@ -49,10 +49,10 @@ export default class QrReader extends Component {
       //     scanner:this.scanner,
       //   });
       // } else {
-        this.props.navigation.navigate('ContractorQrDetail', {
-          contratistaQR: this.state.codeContratista,
-          scanner:this.scanner
-        });
+      this.props.navigation.navigate('ContractorQrDetail', {
+        contratistaQR: this.state.codeContratista,
+        scanner: this.scanner,
+      });
       // }
     } else {
       //  Toast.show({text:"No se ha seleccionado QR",buttonText:"Ok",type:"warning",duration:3000})
@@ -62,67 +62,66 @@ export default class QrReader extends Component {
 
   render() {
     return (
-           <Container style={styles.main}>
-             <Header style={styles.header}>
-               <Left>
-                 <Button
-                   transparent
-                   onPress={() => this.props.navigation.openDrawer()}>
-                   <Icon style={styles.header__text} name="menu" />
-                 </Button>
-               </Left>
-               <Body>
-                 <Title style={styles.header__text}>CertiFast</Title>
-               </Body>
-             </Header>
+      <Container style={styles.main}>
+        <Header style={styles.header}>
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.openDrawer()}>
+              <Icon style={styles.header__text} name="menu" />
+            </Button>
+          </Left>
+          <Body>
+            <Title style={styles.header__text}>CertiFast</Title>
+          </Body>
+        </Header>
 
-             <Content button style={styles.maincontent}>
+        <Content button style={styles.maincontent}>
+          <Text note>Scan Qr code</Text>
+          <TouchableOpacity
+            style={styles.qr}
+            onPress={() =>
+              this.props.navigation.navigate('QRCodeScannerScreen')
+            }>
+            <Image
+              source={{
+                uri: 'https://image.flaticon.com/icons/png/512/107/107072.png',
+              }}
+              style={styles.qr__image}
+            />
+            <Text style={styles.qr__text} note>
+              Tap Here for Scan {'\n'} Your QR Code
+            </Text>
+          </TouchableOpacity>
+          <Text note>Enter code manually</Text>
+          <Item style={styles.input}>
+            <Input
+              onChangeText={text => this.setState({codeContratista: text})}
+            />
+          </Item>
 
-               <Text note>Scan Qr code</Text>
-               <Container style={styles.qr}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate("QRCodeScannerScreen")}>
-              <Text styles={{top:20,alignItems: 'center',
-              justifyContent: 'center'}}>Press Here for  </Text>
-              <Text styles={{alignItems: 'center',
-              justifyContent: 'center'}}>Scan QR Code</Text>
-               <Image
-                  source={{
-                    uri: 'https://image.flaticon.com/icons/png/512/107/107072.png',
-                  }}
-                  style={styles.qr__image}
-              />
+          <Button
+            rounded
+            block
+            style={styles.button}
+            //onPress={() => this.props.navigation.navigate('AddIncident')}>
+            onPress={this.handleSend}>
+            <Text>Send</Text>
+          </Button>
 
-              </TouchableOpacity>
-
-               </Container>
-               <Text note>Enter code manually</Text>
-               <Item style={styles.input}>
-                 <Input
-                   onChangeText={text => this.setState({codeContratista: text})}
-                 />
-               </Item>
-
-               <Button
-                 rounded
-                 block
-                 style={styles.button}
-                 //onPress={() => this.props.navigation.navigate('AddIncident')}>
-                 onPress={this.handleSend}>
-                 <Text>Send</Text>
-               </Button>
-
-               <Button
-                 rounded
-                 block
-                 transparent
-                 style={styles.button1}
-                 onPress={()=>{
-                   this.props.navigation.navigate('Companies')}}>
-                 <Text style={styles.button1__text}>Cancel</Text>
-               </Button>
-             </Content>
-           </Container>
-         );
+          <Button
+            rounded
+            block
+            transparent
+            style={styles.button1}
+            onPress={() => {
+              this.props.navigation.navigate('Companies');
+            }}>
+            <Text style={styles.button1__text}>Cancel</Text>
+          </Button>
+        </Content>
+      </Container>
+    );
   }
 }
 
@@ -147,12 +146,15 @@ const styles = StyleSheet.create({
     },
     shadowColor: 'rgba(0,0,0,1)',
     shadowOpacity: 0.6,
-    overflow: 'hidden',
   },
   qr__image: {
     height: 100,
     width: 100,
     opacity: 0.2,
+    marginBottom: 16,
+  },
+  qr__text: {
+    textAlign: 'center',
   },
   input: {
     backgroundColor: '#fff',
