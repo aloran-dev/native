@@ -27,7 +27,9 @@ export default class DocumentRow extends Component {
   }
 
   render() {
-    console.log("PROPS-Button",this.props)
+    let labels = {
+      'SOCIAL_SECURITY_DOCUMENT': 'Social Security Payment',
+    }
     return (
       <SwipeRow leftOpenValue={0} rightOpenValue={-70}>
         <View style={styles.standaloneRowBack}>
@@ -46,7 +48,7 @@ export default class DocumentRow extends Component {
               this.props.callback(['documents', this.props.item])
             }>
             <Body>
-              <Text >{this.props.item.document_type}</Text>
+              <Text >{labels[this.props.item.document_type]}</Text>
             </Body>
           </ListItem>
         </View>
