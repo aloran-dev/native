@@ -46,7 +46,7 @@ export default class DocumentRow extends Component {
               this.props.callback(['documents', this.props.item])
             }>
             <Body>
-              <Text >Official Document</Text>
+              <Text >{this.props.item.document_type}</Text>
             </Body>
           </ListItem>
         </View>
