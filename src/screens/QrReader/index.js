@@ -62,7 +62,7 @@ export default class QrReader extends Component {
 
   render() {
     return (
-      <Container style={styles.main}>
+      <Content style={styles.main}>
         <Header style={styles.header}>
           <Left>
             <Button
@@ -76,7 +76,7 @@ export default class QrReader extends Component {
           </Body>
         </Header>
 
-        <Content button style={styles.maincontent}>
+        <Container button style={styles.maincontent}>
           <Text note>Scan Qr code</Text>
           <TouchableOpacity
             style={styles.qr}
@@ -90,10 +90,14 @@ export default class QrReader extends Component {
               style={styles.qr__image}
             />
             <Text style={styles.qr__text} note>
-              Tap Here for Scan {'\n'} Your QR Code
+              Identify the contractor {'\n'}QR code
             </Text>
+            <View style={styles.falsebutton}>
+              <Text style={styles.falsebutton__text}>Scan QR Code</Text>
+            </View>
           </TouchableOpacity>
-          <Text note>Enter code manually</Text>
+
+          <Text note style={styles.center}>Or enter code manually</Text>
           <Item style={styles.input}>
             <Input
               onChangeText={text => this.setState({codeContratista: text})}
@@ -102,11 +106,13 @@ export default class QrReader extends Component {
 
           <Button
             rounded
+            bordered
             block
+            danger
             style={styles.button}
             //onPress={() => this.props.navigation.navigate('AddIncident')}>
             onPress={this.handleSend}>
-            <Text>Send</Text>
+            <Text danger>Send Text Code</Text>
           </Button>
 
           <Button
@@ -119,8 +125,8 @@ export default class QrReader extends Component {
             }}>
             <Text style={styles.button1__text}>Cancel</Text>
           </Button>
-        </Content>
-      </Container>
+        </Container>
+      </Content>
     );
   }
 }
@@ -146,6 +152,28 @@ const styles = StyleSheet.create({
     },
     shadowColor: 'rgba(0,0,0,1)',
     shadowOpacity: 0.6,
+    position: 'relative',
+    paddingBottom: 45,
+    backgroundColor: '#fff',
+  },
+  falsebutton: {
+    width: '100%',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 18,
+    backgroundColor: '#D10000',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+  },
+  falsebutton__text: {
+    color: '#fff',
+    textAlign: 'center',
+  },
+  center: {
+    textAlign: 'center',
+    marginVertical: 14,
   },
   qr__image: {
     height: 100,
@@ -162,7 +190,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 30,
-    backgroundColor: '#D10000',
   },
   button1: {
     marginTop: 10,
