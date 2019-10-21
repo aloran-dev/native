@@ -136,7 +136,7 @@ export default class Entry extends Component{
         console.log(error);
         Alert.alert(
           'Entry not Registered',
-          ´´,
+          '',
           [
             {
               text: 'Ok',
@@ -196,7 +196,7 @@ export default class Entry extends Component{
           console.log(error);
           Alert.alert(
             'Entry Not Registered',
-            ´´,
+            '',
             [
               {
                 text: 'Ok',
