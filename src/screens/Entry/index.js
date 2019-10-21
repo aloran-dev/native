@@ -135,8 +135,8 @@ export default class Entry extends Component{
       .catch((error)=>{
         console.log(error);
         Alert.alert(
-          'Incident Confirmation Entry',
-          message,
+          'Entry not Registered',
+          ´´,
           [
             {
               text: 'Ok',
@@ -195,8 +195,8 @@ export default class Entry extends Component{
         .catch((error)=>{
           console.log(error);
           Alert.alert(
-            'Incident Confirmation Entry',
-            message,
+            'Entry Not Registered',
+            ´´,
             [
               {
                 text: 'Ok',

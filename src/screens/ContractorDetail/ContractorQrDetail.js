@@ -250,7 +250,7 @@ export default class ContractorQrDetail extends Component {
         let message = JSON.stringify(response);
         console.log(message);
         try {
-          message = `OperationID:${response.transactionId}`;
+          message = `Status:Success`;
         } catch (error) {
           console.log(error);
         }
@@ -273,6 +273,20 @@ export default class ContractorQrDetail extends Component {
       })
       .catch(error => {
         console.log(error);
+        Alert.alert(
+          'Confirmation CheckIn',
+          'Something goes wrong, retry again.',
+          [
+            {
+              text: 'Ok',
+              onPress: () => {
+
+                return this.props.navigation.navigate('Companies');
+              },
+            },
+          ],
+          {cancelable: false},
+        );
         this.props.navigation.navigate('App');
       });
   };
@@ -293,7 +307,7 @@ export default class ContractorQrDetail extends Component {
         console.log('FUNCIONA', Object.keys(response));
         let message = JSON.stringify(response);
         try {
-          message = `OperationID:${response.transactionId}`;
+          message = `Status:Success`;
         } catch (error) {
           console.log(error);
         }
@@ -315,6 +329,20 @@ export default class ContractorQrDetail extends Component {
       })
       .catch(error => {
         console.log(error);
+        Alert.alert(
+          'Confirmation CheckOut',
+          'Something goes wrong, retry again.',
+          [
+            {
+              text: 'Ok',
+              onPress: () => {
+
+                return this.props.navigation.navigate('Companies');
+              },
+            },
+          ],
+          {cancelable: false},
+        );
         this.props.navigation.navigate('App');
       });
   };
